@@ -2,17 +2,19 @@
 #include "../analyzers/base/analyzer_interface.h"
 #include <memory>
 #include <vector>
+#include <string>
+
+struct RegisteredAnalyzer {
+    std::unique_ptr<AnalyzerInterface> analyzer;
+    int priority = 0;
+};
 
 class AnalyzerRegistry {
 public:
-    // EXTEND THIS FUNCTION: support priority ordering so more specific analyzers
-    // (e.g. a header-only analyzer) can override a general language analyzer
-    void registerAnalyzer(std::unique_ptr<AnalyzerInterface> analyzer);
-
-    // EXTEND THIS FUNCTION: iterate registered analyzers and return the first
-    // one whose canHandle() returns true for the given file path
+    void registerAnalyzer(std::unique_ptr<AnalyzerInterface> analyzer, int priority = 0);
     AnalyzerInterface* getAnalyzer(const std::string& filePath) const;
+    std::vector<std::string> listRegistered() const;
 
 private:
-    std::vector<std::unique_ptr<AnalyzerInterface>> analyzers;
+    std::vector<RegisteredAnalyzer> analyzers;
 };
