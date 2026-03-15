@@ -6,28 +6,22 @@
 #include <iostream>
 
 int main(int argc, char* argv[]) {
-    // EXTEND THIS FUNCTION: add a proper CLI parser that accepts --repo, --output,
-    // and --ignore flags, and print a usage message when arguments are missing
-    const std::string repoPath   = (argc > 1) ? argv[1] : ".";
-    const std::string reportPath = "reports/analysis_report.json";
-
-    std::cout << "[main] Scanning: " << repoPath << "\n";
+    std::string repoPath   = (argc > 1) ? argv[1] : ".";
+    std::string reportPath = "reports/analysis_report.json";
 
     AnalyzerRegistry registry;
-    registry.registerAnalyzer(std::make_unique<CppAnalyzer>());
-    // EXTEND THIS FUNCTION: register additional language analyzers here
-    // (Python, JavaScript, etc.) as they are implemented
+    registry.registerAnalyzer(std::make_unique<CppAnalyzer>(), 0);
 
     RepositoryScanner scanner(registry);
     auto results = scanner.scan(repoPath);
-    std::cout << "[main] Files analyzed: " << results.size() << "\n";
+    std::cout << "Analyzed: " << results.size() << " file(s)\n";
 
-    HealthScore scorer;
-    double score = scorer.compute(results);
-    std::cout << "[main] Health score: " << score << "\n";
+    HealthScore hs;
+    hs.computePerFile(results);
+    auto score = hs.compute(results);
+    std::cout << "Health: " << score.score << " (" << score.label << ")\n";
 
-    ReportGenerator generator;
-    generator.generate(results, score, reportPath);
-
+    ReportGenerator gen;
+    gen.generate(results, score, scanner.getSkippedFiles(), reportPath);
     return 0;
 }
