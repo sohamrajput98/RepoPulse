@@ -3,19 +3,20 @@
 #include "../../metrics/function_metrics.h"
 #include <fstream>
 
+static const std::vector<std::string> CPP_EXTS = {
+    ".cpp", ".cc", ".cxx", ".c", ".h", ".hpp"
+};
+
 bool CppAnalyzer::canHandle(const std::string& filePath) const {
-    // EXTEND THIS FUNCTION: check the file extension against .cpp, .h, .hpp,
-    // and optionally .cc and .cxx when additional extensions are needed
     auto dot = filePath.rfind('.');
     if (dot == std::string::npos) return false;
-    auto ext = filePath.substr(dot + 1);
-    return ext == "cpp" || ext == "h" || ext == "hpp";
+    std::string ext = filePath.substr(dot);
+    for (const auto& e : CPP_EXTS)
+        if (ext == e) return true;
+    return false;
 }
 
 AnalysisResult CppAnalyzer::analyze(const std::string& filePath) const {
-    // EXTEND THIS FUNCTION: read the file into lines, then delegate to
-    // LocCounter, FunctionMetrics, ComplexityAnalyzer, and SmellDetector
-    // to populate all fields of the returned AnalysisResult
     AnalysisResult result;
     result.filePath = filePath;
 
@@ -26,19 +27,26 @@ AnalysisResult CppAnalyzer::analyze(const std::string& filePath) const {
     std::string line;
     while (std::getline(file, line)) lines.push_back(line);
 
-    LocCounter locCounter;
-    auto loc = locCounter.count(lines);
-    result.totalLines   = loc.total;
-    result.codeLines    = loc.code;
-    result.commentLines = loc.comments;
-    result.blankLines   = loc.blank;
+    LocCounter loc;
+    auto lr = loc.count(lines);
+    result.totalLines   = lr.total;
+    result.codeLines    = lr.code;
+    result.commentLines = lr.comments;
+    result.blankLines   = lr.blank;
 
     FunctionMetrics fm;
     result.functions = fm.extract(lines);
 
-    for (auto& fn : result.functions)
-        fn.complexity = complexityAnalyzer.computeCyclomaticComplexity(lines);
+    for (auto& fn : result.functions) {
+        int start = fn.startLine - 1;
+        int end   = fn.endLine;
+        if (start < 0) start = 0;
+        if (end > (int)lines.size()) end = lines.size();
+        std::vector<std::string> body(lines.begin() + start, lines.begin() + end);
+        fn.complexity   = complexityAnalyzer.computeCyclomaticComplexity(body);
+        fn.nestingDepth = complexityAnalyzer.computeMaxNestingDepth(body);
+    }
 
-    result.smells = smellDetector.detectAll(lines);
+    result.smells = smellDetector.detectAll(lines, result.functions);
     return result;
 }
