@@ -1,0 +1,315 @@
+{
+  "generatedAt": "2026-03-15T16:26:15Z",
+  "summary": {
+    "totalFiles": 26,
+    "totalLOC": 699,
+    "totalFunctions": 8,
+    "totalSmells": 0,
+    "averageComplexity": 2,
+    "healthScore": 100,
+    "healthLabel": "Excellent",
+    "scoreBreakdown": {
+      "smellPenalty": 0,
+      "complexityPenalty": 0,
+      "nestingPenalty": 0,
+      "locPenalty": 0
+    },
+    "skippedFiles": []
+  },
+  "files": [
+    {
+      "path": "./backend/tests/analyzer_tests.cpp",
+      "totalLines": 41,
+      "codeLines": 36,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+        {"name":"testLoc","startLine":9,"endLine":14,"lineCount":6,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"testComplexity","startLine":16,"endLine":21,"lineCount":6,"paramCount":0,"complexity":3,"nestingDepth":4},
+        {"name":"testSmells","startLine":23,"endLine":29,"lineCount":7,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"testHealth","startLine":31,"endLine":35,"lineCount":5,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"main","startLine":37,"endLine":41,"lineCount":5,"paramCount":0,"complexity":1,"nestingDepth":1}
+      ]
+    },
+    {
+      "path": "./backend/src/main.cpp",
+      "totalLines": 27,
+      "codeLines": 22,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+        {"name":"main","startLine":8,"endLine":27,"lineCount":20,"paramCount":2,"complexity":2,"nestingDepth":1}
+      ]
+    },
+    {
+      "path": "./backend/src/scoring/health_score.h",
+      "totalLines": 23,
+      "codeLines": 20,
+      "commentLines": 0,
+      "blankLines": 3,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/scoring/health_score.cpp",
+      "totalLines": 43,
+      "codeLines": 38,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+        {"name":"label","startLine":5,"endLine":11,"lineCount":7,"paramCount":1,"complexity":5,"nestingDepth":1}
+      ]
+    },
+    {
+      "path": "./backend/src/analyzers/base/analysis_result.h",
+      "totalLines": 24,
+      "codeLines": 22,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/analyzers/base/analyzer_interface.h",
+      "totalLines": 10,
+      "codeLines": 9,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/analyzers/cpp/smell_detector.h",
+      "totalLines": 10,
+      "codeLines": 9,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/analyzers/cpp/cpp_analyzer.h",
+      "totalLines": 13,
+      "codeLines": 12,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/analyzers/cpp/complexity_analyzer.h",
+      "totalLines": 9,
+      "codeLines": 8,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/analyzers/cpp/complexity_analyzer.cpp",
+      "totalLines": 23,
+      "codeLines": 21,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/analyzers/cpp/smell_detector.cpp",
+      "totalLines": 32,
+      "codeLines": 25,
+      "commentLines": 1,
+      "blankLines": 6,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+        {"name":"cfg","startLine":3,"endLine":6,"lineCount":4,"paramCount":2,"complexity":2,"nestingDepth":1}
+      ]
+    },
+    {
+      "path": "./backend/src/analyzers/cpp/cpp_analyzer.cpp",
+      "totalLines": 52,
+      "codeLines": 43,
+      "commentLines": 0,
+      "blankLines": 9,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/core/analyzer_registry.cpp",
+      "totalLines": 23,
+      "codeLines": 20,
+      "commentLines": 0,
+      "blankLines": 3,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/core/file_utils.h",
+      "totalLines": 10,
+      "codeLines": 9,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/core/file_utils.cpp",
+      "totalLines": 31,
+      "codeLines": 25,
+      "commentLines": 0,
+      "blankLines": 6,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/core/repository_scanner.cpp",
+      "totalLines": 28,
+      "codeLines": 22,
+      "commentLines": 0,
+      "blankLines": 6,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/core/repository_scanner.h",
+      "totalLines": 16,
+      "codeLines": 14,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/core/analyzer_registry.h",
+      "totalLines": 20,
+      "codeLines": 17,
+      "commentLines": 0,
+      "blankLines": 3,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/metrics/loc_counter.h",
+      "totalLines": 16,
+      "codeLines": 14,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/metrics/loc_counter.cpp",
+      "totalLines": 57,
+      "codeLines": 42,
+      "commentLines": 4,
+      "blankLines": 11,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/metrics/function_metrics.cpp",
+      "totalLines": 48,
+      "codeLines": 41,
+      "commentLines": 2,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/metrics/function_metrics.h",
+      "totalLines": 9,
+      "codeLines": 8,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/report/report_generator.h",
+      "totalLines": 13,
+      "codeLines": 12,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/report/report_generator.cpp",
+      "totalLines": 89,
+      "codeLines": 84,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/report/json_reporter.h",
+      "totalLines": 14,
+      "codeLines": 13,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "./backend/src/report/json_reporter.cpp",
+      "totalLines": 18,
+      "codeLines": 17,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    }
+  ]
+}
