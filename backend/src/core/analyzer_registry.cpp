@@ -1,15 +1,23 @@
 #include "analyzer_registry.h"
+#include <algorithm>
 
-void AnalyzerRegistry::registerAnalyzer(std::unique_ptr<AnalyzerInterface> analyzer) {
-    // EXTEND THIS FUNCTION: support priority ordering so more specific analyzers
-    // (e.g. a header-only analyzer) can override a general language analyzer
-    analyzers.push_back(std::move(analyzer));
+void AnalyzerRegistry::registerAnalyzer(std::unique_ptr<AnalyzerInterface> analyzer, int priority) {
+    analyzers.push_back({std::move(analyzer), priority});
+    std::sort(analyzers.begin(), analyzers.end(),
+        [](const RegisteredAnalyzer& a, const RegisteredAnalyzer& b) {
+            return a.priority > b.priority;
+        });
 }
 
 AnalyzerInterface* AnalyzerRegistry::getAnalyzer(const std::string& filePath) const {
-    // EXTEND THIS FUNCTION: iterate registered analyzers and return the first
-    // one whose canHandle() returns true for the given file path
-    for (const auto& a : analyzers)
-        if (a->canHandle(filePath)) return a.get();
+    for (const auto& ra : analyzers)
+        if (ra.analyzer->canHandle(filePath)) return ra.analyzer.get();
     return nullptr;
+}
+
+std::vector<std::string> AnalyzerRegistry::listRegistered() const {
+    std::vector<std::string> list;
+    for (const auto& ra : analyzers)
+        list.push_back("priority=" + std::to_string(ra.priority));
+    return list;
 }
