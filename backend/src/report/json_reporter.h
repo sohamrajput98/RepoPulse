@@ -1,12 +1,14 @@
 #pragma once
 #include "../analyzers/base/analysis_result.h"
+#include "../scoring/health_score.h"
 #include <string>
 #include <vector>
 
 class JsonReporter {
 public:
-    // EXTEND THIS FUNCTION: serialise every AnalysisResult field into valid JSON,
-    // escape special characters in strings, and include a repository-level summary
-    // block (total files, total LOC, average complexity, overall health score)
-    std::string generate(const std::vector<AnalysisResult>& results, double healthScore) const;
+    std::string generate(const std::vector<AnalysisResult>& results,
+                         const ScoreResult& score,
+                         const std::vector<std::string>& skipped) const;
+private:
+    std::string esc(const std::string& s) const;
 };
