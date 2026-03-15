@@ -1,19 +1,24 @@
-import { useState, useEffect } from "react";
-import { fetchReport } from "../services/reportService";
+import { useState, useEffect, useCallback } from 'react';
+import { fetchReport } from '../services/reportService';
 
 export function useAnalysisReport() {
-    const [report,  setReport]  = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error,   setError]   = useState(null);
+    const [report,    setReport]    = useState(null);
+    const [loading,   setLoading]   = useState(true);
+    const [error,     setError]     = useState(null);
+    const [fetchedAt, setFetchedAt] = useState(null);
 
-    useEffect(() => {
-        // EXTEND THIS FUNCTION: add a polling interval so the UI refreshes
-        // automatically when a new report is written by the backend
+    const load = useCallback(() => {
+        setLoading(true);
+        setError(null);
         fetchReport()
-            .then(setReport)
+            .then(data => { setReport(data); setFetchedAt(Date.now()); })
             .catch(setError)
             .finally(() => setLoading(false));
     }, []);
 
-    return { report, loading, error };
+    useEffect(() => { load(); }, [load]);
+
+    const isStale = fetchedAt ? (Date.now() - fetchedAt) > 60000 : false;
+
+    return { report, loading, error, refresh: load, isStale };
 }
