@@ -1,7 +1,14 @@
-import Dashboard from "./pages/Dashboard";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Dashboard  from './pages/Dashboard';
+import FileDetail from './pages/FileDetail';
 
-// EXTEND THIS FUNCTION: add React Router here when multiple pages
-// (e.g. per-file drill-down, history view) are introduced
 export default function App() {
-    return <Dashboard />;
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/"            element={<Dashboard />} />
+                <Route path="/file/:filePath" element={<FileDetail />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
