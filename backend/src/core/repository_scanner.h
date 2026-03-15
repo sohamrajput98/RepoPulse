@@ -7,11 +7,10 @@
 class RepositoryScanner {
 public:
     explicit RepositoryScanner(AnalyzerRegistry& registry);
-
-    // EXTEND THIS FUNCTION: recursively walk repoPath with FileUtils::listFiles,
-    // skip ignored paths, dispatch each file to the registry, and collect results
     std::vector<AnalysisResult> scan(const std::string& repoPath) const;
+    const std::vector<std::string>& getSkippedFiles() const;
 
 private:
     AnalyzerRegistry& registry;
+    mutable std::vector<std::string> skippedFiles;
 };
