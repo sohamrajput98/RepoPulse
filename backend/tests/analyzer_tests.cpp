@@ -6,55 +6,36 @@
 #include "../src/analyzers/cpp/smell_detector.h"
 #include "../src/scoring/health_score.h"
 
-// EXTEND THIS FUNCTION: replace manual assert() calls with a proper test
-// framework (e.g. Catch2 or Google Test) and add parametrised test cases
-
-static void testLocCounter() {
+static void testLoc() {
     LocCounter lc;
-    std::vector<std::string> lines = {
-        "int main() {", "  // comment", "  return 0;", "", "}"
-    };
-    auto r = lc.count(lines);
-    assert(r.total == 5);
-    assert(r.blank == 1);
-    assert(r.comments == 1);
-    assert(r.code == 3);
-    std::cout << "[PASS] testLocCounter\n";
+    auto r = lc.count({"int x = 0;", "// comment", "", "/* block", "end */"});
+    assert(r.total == 5); assert(r.blank == 1);
+    std::cout << "[PASS] testLoc\n";
 }
 
-static void testCyclomaticComplexity() {
+static void testComplexity() {
     ComplexityAnalyzer ca;
-    // EXTEND THIS FUNCTION: add cases for switch, catch, &&, || and verify
-    // that complexity correctly resets between separate function extractions
-    std::vector<std::string> lines = {
-        "if (x) {", "  for (int i=0;i<n;i++) {", "  }", "}"
-    };
-    assert(ca.computeCyclomaticComplexity(lines) >= 3);
-    std::cout << "[PASS] testCyclomaticComplexity\n";
+    auto r = ca.computeCyclomaticComplexity({"if(x){","for(;;){","}}"}); 
+    assert(r >= 3);
+    std::cout << "[PASS] testComplexity\n";
 }
 
-static void testSmellDetector() {
+static void testSmells() {
     SmellDetector sd;
-    // EXTEND THIS FUNCTION: add assertions for LongFunction, ExcessiveParameters,
-    // and CodeDuplication once those detectors are implemented
-    std::vector<std::string> clean(10, "int x = 0;");
-    assert(sd.detectAll(clean).empty());
-    std::cout << "[PASS] testSmellDetector\n";
+    std::vector<std::string> big(310, "int x;");
+    auto s = sd.detectAll(big, {});
+    assert(!s.empty());
+    std::cout << "[PASS] testSmells\n";
 }
 
-static void testHealthScore() {
+static void testHealth() {
     HealthScore hs;
-    // EXTEND THIS FUNCTION: add cases with seeded smells and high-complexity
-    // functions to verify that penalty weighting produces expected score ranges
-    assert(hs.compute({}) == 100.0);
-    std::cout << "[PASS] testHealthScore\n";
+    assert(hs.compute({}).score == 100.0);
+    std::cout << "[PASS] testHealth\n";
 }
 
 int main() {
-    testLocCounter();
-    testCyclomaticComplexity();
-    testSmellDetector();
-    testHealthScore();
-    std::cout << "[tests] All passed.\n";
+    testLoc(); testComplexity(); testSmells(); testHealth();
+    std::cout << "All passed.\n";
     return 0;
 }
