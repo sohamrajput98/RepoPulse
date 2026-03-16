@@ -1,10 +1,11 @@
-const REPORT_URL = '/analysis_report.json';
+const DEFAULT_URL = '/analysis_report.json';
 
-export async function fetchReport() {
+export async function fetchReport(customUrl = null) {
+    const url = customUrl || DEFAULT_URL;
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 5000);
+    const timeout = setTimeout(() => controller.abort(), 8000);
     try {
-        const res = await fetch(REPORT_URL, { signal: controller.signal });
+        const res = await fetch(url, { signal: controller.signal });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (!data.summary || !Array.isArray(data.files))
