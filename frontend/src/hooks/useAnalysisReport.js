@@ -7,10 +7,10 @@ export function useAnalysisReport() {
     const [error,     setError]     = useState(null);
     const [fetchedAt, setFetchedAt] = useState(null);
 
-    const load = useCallback(() => {
+    const load = useCallback((url = null) => {
         setLoading(true);
         setError(null);
-        fetchReport()
+        fetchReport(url)
             .then(data => { setReport(data); setFetchedAt(Date.now()); })
             .catch(setError)
             .finally(() => setLoading(false));
