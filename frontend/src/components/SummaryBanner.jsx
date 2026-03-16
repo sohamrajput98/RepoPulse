@@ -1,7 +1,8 @@
+import LastAnalyzed from './LastAnalyzed';
+
 export default function SummaryBanner({ summary, generatedAt }) {
     if (!summary) return null;
     const avg = summary.averageComplexity?.toFixed(1) ?? '—';
-    const time = generatedAt ? new Date(generatedAt).toLocaleString() : '—';
     return (
         <div className="card px-6 py-4 mb-6 flex flex-wrap gap-4 items-center justify-between text-sm">
             <div className="flex flex-wrap gap-6">
@@ -18,7 +19,7 @@ export default function SummaryBanner({ summary, generatedAt }) {
                     📊 Avg complexity: <b className="text-gray-800 dark:text-white">{avg}</b>
                 </span>
             </div>
-            <span className="text-xs text-gray-400 dark:text-slate-500">Generated: {time}</span>
+            <LastAnalyzed generatedAt={generatedAt} />
         </div>
     );
 }
