@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-15T16:26:15Z",
+  "generatedAt": "2026-03-16T17:45:43Z",
   "summary": {
     "totalFiles": 26,
     "totalLOC": 699,
@@ -18,7 +18,7 @@
   },
   "files": [
     {
-      "path": "./backend/tests/analyzer_tests.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/tests/analyzer_tests.cpp",
       "totalLines": 41,
       "codeLines": 36,
       "commentLines": 0,
@@ -34,7 +34,7 @@
       ]
     },
     {
-      "path": "./backend/src/main.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/main.cpp",
       "totalLines": 27,
       "codeLines": 22,
       "commentLines": 0,
@@ -46,7 +46,7 @@
       ]
     },
     {
-      "path": "./backend/src/scoring/health_score.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/scoring/health_score.h",
       "totalLines": 23,
       "codeLines": 20,
       "commentLines": 0,
@@ -57,7 +57,7 @@
       ]
     },
     {
-      "path": "./backend/src/scoring/health_score.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/scoring/health_score.cpp",
       "totalLines": 43,
       "codeLines": 38,
       "commentLines": 0,
@@ -69,7 +69,7 @@
       ]
     },
     {
-      "path": "./backend/src/analyzers/base/analysis_result.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/base/analysis_result.h",
       "totalLines": 24,
       "codeLines": 22,
       "commentLines": 0,
@@ -80,7 +80,7 @@
       ]
     },
     {
-      "path": "./backend/src/analyzers/base/analyzer_interface.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/base/analyzer_interface.h",
       "totalLines": 10,
       "codeLines": 9,
       "commentLines": 0,
@@ -91,7 +91,7 @@
       ]
     },
     {
-      "path": "./backend/src/analyzers/cpp/smell_detector.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/smell_detector.h",
       "totalLines": 10,
       "codeLines": 9,
       "commentLines": 0,
@@ -102,7 +102,7 @@
       ]
     },
     {
-      "path": "./backend/src/analyzers/cpp/cpp_analyzer.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/cpp_analyzer.h",
       "totalLines": 13,
       "codeLines": 12,
       "commentLines": 0,
@@ -113,7 +113,7 @@
       ]
     },
     {
-      "path": "./backend/src/analyzers/cpp/complexity_analyzer.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/complexity_analyzer.h",
       "totalLines": 9,
       "codeLines": 8,
       "commentLines": 0,
@@ -124,7 +124,7 @@
       ]
     },
     {
-      "path": "./backend/src/analyzers/cpp/complexity_analyzer.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/complexity_analyzer.cpp",
       "totalLines": 23,
       "codeLines": 21,
       "commentLines": 0,
@@ -135,7 +135,7 @@
       ]
     },
     {
-      "path": "./backend/src/analyzers/cpp/smell_detector.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/smell_detector.cpp",
       "totalLines": 32,
       "codeLines": 25,
       "commentLines": 1,
@@ -147,7 +147,7 @@
       ]
     },
     {
-      "path": "./backend/src/analyzers/cpp/cpp_analyzer.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/cpp_analyzer.cpp",
       "totalLines": 52,
       "codeLines": 43,
       "commentLines": 0,
@@ -158,7 +158,7 @@
       ]
     },
     {
-      "path": "./backend/src/core/analyzer_registry.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/analyzer_registry.cpp",
       "totalLines": 23,
       "codeLines": 20,
       "commentLines": 0,
@@ -169,7 +169,7 @@
       ]
     },
     {
-      "path": "./backend/src/core/file_utils.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/file_utils.h",
       "totalLines": 10,
       "codeLines": 9,
       "commentLines": 0,
@@ -180,7 +180,7 @@
       ]
     },
     {
-      "path": "./backend/src/core/file_utils.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/file_utils.cpp",
       "totalLines": 31,
       "codeLines": 25,
       "commentLines": 0,
@@ -191,7 +191,7 @@
       ]
     },
     {
-      "path": "./backend/src/core/repository_scanner.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/repository_scanner.cpp",
       "totalLines": 28,
       "codeLines": 22,
       "commentLines": 0,
@@ -202,7 +202,7 @@
       ]
     },
     {
-      "path": "./backend/src/core/repository_scanner.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/repository_scanner.h",
       "totalLines": 16,
       "codeLines": 14,
       "commentLines": 0,
@@ -213,7 +213,7 @@
       ]
     },
     {
-      "path": "./backend/src/core/analyzer_registry.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/analyzer_registry.h",
       "totalLines": 20,
       "codeLines": 17,
       "commentLines": 0,
@@ -224,7 +224,7 @@
       ]
     },
     {
-      "path": "./backend/src/metrics/loc_counter.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/loc_counter.h",
       "totalLines": 16,
       "codeLines": 14,
       "commentLines": 0,
@@ -235,7 +235,7 @@
       ]
     },
     {
-      "path": "./backend/src/metrics/loc_counter.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/loc_counter.cpp",
       "totalLines": 57,
       "codeLines": 42,
       "commentLines": 4,
@@ -246,7 +246,7 @@
       ]
     },
     {
-      "path": "./backend/src/metrics/function_metrics.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/function_metrics.cpp",
       "totalLines": 48,
       "codeLines": 41,
       "commentLines": 2,
@@ -257,7 +257,7 @@
       ]
     },
     {
-      "path": "./backend/src/metrics/function_metrics.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/function_metrics.h",
       "totalLines": 9,
       "codeLines": 8,
       "commentLines": 0,
@@ -268,7 +268,7 @@
       ]
     },
     {
-      "path": "./backend/src/report/report_generator.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/report_generator.h",
       "totalLines": 13,
       "codeLines": 12,
       "commentLines": 0,
@@ -279,7 +279,7 @@
       ]
     },
     {
-      "path": "./backend/src/report/report_generator.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/report_generator.cpp",
       "totalLines": 89,
       "codeLines": 84,
       "commentLines": 0,
@@ -290,7 +290,7 @@
       ]
     },
     {
-      "path": "./backend/src/report/json_reporter.h",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/json_reporter.h",
       "totalLines": 14,
       "codeLines": 13,
       "commentLines": 0,
@@ -301,7 +301,7 @@
       ]
     },
     {
-      "path": "./backend/src/report/json_reporter.cpp",
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/json_reporter.cpp",
       "totalLines": 18,
       "codeLines": 17,
       "commentLines": 0,
