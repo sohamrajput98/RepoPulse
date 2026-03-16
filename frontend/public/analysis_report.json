@@ -1,89 +1,314 @@
 {
-  "generatedAt": "2024-01-01T00:00:00Z",
+  "generatedAt": "2026-03-16T17:45:43Z",
   "summary": {
-    "totalFiles": 5,
-    "totalLOC": 842,
-    "totalFunctions": 24,
-    "totalSmells": 7,
-    "averageComplexity": 4.2,
-    "healthScore": 72.5,
-    "healthLabel": "Good",
+    "totalFiles": 26,
+    "totalLOC": 699,
+    "totalFunctions": 8,
+    "totalSmells": 0,
+    "averageComplexity": 2,
+    "healthScore": 100,
+    "healthLabel": "Excellent",
     "scoreBreakdown": {
-      "smellPenalty": 14,
-      "complexityPenalty": 10,
-      "nestingPenalty": 3,
+      "smellPenalty": 0,
+      "complexityPenalty": 0,
+      "nestingPenalty": 0,
       "locPenalty": 0
     },
     "skippedFiles": []
   },
   "files": [
     {
-      "path": "src/parser.cpp",
-      "totalLines": 312,
-      "codeLines": 241,
-      "commentLines": 38,
-      "blankLines": 33,
-      "healthScore": 48.0,
-      "smells": ["LargeFile", "HighComplexity:parseTokens", "DeepNesting:parseBlock"],
-      "functions": [
-        { "name": "parseTokens", "startLine": 12, "endLine": 89, "lineCount": 78, "paramCount": 3, "complexity": 14, "nestingDepth": 5 },
-        { "name": "parseBlock",  "startLine": 91, "endLine": 160, "lineCount": 70, "paramCount": 2, "complexity": 11, "nestingDepth": 5 },
-        { "name": "parseExpr",  "startLine": 162, "endLine": 200, "lineCount": 39, "paramCount": 1, "complexity": 6,  "nestingDepth": 3 }
-      ]
-    },
-    {
-      "path": "src/analyzer.cpp",
-      "totalLines": 198,
-      "codeLines": 154,
-      "commentLines": 22,
-      "blankLines": 22,
-      "healthScore": 65.0,
-      "smells": ["LongFunction:analyze", "ExcessiveParams:computeScore"],
-      "functions": [
-        { "name": "analyze",      "startLine": 10, "endLine": 75, "lineCount": 66, "paramCount": 2, "complexity": 8,  "nestingDepth": 3 },
-        { "name": "computeScore", "startLine": 77, "endLine": 120, "lineCount": 44, "paramCount": 6, "complexity": 5,  "nestingDepth": 2 },
-        { "name": "reset",        "startLine": 122, "endLine": 135, "lineCount": 14, "paramCount": 0, "complexity": 1, "nestingDepth": 1 }
-      ]
-    },
-    {
-      "path": "src/utils.cpp",
-      "totalLines": 120,
-      "codeLines": 95,
-      "commentLines": 18,
-      "blankLines": 7,
-      "healthScore": 88.0,
+      "path": "/tmp/repopulse_RepoPulse/backend/tests/analyzer_tests.cpp",
+      "totalLines": 41,
+      "codeLines": 36,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
       "smells": [],
       "functions": [
-        { "name": "trim",      "startLine": 5,  "endLine": 18,  "lineCount": 14, "paramCount": 1, "complexity": 3, "nestingDepth": 1 },
-        { "name": "split",     "startLine": 20, "endLine": 45,  "lineCount": 26, "paramCount": 2, "complexity": 4, "nestingDepth": 2 },
-        { "name": "readFile",  "startLine": 47, "endLine": 70,  "lineCount": 24, "paramCount": 1, "complexity": 3, "nestingDepth": 2 },
-        { "name": "writeFile", "startLine": 72, "endLine": 90,  "lineCount": 19, "paramCount": 2, "complexity": 2, "nestingDepth": 1 }
+        {"name":"testLoc","startLine":9,"endLine":14,"lineCount":6,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"testComplexity","startLine":16,"endLine":21,"lineCount":6,"paramCount":0,"complexity":3,"nestingDepth":4},
+        {"name":"testSmells","startLine":23,"endLine":29,"lineCount":7,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"testHealth","startLine":31,"endLine":35,"lineCount":5,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"main","startLine":37,"endLine":41,"lineCount":5,"paramCount":0,"complexity":1,"nestingDepth":1}
       ]
     },
     {
-      "path": "include/parser.h",
-      "totalLines": 112,
-      "codeLines": 80,
-      "commentLines": 25,
-      "blankLines": 7,
-      "healthScore": 91.0,
+      "path": "/tmp/repopulse_RepoPulse/backend/src/main.cpp",
+      "totalLines": 27,
+      "codeLines": 22,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
       "smells": [],
       "functions": [
-        { "name": "init",    "startLine": 20, "endLine": 30, "lineCount": 11, "paramCount": 1, "complexity": 2, "nestingDepth": 1 },
-        { "name": "destroy", "startLine": 32, "endLine": 40, "lineCount": 9,  "paramCount": 0, "complexity": 1, "nestingDepth": 1 }
+        {"name":"main","startLine":8,"endLine":27,"lineCount":20,"paramCount":2,"complexity":2,"nestingDepth":1}
       ]
     },
     {
-      "path": "src/main.cpp",
-      "totalLines": 100,
-      "codeLines": 78,
-      "commentLines": 12,
-      "blankLines": 10,
-      "healthScore": 85.0,
-      "smells": ["LongLine"],
+      "path": "/tmp/repopulse_RepoPulse/backend/src/scoring/health_score.h",
+      "totalLines": 23,
+      "codeLines": 20,
+      "commentLines": 0,
+      "blankLines": 3,
+      "healthScore": 100,
+      "smells": [],
       "functions": [
-        { "name": "main",      "startLine": 5,  "endLine": 60, "lineCount": 56, "paramCount": 2, "complexity": 5, "nestingDepth": 2 },
-        { "name": "printHelp", "startLine": 62, "endLine": 80, "lineCount": 19, "paramCount": 0, "complexity": 1, "nestingDepth": 1 }
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/scoring/health_score.cpp",
+      "totalLines": 43,
+      "codeLines": 38,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+        {"name":"label","startLine":5,"endLine":11,"lineCount":7,"paramCount":1,"complexity":5,"nestingDepth":1}
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/base/analysis_result.h",
+      "totalLines": 24,
+      "codeLines": 22,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/base/analyzer_interface.h",
+      "totalLines": 10,
+      "codeLines": 9,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/smell_detector.h",
+      "totalLines": 10,
+      "codeLines": 9,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/cpp_analyzer.h",
+      "totalLines": 13,
+      "codeLines": 12,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/complexity_analyzer.h",
+      "totalLines": 9,
+      "codeLines": 8,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/complexity_analyzer.cpp",
+      "totalLines": 23,
+      "codeLines": 21,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/smell_detector.cpp",
+      "totalLines": 32,
+      "codeLines": 25,
+      "commentLines": 1,
+      "blankLines": 6,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+        {"name":"cfg","startLine":3,"endLine":6,"lineCount":4,"paramCount":2,"complexity":2,"nestingDepth":1}
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/cpp_analyzer.cpp",
+      "totalLines": 52,
+      "codeLines": 43,
+      "commentLines": 0,
+      "blankLines": 9,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/analyzer_registry.cpp",
+      "totalLines": 23,
+      "codeLines": 20,
+      "commentLines": 0,
+      "blankLines": 3,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/file_utils.h",
+      "totalLines": 10,
+      "codeLines": 9,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/file_utils.cpp",
+      "totalLines": 31,
+      "codeLines": 25,
+      "commentLines": 0,
+      "blankLines": 6,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/repository_scanner.cpp",
+      "totalLines": 28,
+      "codeLines": 22,
+      "commentLines": 0,
+      "blankLines": 6,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/repository_scanner.h",
+      "totalLines": 16,
+      "codeLines": 14,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/analyzer_registry.h",
+      "totalLines": 20,
+      "codeLines": 17,
+      "commentLines": 0,
+      "blankLines": 3,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/loc_counter.h",
+      "totalLines": 16,
+      "codeLines": 14,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/loc_counter.cpp",
+      "totalLines": 57,
+      "codeLines": 42,
+      "commentLines": 4,
+      "blankLines": 11,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/function_metrics.cpp",
+      "totalLines": 48,
+      "codeLines": 41,
+      "commentLines": 2,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/function_metrics.h",
+      "totalLines": 9,
+      "codeLines": 8,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/report_generator.h",
+      "totalLines": 13,
+      "codeLines": 12,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/report_generator.cpp",
+      "totalLines": 89,
+      "codeLines": 84,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/json_reporter.h",
+      "totalLines": 14,
+      "codeLines": 13,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/json_reporter.cpp",
+      "totalLines": 18,
+      "codeLines": 17,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
       ]
     }
   ]
