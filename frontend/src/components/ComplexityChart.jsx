@@ -1,46 +1,154 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ReferenceLine, ResponsiveContainer, Cell, CartesianGrid } from 'recharts';
-import { basename } from '../utils/path';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ReferenceLine,
+  ResponsiveContainer,
+  Cell,
+  CartesianGrid,
+} from "recharts";
+import { basename } from "../utils/path";
+import { useChartColors } from "../hooks/useChartColors";
 
-const CustomTooltip = ({ active, payload }) => {
-    if (!active || !payload?.length) return null;
-    const v = payload[0].value;
-    return (
-        <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 rounded-lg px-3 py-2 text-xs shadow-lg">
-            <p className="font-semibold text-gray-700 dark:text-white">{payload[0].payload.name}</p>
-            <p className="text-indigo-600 dark:text-indigo-400">Complexity: <b>{v}</b></p>
-            {v > 10 && <p className="text-red-500 font-medium">⚠ Exceeds threshold</p>}
-        </div>
-    );
-};
+/* ── Themed tooltip ──────────────────────────────────────── */
+function CustomTooltip({ active, payload, colors }) {
+  if (!active || !payload?.length) return null;
+  const v = payload[0].value;
+  const over = v > 10;
+  return (
+    <div className="chart-tooltip">
+      <p
+        style={{
+          fontFamily: "JetBrains Mono, monospace",
+          fontSize: "0.78rem",
+          fontWeight: 600,
+          color: "var(--text-primary)",
+          marginBottom: 4,
+        }}
+      >
+        {payload[0].payload.name}
+      </p>
+      <p style={{ fontSize: "0.8rem", color: over ? colors.c1 : colors.c4 }}>
+        CC: <strong>{v}</strong>
+      </p>
+      {over && (
+        <p style={{ fontSize: "0.72rem", color: colors.c1, marginTop: 3 }}>
+          ⚠ Exceeds threshold (10)
+        </p>
+      )}
+    </div>
+  );
+}
+
+/* ── Gradient defs injected as a custom SVG layer ────────── */
+function GradientDefs() {
+  return (
+    <defs>
+      <linearGradient id="ccBarSafe" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="var(--c4)" stopOpacity={0.95} />
+        <stop offset="100%" stopColor="var(--c4)" stopOpacity={0.4} />
+      </linearGradient>
+      <linearGradient id="ccBarRisk" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="var(--c1)" stopOpacity={0.95} />
+        <stop offset="100%" stopColor="var(--c1)" stopOpacity={0.4} />
+      </linearGradient>
+    </defs>
+  );
+}
 
 export default function ComplexityChart({ files }) {
-    if (!files?.length) return null;
-    const data = files
-        .map(f => ({
-            name: basename(f.path),
-            complexity: Math.max(0, ...(f.functions?.map(fn => fn.complexity) ?? [0]))
-        }))
-        .sort((a, b) => b.complexity - a.complexity)
-        .slice(0, 15);
+  const colors = useChartColors();
 
-    return (
-        <div className="card p-6">
-            <p className="card-header">Cyclomatic Complexity — Top Files</p>
-            <ResponsiveContainer width="100%" height={260}>
-                <BarChart data={data} margin={{ left: 0, right: 10, top: 5 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" strokeOpacity={0.4} />
-                    <XAxis dataKey="name" tick={{ fontSize: 11, fill: '#6b7280' }} interval={0} angle={-25} textAnchor="end" height={60} />
-                    <YAxis tick={{ fontSize: 11, fill: '#6b7280' }} />
-                    <Tooltip content={<CustomTooltip />} />
-                    <ReferenceLine y={10} stroke="#ef4444" strokeDasharray="5 3"
-                        label={{ value: 'threshold (10)', fontSize: 10, fill: '#ef4444', position: 'insideTopRight' }} />
-                    <Bar dataKey="complexity" radius={[6, 6, 0, 0]} isAnimationActive animationDuration={800}>
-                        {data.map((d, i) => (
-                            <Cell key={i} fill={d.complexity > 10 ? '#ef4444' : '#6366f1'} fillOpacity={0.85} />
-                        ))}
-                    </Bar>
-                </BarChart>
-            </ResponsiveContainer>
-        </div>
-    );
+  if (!files?.length) return null;
+
+  const data = files
+    .map((f) => ({
+      name: basename(f.path),
+      complexity: Math.max(
+        0,
+        ...(f.functions?.map((fn) => fn.complexity) ?? [0]),
+      ),
+    }))
+    .sort((a, b) => b.complexity - a.complexity)
+    .slice(0, 15);
+
+  return (
+    <div className="card" style={{ padding: "1.25rem 1.25rem 0.75rem" }}>
+      <p className="card-header">Cyclomatic Complexity — Top Files</p>
+
+      {/* inject SVG gradient defs outside Recharts via a hidden svg */}
+      <svg width="0" height="0" style={{ position: "absolute" }}>
+        <GradientDefs />
+      </svg>
+
+      <ResponsiveContainer width="100%" height={265}>
+        <BarChart
+          data={data}
+          margin={{ left: 0, right: 10, top: 8, bottom: 0 }}
+        >
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke={colors.grid}
+            strokeOpacity={1}
+            vertical={false}
+          />
+          <XAxis
+            dataKey="name"
+            tick={{ fontSize: 10, fill: colors.text }}
+            interval={0}
+            angle={-28}
+            textAnchor="end"
+            height={62}
+            axisLine={{ stroke: colors.grid }}
+            tickLine={false}
+          />
+          <YAxis
+            tick={{ fontSize: 10, fill: colors.text }}
+            axisLine={false}
+            tickLine={false}
+          />
+          <Tooltip
+            content={<CustomTooltip colors={colors} />}
+            cursor={{
+              fill: "color-mix(in srgb, var(--accent) 6%, transparent)",
+            }}
+          />
+          <ReferenceLine
+            y={10}
+            stroke={colors.c1}
+            strokeDasharray="5 3"
+            strokeWidth={1.5}
+            label={{
+              value: "threshold",
+              fontSize: 9,
+              fill: colors.c1,
+              position: "insideTopRight",
+            }}
+          />
+          <Bar
+            dataKey="complexity"
+            radius={[6, 6, 0, 0]}
+            isAnimationActive
+            animationDuration={900}
+            animationEasing="ease-out"
+          >
+            {data.map((d, i) => (
+              <Cell
+                key={i}
+                fill={d.complexity > 10 ? "url(#ccBarRisk)" : "url(#ccBarSafe)"}
+                style={{
+                  filter:
+                    d.complexity > 10
+                      ? `drop-shadow(0 0 4px ${colors.glowC1})`
+                      : "none",
+                }}
+              />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
 }
