@@ -57,7 +57,7 @@ export default function App() {
               <Route path="/file/:filePath" element={<FileDetail />} />
 
               {/* Fallback */}
-              <Route path="" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Suspense>
         </HashRouter>
