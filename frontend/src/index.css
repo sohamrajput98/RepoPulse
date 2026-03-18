@@ -5,9 +5,11 @@
 @layer base {
   body {
     @apply bg-slate-100 dark:bg-slate-900 text-gray-900 dark:text-slate-100 transition-colors duration-300;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
-  * { @apply transition-colors duration-150; }
+  * {
+    @apply transition-colors duration-150;
+  }
 }
 
 @layer components {
@@ -36,21 +38,44 @@
 
 /* animated counter */
 @keyframes countUp {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.count-anim { animation: countUp 0.6s ease forwards; }
+.count-anim {
+  animation: countUp 0.6s ease forwards;
+}
 
 /* score ring pulse */
 @keyframes pulseSlow {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
-.pulse-slow { animation: pulseSlow 2.5s ease-in-out infinite; }
+.pulse-slow {
+  animation: pulseSlow 2.5s ease-in-out infinite;
+}
 
 /* print styles for PDF export */
 @media print {
-  .no-print { display: none !important; }
-  body { background: white !important; }
-  .card { break-inside: avoid; box-shadow: none; border: 1px solid #e5e7eb; }
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+  }
+  .card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #e5e7eb;
+  }
 }
