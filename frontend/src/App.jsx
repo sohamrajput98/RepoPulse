@@ -1,14 +1,15 @@
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { ReportProvider } from "./context/ReportContext";
+import { PaletteProvider } from "./context/PaletteContext";
 
-/* -- Lazy pages -------------------------------------------- */
+/* ── Lazy pages ──────────────────────────────────────────── */
 const Intro = lazy(() => import("./pages/Intro"));
-const Analyze = lazy(() => import("./pages/Analyze"));
+const Landing = lazy(() => import("./pages/Landing"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const FileDetail = lazy(() => import("./pages/FileDetail"));
 
-/* -- Full-screen loader ------------------------------------ */
+/* ── Full-screen loader ──────────────────────────────────── */
 function PageLoader() {
   return (
     <div
@@ -35,31 +36,32 @@ function PageLoader() {
   );
 }
 
-/* -- App --------------------------------------------------- */
+/* ── App ─────────────────────────────────────────────────── */
 export default function App() {
   return (
-    <ReportProvider>
-      <HashRouter>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            {/* Intro splash � shown on first visit */}
-            <Route path="/" element={<Intro />} />
+    <PaletteProvider>
+      <ReportProvider>
+        <HashRouter>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              {/* Intro splash */}
+              <Route path="/" element={<Intro />} />
 
-            {/* Analyze page � GitHub URL input / local load */}
-            <Route path="/analyze" element={<Analyze />} />
+              {/* Landing / analyze — GitHub URL input */}
+              <Route path="/analyze" element={<Landing />} />
 
-            {/* Dashboard with optional nested tab routing */}
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/:tab" element={<Dashboard />} />
+              {/* Dashboard shell — nested tabs via Outlet */}
+              <Route path="/dashboard/*" element={<Dashboard />} />
 
-            {/* File detail drilldown */}
-            <Route path="/file/:filePath" element={<FileDetail />} />
+              {/* File detail drilldown */}
+              <Route path="/file/:filePath" element={<FileDetail />} />
 
-            {/* Fallback */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Suspense>
-      </HashRouter>
-    </ReportProvider>
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </Suspense>
+        </HashRouter>
+      </ReportProvider>
+    </PaletteProvider>
   );
 }
