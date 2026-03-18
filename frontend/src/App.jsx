@@ -1,7 +1,6 @@
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import { ReportProvider } from "./context/ReportContext";
-import { PaletteProvider } from "./context/PaletteContext";
 
 /* ── Lazy pages ──────────────────────────────────────────── */
 const Intro = lazy(() => import("./pages/Intro"));
@@ -39,29 +38,27 @@ function PageLoader() {
 /* ── App ─────────────────────────────────────────────────── */
 export default function App() {
   return (
-    <PaletteProvider>
-      <ReportProvider>
-        <HashRouter>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              {/* Intro splash */}
-              <Route path="/" element={<Intro />} />
+    <ReportProvider>
+      <HashRouter>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Intro splash */}
+            <Route path="/" element={<Intro />} />
 
-              {/* Landing / analyze — GitHub URL input */}
-              <Route path="/analyze" element={<Landing />} />
+            {/* Landing / analyze — GitHub URL input */}
+            <Route path="/analyze" element={<Landing />} />
 
-              {/* Dashboard shell — nested tabs via Outlet */}
-              <Route path="/dashboard/*" element={<Dashboard />} />
+            {/* Dashboard shell — nested tabs via Outlet */}
+            <Route path="/dashboard/*" element={<Dashboard />} />
 
-              {/* File detail drilldown */}
-              <Route path="/file/:filePath" element={<FileDetail />} />
+            {/* File detail drilldown */}
+            <Route path="/file/:filePath" element={<FileDetail />} />
 
-              {/* Fallback */}
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </Suspense>
-        </HashRouter>
-      </ReportProvider>
-    </PaletteProvider>
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
+      </HashRouter>
+    </ReportProvider>
   );
 }
