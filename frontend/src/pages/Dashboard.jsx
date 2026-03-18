@@ -66,8 +66,13 @@ export default function Dashboard() {
   const { report, loading, error, refresh, isStale } = useReport();
   const navigate = useNavigate();
 
-  /* Guard: no report → send to /analyze */
+  /* Guard: only redirect if loading is done AND there's an error AND no cached report.
+       Do NOT redirect just because report is null mid-load. */
   useEffect(() => {
+    if (!loading && error && !report) {
+      // Let the error state render below — don't auto-redirect on error
+    }
+    // Only redirect if completely clean (no report, no error, no load) — e.g. direct URL hit
     if (!loading && !report && !error) {
       navigate("/analyze", { replace: true });
     }
@@ -104,7 +109,7 @@ export default function Dashboard() {
       </div>
     );
 
-  /* Error state */
+  /* Error state — show retry, don't redirect */
   if (error && !report)
     return (
       <div
@@ -146,7 +151,7 @@ export default function Dashboard() {
             >
               frontend/public/analysis_report.json
             </code>{" "}
-            exists.
+            exists and run the analysis first.
           </p>
           <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
             <button onClick={() => refresh()} className="btn-primary">
