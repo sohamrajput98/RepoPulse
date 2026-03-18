@@ -1,26 +1,135 @@
-import { useCountUp } from '../hooks/useCountUp';
+import { useCountUp } from "../hooks/useCountUp";
 
-function StatCard({ label, value, icon, color = 'text-indigo-600 dark:text-indigo-400' }) {
-    const animated = useCountUp(value ?? 0, 1000);
-    return (
-        <div className="card p-5 flex flex-col gap-1">
-            <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-semibold text-gray-400 dark:text-slate-400 uppercase tracking-widest">{label}</span>
-                <span className="text-lg">{icon}</span>
-            </div>
-            <span className={`text-3xl font-bold count-anim ${color}`}>{animated.toLocaleString()}</span>
-        </div>
-    );
+/* ── Per-stat config ─────────────────────────────────────── */
+const STATS = [
+  {
+    key: "totalFiles",
+    label: "Files",
+    icon: "📁",
+    colorVar: "--c4",
+    glowVar: "--glow-c4",
+  },
+  {
+    key: "totalLOC",
+    label: "Lines",
+    icon: "📄",
+    colorVar: "--c2",
+    glowVar: "--glow-c2",
+  },
+  {
+    key: "totalFunctions",
+    label: "Functions",
+    icon: "⚙️",
+    colorVar: "--c6",
+    glowVar: "--glow-c6",
+  },
+  {
+    key: "totalSmells",
+    label: "Smells",
+    icon: "🚨",
+    colorVar: "--c1",
+    glowVar: "--glow-c1",
+  },
+];
+
+/* ── Single stat card ────────────────────────────────────── */
+function StatCard({ label, value, icon, colorVar, glowVar, delay }) {
+  const animated = useCountUp(value ?? 0, 1000);
+
+  return (
+    <div
+      className="card"
+      style={{
+        padding: "1.1rem 1.25rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.35rem",
+        /* colored top-border accent */
+        borderTop: `3px solid var(${colorVar})`,
+        /* subtle top glow strip */
+        boxShadow: `var(--shadow-card), 0 -1px 0 0 var(${colorVar})`,
+        /* staggered fade-up */
+        opacity: 0,
+        animation: `fadeUp 0.5s ease ${delay}ms forwards`,
+        transition: "box-shadow 0.22s ease, transform 0.15s ease",
+        cursor: "default",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = `var(--shadow-card), 0 -1px 0 0 var(${colorVar}), 0 0 22px var(${glowVar})`;
+        e.currentTarget.style.transform = "translateY(-2px)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = `var(--shadow-card), 0 -1px 0 0 var(${colorVar})`;
+        e.currentTarget.style.transform = "translateY(0)";
+      }}
+    >
+      {/* label + icon */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <span className="card-header" style={{ marginBottom: 0 }}>
+          {label}
+        </span>
+        <span style={{ fontSize: "1.2rem", lineHeight: 1 }}>{icon}</span>
+      </div>
+
+      {/* animated count value */}
+      <span
+        style={{
+          fontFamily: "Syne, sans-serif",
+          fontSize: "2.1rem",
+          fontWeight: 700,
+          lineHeight: 1,
+          color: `var(${colorVar})`,
+          /* soft neon text glow */
+          textShadow: `0 0 16px var(${glowVar})`,
+          animation: "countUp 0.6s ease forwards",
+        }}
+      >
+        {animated.toLocaleString()}
+      </span>
+    </div>
+  );
 }
 
+/* ── RepoOverview ────────────────────────────────────────── */
 export default function RepoOverview({ summary }) {
-    if (!summary) return null;
-    return (
-        <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
-            <StatCard label="Files"     value={summary.totalFiles}     icon="📁" color="text-indigo-600 dark:text-indigo-400" />
-            <StatCard label="Lines"     value={summary.totalLOC}       icon="📄" color="text-blue-600 dark:text-blue-400" />
-            <StatCard label="Functions" value={summary.totalFunctions} icon="⚙️" color="text-violet-600 dark:text-violet-400" />
-            <StatCard label="Smells"    value={summary.totalSmells}    icon="🚨" color="text-red-500 dark:text-red-400" />
-        </div>
-    );
+  if (!summary) return null;
+
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))",
+        gap: "0.85rem",
+      }}
+    >
+      {STATS.map((s, i) => (
+        <StatCard
+          key={s.key}
+          label={s.label}
+          icon={s.icon}
+          value={summary[s.key]}
+          colorVar={s.colorVar}
+          glowVar={s.glowVar}
+          delay={i * 65}
+        />
+      ))}
+
+      <style>{`
+                @keyframes fadeUp {
+                    from { opacity: 0; transform: translateY(12px); }
+                    to   { opacity: 1; transform: translateY(0); }
+                }
+                @keyframes countUp {
+                    from { opacity: 0; transform: translateY(6px); }
+                    to   { opacity: 1; transform: translateY(0); }
+                }
+            `}</style>
+    </div>
+  );
 }
