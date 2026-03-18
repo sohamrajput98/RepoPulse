@@ -1,23 +1,14 @@
-import { useEffect } from "react";
-import {
-  Outlet,
-  useNavigate,
-  useParams,
-  Navigate,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { useEffect, lazy, Suspense } from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useReport } from "../context/ReportContext";
 import Navbar from "../components/Navbar";
 
 /* ── Lazy tab pages ──────────────────────────────────────── */
-import { lazy, Suspense } from "react";
 const Overview = lazy(() => import("./tabs/Overview"));
-// Stubs for future tasks — will be replaced in tasks 11–14
-const Complexity = lazy(() => import("./tabs/Overview")); // temp
-const Smells = lazy(() => import("./tabs/Overview")); // temp
-const Files = lazy(() => import("./tabs/Overview")); // temp
-const Insights = lazy(() => import("./tabs/Overview")); // temp
+const Functions = lazy(() => import("./tabs/Functions"));
+const Smells = lazy(() => import("./tabs/Smells"));
+const Files = lazy(() => import("./tabs/Files"));
+const AI = lazy(() => import("./tabs/AI"));
 
 /* ── Tab loader ──────────────────────────────────────────── */
 function TabLoader() {
@@ -75,14 +66,14 @@ export default function Dashboard() {
   const { report, loading, error, refresh, isStale } = useReport();
   const navigate = useNavigate();
 
-  // Guard: no report → send to /analyze
+  /* Guard: no report → send to /analyze */
   useEffect(() => {
     if (!loading && !report && !error) {
       navigate("/analyze", { replace: true });
     }
   }, [loading, report, error, navigate]);
 
-  /* loading state */
+  /* Loading state */
   if (loading)
     return (
       <div
@@ -113,7 +104,7 @@ export default function Dashboard() {
       </div>
     );
 
-  /* error state — still show shell with retry */
+  /* Error state */
   if (error && !report)
     return (
       <div
@@ -169,7 +160,6 @@ export default function Dashboard() {
       </div>
     );
 
-  /* guard: no report, not loading → navigate handled above */
   if (!report) return null;
 
   return (
@@ -185,15 +175,14 @@ export default function Dashboard() {
       >
         {isStale && <StaleBanner onRefresh={refresh} />}
 
-        {/* Nested tab routes */}
         <Suspense fallback={<TabLoader />}>
           <Routes>
             <Route index element={<Navigate to="overview" replace />} />
             <Route path="overview" element={<Overview />} />
-            <Route path="complexity" element={<Complexity />} />
+            <Route path="complexity" element={<Functions />} />
             <Route path="smells" element={<Smells />} />
             <Route path="files" element={<Files />} />
-            <Route path="insights" element={<Insights />} />
+            <Route path="insights" element={<AI />} />
             <Route path="*" element={<Navigate to="overview" replace />} />
           </Routes>
         </Suspense>
