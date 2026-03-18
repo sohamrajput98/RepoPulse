@@ -3,6 +3,7 @@ import HealthScoreCard from "../../components/HealthScoreCard";
 import QualityGrade from "../../components/QualityGrade";
 import TrendChart from "../../components/TrendChart";
 import RiskHeatmap from "../../components/RiskHeatmap";
+import CommitActivityChart from "../../components/CommitActivityChart";
 import { useCountUp } from "../../hooks/useCountUp";
 
 /* ── Animated stat chip ──────────────────────────────────── */
@@ -37,7 +38,7 @@ function StatChip({ label, value, icon, colorVar, delay = 0 }) {
           fontFamily: "Syne, sans-serif",
           fontSize: "2rem",
           fontWeight: 700,
-          color: colorVar ? `var(${colorVar})` : "var(--text-primary)",
+          color: `var(${colorVar})`,
           lineHeight: 1,
         }}
       >
@@ -47,7 +48,7 @@ function StatChip({ label, value, icon, colorVar, delay = 0 }) {
   );
 }
 
-/* ── Card wrapper with fade-up ───────────────────────────── */
+/* ── FadeCard wrapper ────────────────────────────────────── */
 function FadeCard({ delay = 0, children, style = {} }) {
   return (
     <div
@@ -71,7 +72,7 @@ export default function Overview() {
 
   return (
     <div>
-      {/* ── Row 1: Score + Grade + 4 stat chips ──────── */}
+      {/* Row 1: Score + Grade + 4 stat chips */}
       <div
         style={{
           display: "grid",
@@ -88,11 +89,9 @@ export default function Overview() {
             delta={delta}
           />
         </FadeCard>
-
         <FadeCard delay={60}>
           <QualityGrade score={score} />
         </FadeCard>
-
         <StatChip
           label="Files"
           value={sum?.totalFiles}
@@ -123,13 +122,25 @@ export default function Overview() {
         />
       </div>
 
-      {/* ── Row 2: TrendChart full width ─────────────── */}
-      <FadeCard delay={360} style={{ marginBottom: "1.25rem" }}>
-        <TrendChart score={score} />
-      </FadeCard>
+      {/* Row 2: TrendChart + CommitActivity side-by-side */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "1.25rem",
+          marginBottom: "1.25rem",
+        }}
+      >
+        <FadeCard delay={360}>
+          <TrendChart score={score} />
+        </FadeCard>
+        <FadeCard delay={420}>
+          <CommitActivityChart report={report} />
+        </FadeCard>
+      </div>
 
-      {/* ── Row 3: RiskHeatmap full width ────────────── */}
-      <FadeCard delay={420}>
+      {/* Row 3: RiskHeatmap full width */}
+      <FadeCard delay={480}>
         <RiskHeatmap files={data?.files} />
       </FadeCard>
 
