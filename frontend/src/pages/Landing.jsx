@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useReport } from "../context/ReportContext";
 import { useDarkMode } from "../hooks/useDarkMode";
 
-/* ── feature pills ─────────────────────────────────────────── */
+/* ── Feature pills ───────────────────────────────────────── */
 const FEATURES = [
   { icon: "🔬", label: "Cyclomatic Complexity" },
   { icon: "🧠", label: "AI Suggestions" },
@@ -15,7 +15,7 @@ const FEATURES = [
   { icon: "📁", label: "File Tree View" },
 ];
 
-/* ── animated grid background ─────────────────────────────── */
+/* ── Animated grid background ────────────────────────────── */
 function GridBackground() {
   return (
     <div
@@ -27,7 +27,6 @@ function GridBackground() {
         pointerEvents: "none",
       }}
     >
-      {/* dot grid via SVG pattern */}
       <svg
         width="100%"
         height="100%"
@@ -35,7 +34,7 @@ function GridBackground() {
       >
         <defs>
           <pattern
-            id="dots"
+            id="ldots"
             x="0"
             y="0"
             width="40"
@@ -45,10 +44,8 @@ function GridBackground() {
             <circle cx="1" cy="1" r="1" fill="var(--border-strong)" />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#dots)" />
+        <rect width="100%" height="100%" fill="url(#ldots)" />
       </svg>
-
-      {/* radial gradient mask so grid fades at edges */}
       <div
         style={{
           position: "absolute",
@@ -57,12 +54,10 @@ function GridBackground() {
             "radial-gradient(ellipse 80% 60% at 50% 40%, transparent 30%, var(--bg-base) 85%)",
         }}
       />
-
-      {/* floating neon blobs */}
       {[
-        { color: "var(--glow-c4)", x: "15%", y: "20%", size: 420 },
-        { color: "var(--glow-c5)", x: "80%", y: "60%", size: 360 },
-        { color: "var(--glow-c2)", x: "60%", y: "10%", size: 280 },
+        { color: "var(--glow-c4)", x: "15%", y: "20%", size: 420, dur: 6 },
+        { color: "var(--glow-c5)", x: "80%", y: "60%", size: 360, dur: 8 },
+        { color: "var(--glow-c2)", x: "60%", y: "10%", size: 280, dur: 7 },
       ].map((b, i) => (
         <div
           key={i}
@@ -75,7 +70,7 @@ function GridBackground() {
             borderRadius: "50%",
             background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)`,
             transform: "translate(-50%, -50%)",
-            animation: `blobFloat ${6 + i * 2}s ease-in-out infinite alternate`,
+            animation: `blobFloat ${b.dur}s ease-in-out infinite alternate`,
             animationDelay: `${i * 1.3}s`,
           }}
         />
@@ -84,9 +79,26 @@ function GridBackground() {
   );
 }
 
-/* ── main page ─────────────────────────────────────────────── */
+/* ── Spinner ─────────────────────────────────────────────── */
+function Spinner() {
+  return (
+    <span
+      style={{
+        display: "inline-block",
+        width: 12,
+        height: 12,
+        border: "2px solid rgba(255,255,255,0.35)",
+        borderTopColor: "#fff",
+        borderRadius: "50%",
+        animation: "spin 0.7s linear infinite",
+      }}
+    />
+  );
+}
+
+/* ── Landing ─────────────────────────────────────────────── */
 export default function Landing() {
-  const { refresh } = useReport();
+  const { refresh, report } = useReport();
   const navigate = useNavigate();
   const [dark, setDark] = useDarkMode();
 
@@ -95,15 +107,40 @@ export default function Landing() {
   const [status, setStatus] = useState("");
   const [err, setErr] = useState("");
   const [visible, setVisible] = useState(false);
+  const [readyNav, setReadyNav] = useState(false);
 
   useEffect(() => {
     requestAnimationFrame(() => setVisible(true));
   }, []);
 
-  /* ── analyze via backend ── */
-  async function handleAnalyze() {
+  /* Navigate once report is loaded into context */
+  useEffect(() => {
+    if (readyNav && report) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [readyNav, report, navigate]);
+
+  async function runAnalyze(fetchFn) {
     setErr("");
     setStatus("");
+    setLoading(true);
+    try {
+      await fetchFn();
+      setStatus("Loading results…");
+      setReadyNav(true);
+      await refresh();
+      /* navigate happens via useEffect above once report lands in context */
+    } catch (e) {
+      setErr(e.message);
+      setStatus("");
+      setReadyNav(false);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  /* ── Analyze GitHub repo ── */
+  async function handleAnalyze() {
     if (!url.trim()) {
       setErr("Please enter a GitHub URL");
       return;
@@ -116,9 +153,8 @@ export default function Landing() {
       return;
     }
 
-    setLoading(true);
-    setStatus("Cloning repository…");
-    try {
+    await runAnalyze(async () => {
+      setStatus("Cloning repository…");
       const res = await fetch("http://localhost:7777/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -126,33 +162,16 @@ export default function Landing() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Analysis failed");
-      setStatus("Loading results…");
-      await refresh();
-      navigate("/dashboard");
-    } catch (e) {
-      setErr(e.message);
-      setStatus("");
-    } finally {
-      setLoading(false);
-    }
+      setStatus("Analysis complete…");
+    });
   }
 
-  /* ── load local demo report ── */
+  /* ── Load local report ── */
   async function handleDemo() {
-    setErr("");
-    setStatus("Loading demo…");
-    setLoading(true);
-    try {
-      await refresh();
-      navigate("/dashboard");
-    } catch (e) {
-      setErr(
-        "Could not load local report. Make sure analysis_report.json exists.",
-      );
-      setStatus("");
-    } finally {
-      setLoading(false);
-    }
+    await runAnalyze(async () => {
+      setStatus("Loading local report…");
+      /* reportService will fetch /analysis_report.json — no extra step needed */
+    });
   }
 
   const anim = (delay = 0) => ({
@@ -178,7 +197,7 @@ export default function Landing() {
     >
       <GridBackground />
 
-      {/* ── theme toggle ── */}
+      {/* theme toggle */}
       <button
         onClick={() => setDark((d) => !d)}
         className="btn-ghost"
@@ -188,12 +207,11 @@ export default function Landing() {
           right: "1.5rem",
           zIndex: 10,
         }}
-        title={dark ? "Switch to light mode" : "Switch to dark mode"}
       >
         {dark ? "☀️" : "🌙"}
       </button>
 
-      {/* ── logo in top-left (matches where Intro.jsx leaves it) ── */}
+      {/* logo */}
       <div
         style={{
           position: "absolute",
@@ -217,7 +235,7 @@ export default function Landing() {
         </span>
       </div>
 
-      {/* ── hero ── */}
+      {/* hero */}
       <div
         style={{
           position: "relative",
@@ -227,7 +245,6 @@ export default function Landing() {
           textAlign: "center",
         }}
       >
-        {/* headline */}
         <h1
           style={{
             fontFamily: "Syne, sans-serif",
@@ -266,14 +283,10 @@ export default function Landing() {
           your C++ repositories — in seconds.
         </p>
 
-        {/* ── input card ── */}
+        {/* input card */}
         <div
           className="upload-card"
-          style={{
-            padding: "1.5rem",
-            marginBottom: "1rem",
-            ...anim(240),
-          }}
+          style={{ padding: "1.5rem", marginBottom: "1rem", ...anim(240) }}
         >
           <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
             <input
@@ -295,37 +308,13 @@ export default function Landing() {
             >
               {loading ? (
                 <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <Spinner /> Analyzing…
+                  <Spinner /> {status || "Working…"}
                 </span>
               ) : (
                 "⚡ Analyze Repo"
               )}
             </button>
           </div>
-
-          {status && (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                marginTop: 10,
-              }}
-            >
-              <span
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  background: "var(--accent)",
-                  animation: "pulse 1.4s ease-in-out infinite",
-                }}
-              />
-              <span style={{ fontSize: "0.8rem", color: "var(--accent)" }}>
-                {status}
-              </span>
-            </div>
-          )}
           {err && (
             <p
               style={{
@@ -339,8 +328,8 @@ export default function Landing() {
           )}
         </div>
 
-        {/* ── demo button ── */}
-        <div style={{ ...anim(300) }}>
+        {/* demo button */}
+        <div style={anim(300)}>
           <button
             onClick={handleDemo}
             disabled={loading}
@@ -360,7 +349,7 @@ export default function Landing() {
           </span>
         </div>
 
-        {/* ── feature pills ── */}
+        {/* feature pills */}
         <div
           style={{
             display: "flex",
@@ -390,36 +379,10 @@ export default function Landing() {
       </div>
 
       <style>{`
-                @keyframes blobFloat {
-                    from { transform: translate(-50%, -50%) scale(1); }
-                    to   { transform: translate(-50%, -50%) scale(1.15) translateY(-20px); }
-                }
-                @keyframes pulse {
-                    0%,100% { opacity: 1; transform: scale(1); }
-                    50%     { opacity: 0.5; transform: scale(1.3); }
-                }
-                @keyframes fadeUp {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to   { opacity: 1; transform: translateY(0); }
-                }
+                @keyframes blobFloat { from { transform: translate(-50%,-50%) scale(1); } to { transform: translate(-50%,-50%) scale(1.15) translateY(-20px); } }
+                @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
                 @keyframes spin { to { transform: rotate(360deg); } }
             `}</style>
     </div>
-  );
-}
-
-function Spinner() {
-  return (
-    <span
-      style={{
-        display: "inline-block",
-        width: 12,
-        height: 12,
-        border: "2px solid rgba(255,255,255,0.35)",
-        borderTopColor: "#fff",
-        borderRadius: "50%",
-        animation: "spin 0.7s linear infinite",
-      }}
-    />
   );
 }
