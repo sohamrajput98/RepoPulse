@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useReport } from "../../context/ReportContext";
 import FileColorTree from "../../components/FileColorTree";
 import RiskFilesTable from "../../components/RiskFilesTable";
-import { basename, scoreBadgeClass } from "../../utils/path";
+import LanguageBreakdown from "../../components/LanguageBreakdown";
+import DependencyGraph from "../../components/DependencyGraph";
 
-/* ── All unique smell type keys across all files ─────────── */
+/* ── All unique smell types across files ─────────────────── */
 function collectSmellTypes(files) {
   const seen = new Set();
   files?.forEach((f) => f.smells?.forEach((s) => seen.add(s.split(":")[0])));
@@ -48,14 +48,12 @@ function SmellFilterBar({ types, active, onChange }) {
   );
 }
 
-/* ── Filtered RiskFilesTable wrapper ─────────────────────── */
-function FilteredRiskTable({ files, smellFilter }) {
+/* ── Filtered table wrapper ──────────────────────────────── */
+function FilteredTable({ files, filter }) {
   const filtered =
-    smellFilter === "All"
+    filter === "All"
       ? files
-      : files?.filter((f) =>
-          f.smells?.some((s) => s.split(":")[0] === smellFilter),
-        );
+      : files?.filter((f) => f.smells?.some((s) => s.split(":")[0] === filter));
 
   if (!filtered?.length)
     return (
@@ -69,11 +67,9 @@ function FilteredRiskTable({ files, smellFilter }) {
         }}
       >
         No files match the{" "}
-        <strong style={{ color: "var(--accent)" }}>{smellFilter}</strong> filter
-        🎉
+        <strong style={{ color: "var(--accent)" }}>{filter}</strong> filter 🎉
       </div>
     );
-
   return <RiskFilesTable files={filtered} />;
 }
 
@@ -82,11 +78,11 @@ export default function Files() {
   const { report } = useReport();
   const files = report?.files ?? [];
   const smellTypes = collectSmellTypes(files);
-  const [smellFilter, setSmellFilter] = useState("All");
+  const [filter, setFilter] = useState("All");
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-      {/* ── Summary strip ── */}
+      {/* summary strip */}
       <div
         style={{
           display: "flex",
@@ -97,32 +93,32 @@ export default function Files() {
         }}
       >
         {[
-          { label: "Total Files", value: files.length, color: "--c4" },
+          { label: "Total Files", value: files.length, colorVar: "--c4" },
           {
             label: "High Risk",
             value: files.filter((f) => (f.healthScore ?? 100) < 50).length,
-            color: "--c1",
+            colorVar: "--c1",
           },
           {
             label: "With Smells",
             value: files.filter((f) => f.smells?.length > 0).length,
-            color: "--c3",
+            colorVar: "--c3",
           },
           {
-            label: "Clean Files",
+            label: "Clean",
             value: files.filter((f) => !f.smells?.length).length,
-            color: "--c2",
+            colorVar: "--c2",
           },
-        ].map(({ label, value, color }) => (
+        ].map(({ label, value, colorVar }) => (
           <div
             key={label}
             className="card"
             style={{
               padding: "0.65rem 1.1rem",
+              flex: "1 1 140px",
               display: "flex",
               alignItems: "center",
               gap: "0.6rem",
-              flex: "1 1 140px",
             }}
           >
             <span
@@ -130,7 +126,7 @@ export default function Files() {
                 fontFamily: "Syne, sans-serif",
                 fontSize: "1.5rem",
                 fontWeight: 700,
-                color: `var(${color})`,
+                color: `var(${colorVar})`,
                 lineHeight: 1,
               }}
             >
@@ -149,7 +145,7 @@ export default function Files() {
         ))}
       </div>
 
-      {/* ── Two-column layout ── */}
+      {/* two-column layout: tree left, filtered table right */}
       <div
         style={{
           display: "grid",
@@ -158,14 +154,11 @@ export default function Files() {
           alignItems: "start",
         }}
       >
-        {/* LEFT — File Health Tree */}
         <div
           style={{ opacity: 0, animation: "fadeUp 0.45s ease 80ms forwards" }}
         >
           <FileColorTree files={files} />
         </div>
-
-        {/* RIGHT — Smell filter + Risk table */}
         <div
           style={{ opacity: 0, animation: "fadeUp 0.45s ease 160ms forwards" }}
         >
@@ -173,13 +166,33 @@ export default function Files() {
             <p className="card-header">Filter by Smell Type</p>
             <SmellFilterBar
               types={smellTypes}
-              active={smellFilter}
-              onChange={setSmellFilter}
+              active={filter}
+              onChange={setFilter}
             />
           </div>
           <div style={{ marginTop: "0.75rem" }}>
-            <FilteredRiskTable files={files} smellFilter={smellFilter} />
+            <FilteredTable files={files} filter={filter} />
           </div>
+        </div>
+      </div>
+
+      {/* bottom row: LanguageBreakdown + DependencyGraph */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "1.25rem",
+        }}
+      >
+        <div
+          style={{ opacity: 0, animation: "fadeUp 0.45s ease 240ms forwards" }}
+        >
+          <LanguageBreakdown files={files} />
+        </div>
+        <div
+          style={{ opacity: 0, animation: "fadeUp 0.45s ease 300ms forwards" }}
+        >
+          <DependencyGraph files={files} />
         </div>
       </div>
 
