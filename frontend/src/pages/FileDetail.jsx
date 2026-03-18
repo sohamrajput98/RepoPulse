@@ -1,92 +1,472 @@
-import { useParams, Link } from 'react-router-dom';
-import { useAnalysisReport } from '../hooks/useAnalysisReport';
-import { scoreColor, scoreBadgeClass } from '../utils/path';
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useReport } from "../context/ReportContext";
+import { useChartColors } from "../hooks/useChartColors";
+import { useCountUp } from "../hooks/useCountUp";
+import { scoreBadgeClass } from "../utils/path";
 
+/* ── Stat card ───────────────────────────────────────────── */
+function StatCard({ label, value, colorVar, delay }) {
+  const animated = useCountUp(value ?? 0, 900);
+  return (
+    <div
+      className="card"
+      style={{
+        padding: "1rem 1.25rem",
+        textAlign: "center",
+        borderTop: `3px solid var(${colorVar})`,
+        opacity: 0,
+        animation: `fadeUp 0.45s ease ${delay}ms forwards`,
+      }}
+    >
+      <p className="card-header" style={{ marginBottom: 4 }}>
+        {label}
+      </p>
+      <span
+        style={{
+          fontFamily: "Syne, sans-serif",
+          fontSize: "1.9rem",
+          fontWeight: 700,
+          color: `var(${colorVar})`,
+          lineHeight: 1,
+        }}
+      >
+        {animated.toLocaleString()}
+      </span>
+    </div>
+  );
+}
+
+/* ── Smell badge chip ────────────────────────────────────── */
+function SmellBadge({ label, colors }) {
+  const type = label.split(":")[0];
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        padding: "0.22rem 0.65rem",
+        borderRadius: 99,
+        fontSize: "0.72rem",
+        fontWeight: 600,
+        background: `color-mix(in srgb, ${colors.c1} 10%, var(--bg-raise))`,
+        border: `1px solid color-mix(in srgb, ${colors.c1} 25%, transparent)`,
+        color: colors.c1,
+      }}
+    >
+      {type}
+    </span>
+  );
+}
+
+/* ── CC severity colour ──────────────────────────────────── */
+function ccColor(cc, colors) {
+  if (cc > 15) return { color: colors.c1, glow: colors.glowC1 };
+  if (cc > 10) return { color: colors.c3, glow: colors.glowC3 };
+  if (cc > 6) return { color: colors.c5, glow: colors.glowC5 };
+  return { color: colors.c2, glow: colors.glowC2 };
+}
+
+/* ── FileDetail ──────────────────────────────────────────── */
 export default function FileDetail() {
-    const { filePath } = useParams();
-    const { report, loading, error } = useAnalysisReport();
+  const { filePath } = useParams();
+  const navigate = useNavigate();
+  const { report, loading, error } = useReport();
+  const colors = useChartColors();
 
-    if (loading) return (
-        <div className="flex items-center justify-center h-screen bg-slate-100 dark:bg-slate-900">
-            <div className="animate-spin w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full" />
-        </div>
-    );
-    if (error) return <p className="p-8 text-red-500">{error.message}</p>;
-
-    const file = report.files.find(f => f.path === decodeURIComponent(filePath));
-    if (!file) return <p className="p-8 text-gray-500">File not found.</p>;
-
-    const stats = [
-        ['Total Lines', file.totalLines],
-        ['Code Lines',  file.codeLines],
-        ['Comments',    file.commentLines],
-        ['Blank',       file.blankLines],
-    ];
-
+  /* loading */
+  if (loading)
     return (
-        <div className="min-h-screen bg-slate-100 dark:bg-slate-900 px-6 py-8">
-            <div className="max-w-5xl mx-auto">
-                <Link to="/" className="text-indigo-500 text-sm mb-4 inline-flex items-center gap-1 hover:underline">
-                    ← Back to Dashboard
-                </Link>
-                <div className="card px-6 py-4 mb-6 flex items-center justify-between flex-wrap gap-3">
-                    <h1 className="font-mono text-sm text-gray-700 dark:text-slate-200">{file.path}</h1>
-                    <span className={`badge text-sm px-3 py-1 ${scoreBadgeClass(file.healthScore)}`}>
-                        Score: {file.healthScore?.toFixed(1)}
-                    </span>
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                    {stats.map(([l, v]) => (
-                        <div key={l} className="card p-4 text-center">
-                            <p className="text-xs text-gray-400 dark:text-slate-400 uppercase tracking-widest mb-1">{l}</p>
-                            <p className="text-2xl font-bold text-gray-800 dark:text-white">{v}</p>
-                        </div>
-                    ))}
-                </div>
-
-                {file.smells?.length > 0 && (
-                    <div className="card p-4 mb-6 flex flex-wrap gap-2">
-                        <span className="text-xs text-gray-400 dark:text-slate-400 uppercase tracking-widest self-center mr-2">Smells</span>
-                        {file.smells.map((s, i) => (
-                            <span key={i} className="badge bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">{s}</span>
-                        ))}
-                    </div>
-                )}
-
-                <div className="card overflow-hidden">
-                    <p className="card-header px-6 pt-5 pb-2">Functions</p>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                            <thead className="bg-gray-50 dark:bg-slate-700/50 text-gray-400 dark:text-slate-400 text-xs uppercase">
-                                <tr>
-                                    {['Function','Lines','Start','End','Params','Complexity','Nesting'].map(h => (
-                                        <th key={h} className={`px-4 py-3 ${h === 'Function' ? 'text-left' : 'text-right'}`}>{h}</th>
-                                    ))}
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-100 dark:divide-slate-700">
-                                {file.functions?.map((fn, i) => {
-                                    const color = scoreColor(100 - fn.complexity * 5);
-                                    return (
-                                        <tr key={i} className={fn.complexity > 10 ? 'bg-red-50 dark:bg-red-900/10' : 'hover:bg-gray-50 dark:hover:bg-slate-700/30'}>
-                                            <td className="px-4 py-3 font-mono text-xs text-gray-700 dark:text-slate-200">{fn.name}</td>
-                                            <td className="px-4 py-3 text-right text-gray-600 dark:text-slate-300">{fn.lineCount}</td>
-                                            <td className="px-4 py-3 text-right text-gray-400 dark:text-slate-400">{fn.startLine}</td>
-                                            <td className="px-4 py-3 text-right text-gray-400 dark:text-slate-400">{fn.endLine}</td>
-                                            <td className="px-4 py-3 text-right text-gray-600 dark:text-slate-300">{fn.paramCount}</td>
-                                            <td className="px-4 py-3 text-right">
-                                                <span className="font-bold" style={{ color }}>{fn.complexity}</span>
-                                            </td>
-                                            <td className="px-4 py-3 text-right text-gray-600 dark:text-slate-300">{fn.nestingDepth}</td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          background: "var(--bg-base)",
+        }}
+      >
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            border: "3px solid var(--border-strong)",
+            borderTopColor: "var(--accent)",
+            borderRadius: "50%",
+            animation: "spin 0.7s linear infinite",
+          }}
+        />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
     );
+
+  /* error */
+  if (error && !report)
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          background: "var(--bg-base)",
+        }}
+      >
+        <div
+          className="card"
+          style={{ padding: "2rem", maxWidth: 380, textAlign: "center" }}
+        >
+          <p
+            style={{
+              color: "var(--score-poor)",
+              fontWeight: 600,
+              marginBottom: "0.75rem",
+            }}
+          >
+            {error.message}
+          </p>
+          <button
+            onClick={() => navigate("/dashboard")}
+            className="btn-primary"
+          >
+            ← Dashboard
+          </button>
+        </div>
+      </div>
+    );
+
+  const file = report?.files?.find(
+    (f) => f.path === decodeURIComponent(filePath),
+  );
+
+  if (!file)
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          background: "var(--bg-base)",
+        }}
+      >
+        <div
+          className="card"
+          style={{ padding: "2rem", maxWidth: 380, textAlign: "center" }}
+        >
+          <p style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>🔍</p>
+          <p style={{ color: "var(--text-muted)", marginBottom: "1rem" }}>
+            File not found in report.
+          </p>
+          <button
+            onClick={() => navigate("/dashboard/files")}
+            className="btn-primary"
+          >
+            ← Files
+          </button>
+        </div>
+      </div>
+    );
+
+  const stats = [
+    { label: "Total Lines", value: file.totalLines, colorVar: "--c4" },
+    { label: "Code Lines", value: file.codeLines, colorVar: "--c2" },
+    { label: "Comment Lines", value: file.commentLines, colorVar: "--c6" },
+    { label: "Blank Lines", value: file.blankLines, colorVar: "--text-muted" },
+  ];
+
+  const thStyle = (align = "left") => ({
+    padding: "0.6rem 1rem",
+    textAlign: align,
+    fontSize: "0.68rem",
+    fontWeight: 700,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    color: "var(--text-muted)",
+    background: "var(--bg-raise)",
+    borderBottom: "1px solid var(--border)",
+    whiteSpace: "nowrap",
+  });
+
+  return (
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "var(--bg-base)",
+        padding: "2rem 1.5rem",
+      }}
+    >
+      <div style={{ maxWidth: 1060, margin: "0 auto" }}>
+        {/* back nav */}
+        <button
+          onClick={() => navigate("/dashboard/files")}
+          className="btn-ghost"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            marginBottom: "1.25rem",
+            fontSize: "0.82rem",
+            opacity: 0,
+            animation: "fadeUp 0.35s ease forwards",
+          }}
+        >
+          ← Back to Files
+        </button>
+
+        {/* file header card */}
+        <div
+          className="card"
+          style={{
+            padding: "1rem 1.25rem",
+            marginBottom: "1.25rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "0.75rem",
+            borderLeft: `3px solid ${scoreColor(file.healthScore, colors)}`,
+            opacity: 0,
+            animation: "fadeUp 0.4s ease 60ms forwards",
+          }}
+        >
+          <h1
+            style={{
+              fontFamily: "JetBrains Mono, monospace",
+              fontSize: "0.85rem",
+              fontWeight: 600,
+              color: "var(--text-primary)",
+              wordBreak: "break-all",
+            }}
+          >
+            {file.path}
+          </h1>
+          <span
+            className={scoreBadgeClass(file.healthScore)}
+            style={{ fontSize: "0.8rem", padding: "0.25rem 0.75rem" }}
+          >
+            Score: {file.healthScore?.toFixed(1)}
+          </span>
+        </div>
+
+        {/* stat cards row */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+            gap: "0.85rem",
+            marginBottom: "1.25rem",
+          }}
+        >
+          {stats.map((s, i) => (
+            <StatCard key={s.label} {...s} delay={120 + i * 55} />
+          ))}
+        </div>
+
+        {/* smell chips */}
+        {file.smells?.length > 0 && (
+          <div
+            className="card"
+            style={{
+              padding: "0.85rem 1.25rem",
+              marginBottom: "1.25rem",
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              gap: "0.5rem",
+              opacity: 0,
+              animation: "fadeUp 0.45s ease 340ms forwards",
+            }}
+          >
+            <span
+              className="card-header"
+              style={{ marginBottom: 0, marginRight: 4 }}
+            >
+              Smells
+            </span>
+            {file.smells.map((s, i) => (
+              <SmellBadge key={i} label={s} colors={colors} />
+            ))}
+          </div>
+        )}
+
+        {/* functions table */}
+        <div
+          className="card"
+          style={{
+            overflow: "hidden",
+            opacity: 0,
+            animation: "fadeUp 0.45s ease 400ms forwards",
+          }}
+        >
+          <p
+            className="card-header"
+            style={{ padding: "1.25rem 1.25rem 0.5rem" }}
+          >
+            Functions ({file.functions?.length ?? 0})
+          </p>
+          <div style={{ overflowX: "auto" }}>
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "separate",
+                borderSpacing: 0,
+                fontSize: "0.82rem",
+              }}
+            >
+              <thead>
+                <tr>
+                  {[
+                    ["Function", "left"],
+                    ["Lines", "right"],
+                    ["Start", "right"],
+                    ["End", "right"],
+                    ["Params", "right"],
+                    ["Complexity", "right"],
+                    ["Nesting", "right"],
+                  ].map(([h, a]) => (
+                    <th key={h} style={thStyle(a)}>
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {file.functions?.map((fn, i) => {
+                  const { color: ccClr, glow: ccGlow } = ccColor(
+                    fn.complexity,
+                    colors,
+                  );
+                  const highRisk = fn.complexity > 10;
+                  return (
+                    <tr
+                      key={i}
+                      style={{
+                        borderBottom: "1px solid var(--border)",
+                        background: highRisk
+                          ? `color-mix(in srgb, ${colors.c1} 5%, transparent)`
+                          : i % 2 === 0
+                            ? "transparent"
+                            : "color-mix(in srgb, var(--bg-raise) 40%, transparent)",
+                        transition: "background 0.12s",
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = "var(--bg-raise)";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = highRisk
+                          ? `color-mix(in srgb, ${colors.c1} 5%, transparent)`
+                          : i % 2 === 0
+                            ? "transparent"
+                            : "color-mix(in srgb, var(--bg-raise) 40%, transparent)";
+                      }}
+                    >
+                      {/* function name */}
+                      <td style={{ padding: "0.65rem 1rem" }}>
+                        <span
+                          style={{
+                            fontFamily: "JetBrains Mono, monospace",
+                            fontSize: "0.75rem",
+                            fontWeight: 600,
+                            color: highRisk ? ccClr : "var(--text-primary)",
+                            textShadow: highRisk ? `0 0 8px ${ccGlow}` : "none",
+                          }}
+                        >
+                          {fn.name}
+                        </span>
+                      </td>
+                      {/* numeric cells */}
+                      {[
+                        fn.lineCount,
+                        fn.startLine,
+                        fn.endLine,
+                        fn.paramCount,
+                      ].map((v, j) => (
+                        <td
+                          key={j}
+                          style={{
+                            padding: "0.65rem 1rem",
+                            textAlign: "right",
+                            color: "var(--text-secondary)",
+                            fontSize: "0.8rem",
+                          }}
+                        >
+                          {v}
+                        </td>
+                      ))}
+                      {/* CC — styled */}
+                      <td
+                        style={{ padding: "0.65rem 1rem", textAlign: "right" }}
+                      >
+                        <span
+                          style={{
+                            fontFamily: "Syne, sans-serif",
+                            fontWeight: 700,
+                            fontSize: "0.88rem",
+                            color: ccClr,
+                            textShadow:
+                              fn.complexity > 6 ? `0 0 8px ${ccGlow}` : "none",
+                          }}
+                        >
+                          {fn.complexity}
+                          {highRisk && (
+                            <span style={{ fontSize: "0.6rem", marginLeft: 2 }}>
+                              ⚠
+                            </span>
+                          )}
+                        </span>
+                      </td>
+                      {/* nesting depth */}
+                      <td
+                        style={{
+                          padding: "0.65rem 1rem",
+                          textAlign: "right",
+                          color:
+                            fn.nestingDepth > 3
+                              ? colors.c3
+                              : "var(--text-secondary)",
+                          fontSize: "0.8rem",
+                        }}
+                      >
+                        {fn.nestingDepth}
+                      </td>
+                    </tr>
+                  );
+                })}
+                {!file.functions?.length && (
+                  <tr>
+                    <td
+                      colSpan={7}
+                      style={{
+                        padding: "2rem",
+                        textAlign: "center",
+                        color: "var(--text-muted)",
+                        fontSize: "0.85rem",
+                      }}
+                    >
+                      No function data available.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+                @keyframes fadeUp {
+                    from { opacity: 0; transform: translateY(12px); }
+                    to   { opacity: 1; transform: translateY(0); }
+                }
+            `}</style>
+    </div>
+  );
+}
+
+/* helper — inline score color */
+function scoreColor(score, colors) {
+  if (score >= 85) return colors.scoreExcellent || "var(--score-excellent)";
+  if (score >= 70) return colors.scoreGood || "var(--score-good)";
+  if (score >= 50) return colors.scoreFair || "var(--score-fair)";
+  return colors.scorePoor || "var(--score-poor)";
 }
