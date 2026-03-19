@@ -65,7 +65,7 @@ function FnCard({ fn, rank, colors, delay }) {
       {/* rank number */}
       <span
         style={{
-          fontFamily: "Syne, sans-serif",
+          fontFamily: "Orbitron, sans-serif",
           fontSize: "1rem",
           fontWeight: 800,
           color: "var(--text-muted)",
@@ -89,7 +89,7 @@ function FnCard({ fn, rank, colors, delay }) {
         >
           <span
             style={{
-              fontFamily: "JetBrains Mono, monospace",
+              fontFamily: "Fira Code, monospace",
               fontSize: "0.78rem",
               fontWeight: 600,
               color: "var(--text-primary)",
@@ -149,7 +149,7 @@ function FnCard({ fn, rank, colors, delay }) {
       >
         <span
           style={{
-            fontFamily: "Syne, sans-serif",
+            fontFamily: "Orbitron, sans-serif",
             fontSize: "1.15rem",
             fontWeight: 800,
             color: sev.color,
