@@ -21,8 +21,8 @@ function CustomTooltip({ active, payload, colors }) {
     <div className="chart-tooltip">
       <p
         style={{
-          fontFamily: "JetBrains Mono, monospace",
-          fontSize: "0.78rem",
+          fontFamily: "Fira Code, monospace",
+          fontSize: "0.8rem",
           fontWeight: 600,
           color: "var(--text-primary)",
           marginBottom: 4,
@@ -83,7 +83,7 @@ export default function ComplexityChart({ files }) {
         <GradientDefs />
       </svg>
 
-      <ResponsiveContainer width="100%" height={265}>
+      <ResponsiveContainer width="100%" height={360}>
         <BarChart
           data={data}
           margin={{ left: 0, right: 10, top: 8, bottom: 0 }}
@@ -96,16 +96,16 @@ export default function ComplexityChart({ files }) {
           />
           <XAxis
             dataKey="name"
-            tick={{ fontSize: 10, fill: colors.text }}
+            tick={{ fontSize: 12, fill: colors.text }}
             interval={0}
             angle={-28}
             textAnchor="end"
-            height={62}
+            height={82}
             axisLine={{ stroke: colors.grid }}
             tickLine={false}
           />
           <YAxis
-            tick={{ fontSize: 10, fill: colors.text }}
+            tick={{ fontSize: 13, fill: colors.text }}
             axisLine={false}
             tickLine={false}
           />
@@ -122,7 +122,7 @@ export default function ComplexityChart({ files }) {
             strokeWidth={1.5}
             label={{
               value: "threshold",
-              fontSize: 9,
+              fontSize: 13,
               fill: colors.c1,
               position: "insideTopRight",
             }}
