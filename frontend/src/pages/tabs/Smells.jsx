@@ -2,7 +2,7 @@ import { useReport } from "../../context/ReportContext";
 import SmellsPieChart from "../../components/SmellsPieChart";
 import InsightsPanel from "../../components/InsightsPanel";
 
-/* ── Smell summary row ───────────────────────────────────── */
+/* ── Summary strip ───────────────────────────────────────── */
 function SmellSummaryStrip({ files }) {
   const counts = {};
   files?.forEach((f) =>
@@ -11,90 +11,63 @@ function SmellSummaryStrip({ files }) {
       counts[key] = (counts[key] || 0) + 1;
     }),
   );
-
   const sorted = Object.entries(counts)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5);
-
   const total = Object.values(counts).reduce((s, n) => s + n, 0);
-
   const colorVars = ["--c1", "--c3", "--c5", "--c4", "--c6"];
+
+  /* merge Total + sorted into one array so they all share the same map */
+  const items = [
+    { type: "Total Smells", count: total, colorVar: "--c1", isTotal: true },
+    ...sorted.map(([type, count], i) => ({
+      type,
+      count,
+      colorVar: colorVars[i],
+      isTotal: false,
+    })),
+  ];
 
   return (
     <div
       style={{
-        display: "flex",
-        gap: "0.75rem",
-        flexWrap: "wrap",
-        marginBottom: "1.25rem",
-        opacity: 0,
-        animation: "fadeUp 0.45s ease 0ms forwards",
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+        gap: "0.65rem",
       }}
     >
-      {/* Total */}
-      <div
-        className="card"
-        style={{
-          padding: "0.65rem 1.1rem",
-          display: "flex",
-          alignItems: "center",
-          gap: "0.6rem",
-          flex: "0 0 auto",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "Syne, sans-serif",
-            fontSize: "1.5rem",
-            fontWeight: 700,
-            color: "var(--c1)",
-            lineHeight: 1,
-          }}
-        >
-          {total}
-        </span>
-        <span
-          style={{
-            fontSize: "0.75rem",
-            color: "var(--text-muted)",
-            fontWeight: 500,
-          }}
-        >
-          Total Smells
-        </span>
-      </div>
-
-      {/* Top smell types */}
-      {sorted.map(([type, count], i) => (
+      {items.map(({ type, count, colorVar, isTotal }) => (
         <div
           key={type}
           className="card"
           style={{
-            padding: "0.65rem 1.1rem",
+            padding: "0.7rem 0.9rem",
             display: "flex",
             alignItems: "center",
             gap: "0.5rem",
-            flex: "1 1 130px",
-            borderLeft: `3px solid var(${colorVars[i]})`,
+            borderLeft: `3px solid var(${colorVar})`,
           }}
         >
           <span
             style={{
-              fontFamily: "Syne, sans-serif",
-              fontSize: "1.3rem",
-              fontWeight: 700,
-              color: `var(${colorVars[i]})`,
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: isTotal ? "1.7rem" : "1.5rem",
+              fontWeight: isTotal ? 800 : 700,
+              color: `var(${colorVar})`,
               lineHeight: 1,
+              flexShrink: 0,
             }}
           >
             {count}
           </span>
           <span
             style={{
-              fontSize: "0.72rem",
-              color: "var(--text-secondary)",
-              fontWeight: 500,
+              fontSize: "0.73rem",
+              color: isTotal ? "var(--text-muted)" : "var(--text-secondary)",
+              fontFamily: "Rajdhani, sans-serif",
+              fontWeight: 600,
               wordBreak: "break-word",
+              minWidth: 0,
             }}
           >
             {type}
@@ -105,124 +78,156 @@ function SmellSummaryStrip({ files }) {
   );
 }
 
+/* ── Top smell files ─────────────────────────────────────── */
+function TopSmellFiles({ files }) {
+  const top = [...files]
+    .filter((f) => f.smells?.length > 0)
+    .sort((a, b) => b.smells.length - a.smells.length)
+    .slice(0, 8);
+
+  if (!top.length) return null;
+  const max = top[0].smells.length;
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.65rem" }}>
+      <p className="card-header" style={{ marginBottom: 0 }}>
+        Files with Most Smells
+      </p>
+      {top.map((f, i) => {
+        const name = f.path.split(/[\\/]/).pop();
+        const pct = Math.round((f.smells.length / max) * 100);
+        return (
+          <div key={i}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                marginBottom: 5,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "Fira Code, monospace",
+                  fontSize: "0.78rem",
+                  color: "var(--text-primary)",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  maxWidth: "68%",
+                }}
+              >
+                {name}
+              </span>
+              <span
+                style={{
+                  fontSize: "0.75rem",
+                  fontWeight: 700,
+                  color: "var(--c1)",
+                  flexShrink: 0,
+                  marginLeft: 8,
+                }}
+              >
+                {f.smells.length} smell{f.smells.length !== 1 ? "s" : ""}
+              </span>
+            </div>
+            <div
+              style={{
+                height: 6,
+                borderRadius: 99,
+                background: "var(--bg-raise)",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  height: "100%",
+                  borderRadius: 99,
+                  width: `${pct}%`,
+                  background: "var(--c1)",
+                  boxShadow: "0 0 6px var(--glow-c1)",
+                  transition: "width 0.8s ease",
+                }}
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 /* ── Smells tab ──────────────────────────────────────────── */
 export default function Smells() {
   const { report } = useReport();
   const files = report?.files ?? [];
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-      {/* ── Summary strip ── */}
-      <SmellSummaryStrip files={files} />
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+      {/* Row 1: summary strip */}
+      <div
+        style={{ opacity: 0, animation: "smellsFade 0.45s ease 0ms forwards" }}
+      >
+        <SmellSummaryStrip files={files} />
+      </div>
 
-      {/* ── Two-column: PieChart left, InsightsPanel right ── */}
+      {/* Row 2: full-height two-column grid */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1.4fr",
-          gap: "1.25rem",
-          alignItems: "start",
+          gridTemplateColumns: "1fr 1.5fr",
+          gap: "1rem",
+          /* key: both columns fill the same row height */
+          alignItems: "stretch",
+          opacity: 0,
+          animation: "smellsFade 0.45s ease 80ms forwards",
         }}
       >
-        {/* LEFT — pie chart */}
+        {/* LEFT — pie + files bar, stacked inside a single card */}
         <div
-          style={{ opacity: 0, animation: "fadeUp 0.45s ease 80ms forwards" }}
+          className="card"
+          style={{
+            padding: "1.25rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1.25rem",
+          }}
         >
-          <SmellsPieChart files={files} />
+          {/* Pie section */}
+          <div>
+            <p className="card-header">Smell Distribution</p>
+            <SmellsPieChart files={files} />
+          </div>
 
-          {/* Per-file smell breakdown */}
+          {/* Divider */}
           <div
-            className="card"
-            style={{ marginTop: "1rem", padding: "1.25rem" }}
-          >
-            <p className="card-header">Files with Most Smells</p>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "0.6rem",
-              }}
-            >
-              {[...files]
-                .filter((f) => f.smells?.length > 0)
-                .sort((a, b) => b.smells.length - a.smells.length)
-                .slice(0, 6)
-                .map((f, i) => {
-                  const name = f.path.split(/[\\/]/).pop();
-                  const pct = Math.min(100, (f.smells.length / 8) * 100);
-                  return (
-                    <div key={i}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          marginBottom: 4,
-                        }}
-                      >
-                        <span
-                          style={{
-                            fontFamily: "JetBrains Mono, monospace",
-                            fontSize: "0.75rem",
-                            color: "var(--text-primary)",
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                            maxWidth: "70%",
-                          }}
-                        >
-                          {name}
-                        </span>
-                        <span
-                          style={{
-                            fontSize: "0.72rem",
-                            fontWeight: 700,
-                            color: "var(--c1)",
-                          }}
-                        >
-                          {f.smells.length} smell
-                          {f.smells.length !== 1 ? "s" : ""}
-                        </span>
-                      </div>
-                      <div
-                        style={{
-                          height: 4,
-                          borderRadius: 99,
-                          background: "var(--bg-raise)",
-                          overflow: "hidden",
-                        }}
-                      >
-                        <div
-                          style={{
-                            height: "100%",
-                            borderRadius: 99,
-                            width: `${pct}%`,
-                            background: "var(--c1)",
-                            boxShadow: "0 0 6px var(--glow-c1)",
-                            transition: "width 0.8s ease",
-                          }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
+            style={{
+              height: 1,
+              background: "var(--border)",
+              margin: "0 -0.25rem",
+            }}
+          />
+
+          {/* Files bar section — grows to fill remaining left-card height */}
+          <div style={{ flex: 1 }}>
+            <TopSmellFiles files={files} />
           </div>
         </div>
 
-        {/* RIGHT — insights panel */}
+        {/* RIGHT — InsightsPanel stretches to full row height via CSS */}
         <div
-          style={{ opacity: 0, animation: "fadeUp 0.45s ease 160ms forwards" }}
+          style={{ display: "flex", flexDirection: "column", height: "650px" }}
         >
           <InsightsPanel files={files} />
         </div>
       </div>
 
       <style>{`
-                @keyframes fadeUp {
-                    from { opacity: 0; transform: translateY(14px); }
-                    to   { opacity: 1; transform: translateY(0); }
-                }
-            `}</style>
+        @keyframes smellsFade {
+          from { opacity: 0; transform: translateY(14px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
