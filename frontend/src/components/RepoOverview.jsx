@@ -80,7 +80,7 @@ function StatCard({ label, value, icon, colorVar, glowVar, delay }) {
       {/* animated count value */}
       <span
         style={{
-          fontFamily: "Syne, sans-serif",
+          fontFamily: "Orbitron, sans-serif",
           fontSize: "2.1rem",
           fontWeight: 700,
           lineHeight: 1,
