@@ -5,32 +5,26 @@ import RiskFilesTable from "../../components/RiskFilesTable";
 import LanguageBreakdown from "../../components/LanguageBreakdown";
 import DependencyGraph from "../../components/DependencyGraph";
 
-/* ── All unique smell types across files ─────────────────── */
+/* ── collect unique smell type names ─────────────────────── */
 function collectSmellTypes(files) {
   const seen = new Set();
   files?.forEach((f) => f.smells?.forEach((s) => seen.add(s.split(":")[0])));
   return ["All", ...Array.from(seen).sort()];
 }
 
-/* ── Smell filter chip bar ───────────────────────────────── */
+/* ── filter chip bar ──────────────────────────────────────── */
 function SmellFilterBar({ types, active, onChange }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        gap: 6,
-        marginBottom: "0.85rem",
-      }}
-    >
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
       {types.map((t) => (
         <button
           key={t}
           onClick={() => onChange(t)}
           style={{
-            padding: "0.25rem 0.7rem",
+            padding: "0.25rem 0.75rem",
             borderRadius: 99,
-            fontSize: "0.73rem",
+            fontSize: "0.78rem",
+            fontFamily: "Rajdhani, sans-serif",
             fontWeight: 600,
             border: "1px solid",
             cursor: "pointer",
@@ -48,48 +42,32 @@ function SmellFilterBar({ types, active, onChange }) {
   );
 }
 
-/* ── Filtered table wrapper ──────────────────────────────── */
-function FilteredTable({ files, filter }) {
-  const filtered =
-    filter === "All"
-      ? files
-      : files?.filter((f) => f.smells?.some((s) => s.split(":")[0] === filter));
-
-  if (!filtered?.length)
-    return (
-      <div
-        className="card"
-        style={{
-          padding: "2.5rem",
-          textAlign: "center",
-          color: "var(--text-muted)",
-          fontSize: "0.9rem",
-        }}
-      >
-        No files match the{" "}
-        <strong style={{ color: "var(--accent)" }}>{filter}</strong> filter 🎉
-      </div>
-    );
-  return <RiskFilesTable files={filtered} />;
-}
-
-/* ── Files tab ───────────────────────────────────────────── */
+/* ── Files tab ────────────────────────────────────────────── */
 export default function Files() {
   const { report } = useReport();
   const files = report?.files ?? [];
   const smellTypes = collectSmellTypes(files);
   const [filter, setFilter] = useState("All");
 
+  const filtered =
+    filter === "All"
+      ? files
+      : files.filter((f) => f.smells?.some((s) => s.split(":")[0] === filter));
+
+  const FADE = (ms) => ({
+    opacity: 0,
+    animation: `filesTab 0.45s ease ${ms}ms forwards`,
+  });
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-      {/* summary strip */}
+      {/* ── Row 1: 4 summary stat chips ───────────────────── */}
       <div
         style={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
           gap: "0.75rem",
-          flexWrap: "wrap",
-          opacity: 0,
-          animation: "fadeUp 0.45s ease 0ms forwards",
+          ...FADE(0),
         }}
       >
         {[
@@ -114,17 +92,16 @@ export default function Files() {
             key={label}
             className="card"
             style={{
-              padding: "0.65rem 1.1rem",
-              flex: "1 1 140px",
+              padding: "0.75rem 1rem",
               display: "flex",
               alignItems: "center",
-              gap: "0.6rem",
+              gap: "0.65rem",
             }}
           >
             <span
               style={{
-                fontFamily: "Syne, sans-serif",
-                fontSize: "1.5rem",
+                fontFamily: "Orbitron, sans-serif",
+                fontSize: "1.6rem",
                 fontWeight: 700,
                 color: `var(${colorVar})`,
                 lineHeight: 1,
@@ -134,9 +111,10 @@ export default function Files() {
             </span>
             <span
               style={{
-                fontSize: "0.75rem",
-                color: "var(--text-muted)",
-                fontWeight: 500,
+                fontSize: "0.78rem",
+                color: "var(--text-secondary)",
+                fontWeight: 600,
+                fontFamily: "Rajdhani, sans-serif",
               }}
             >
               {label}
@@ -145,63 +123,70 @@ export default function Files() {
         ))}
       </div>
 
-      {/* two-column layout: tree left, filtered table right */}
+      {/* ── Row 2: File Health Tree (left) + Language Breakdown (right) ── */}
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1.6fr",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
           gap: "1.25rem",
           alignItems: "start",
+          ...FADE(80),
         }}
       >
-        <div
-          style={{ opacity: 0, animation: "fadeUp 0.45s ease 80ms forwards" }}
-        >
-          <FileColorTree files={files} />
-        </div>
-        <div
-          style={{ opacity: 0, animation: "fadeUp 0.45s ease 160ms forwards" }}
-        >
-          <div className="card" style={{ padding: "1.25rem 1.25rem 0.5rem" }}>
-            <p className="card-header">Filter by Smell Type</p>
-            <SmellFilterBar
-              types={smellTypes}
-              active={filter}
-              onChange={setFilter}
-            />
-          </div>
-          <div style={{ marginTop: "0.75rem" }}>
-            <FilteredTable files={files} filter={filter} />
-          </div>
-        </div>
+        <FileColorTree files={files} />
+        <LanguageBreakdown files={files} />
       </div>
 
-      {/* bottom row: LanguageBreakdown + DependencyGraph */}
+      {/* ── Row 3: Dependency Graph full width ────────────── */}
+      <div style={FADE(160)}>
+        <DependencyGraph files={files} />
+      </div>
+
+      {/* ── Row 4: Smell filter + Risk table ─────────────── */}
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "1.25rem",
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.75rem",
+          ...FADE(240),
         }}
       >
-        <div
-          style={{ opacity: 0, animation: "fadeUp 0.45s ease 240ms forwards" }}
-        >
-          <LanguageBreakdown files={files} />
+        {/* filter chip bar inside its own card */}
+        <div className="card" style={{ padding: "1rem 1.25rem" }}>
+          <p className="card-header">Filter by Smell Type</p>
+          <SmellFilterBar
+            types={smellTypes}
+            active={filter}
+            onChange={setFilter}
+          />
         </div>
-        <div
-          style={{ opacity: 0, animation: "fadeUp 0.45s ease 300ms forwards" }}
-        >
-          <DependencyGraph files={files} />
-        </div>
+
+        {/* filtered table */}
+        {filtered.length > 0 ? (
+          <RiskFilesTable files={filtered} />
+        ) : (
+          <div
+            className="card"
+            style={{
+              padding: "2.5rem",
+              textAlign: "center",
+              color: "var(--text-muted)",
+              fontSize: "0.9rem",
+            }}
+          >
+            No files match the{" "}
+            <strong style={{ color: "var(--accent)" }}>{filter}</strong> filter
+            🎉
+          </div>
+        )}
       </div>
 
       <style>{`
-                @keyframes fadeUp {
-                    from { opacity: 0; transform: translateY(14px); }
-                    to   { opacity: 1; transform: translateY(0); }
-                }
-            `}</style>
+        @keyframes filesTab {
+          from { opacity: 0; transform: translateY(14px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
     </div>
   );
 }
