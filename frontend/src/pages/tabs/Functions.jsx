@@ -23,13 +23,14 @@ function FunctionCard({ fn, rank, delay }) {
     <div
       className="card"
       style={{
-        padding: "1rem 1.25rem",
-        display: "flex",
-        flexDirection: "column",
-        gap: "0.5rem",
+        padding: "1.2rem 1.55rem",
+        display: "grid",
+        gridTemplateColumns: "1fr", // single column grid
+        rowGap: "2rem",
+        columnGap: "2rem", // vertical spacing between rows
         opacity: 0,
-        animation: `fadeUp 0.45s ease ${delay}ms forwards`,
-        borderLeft: `3px solid ${color}`,
+        animation: `fadeUp 0.55s ease ${delay}ms forwards`,
+        borderLeft: `4px solid ${color}`,
       }}
     >
       {/* top row */}
@@ -39,8 +40,8 @@ function FunctionCard({ fn, rank, delay }) {
         {/* rank badge */}
         <span
           style={{
-            fontFamily: "Syne, sans-serif",
-            fontSize: "1.3rem",
+            fontFamily: "Orbitron, sans-serif",
+            fontSize: "1.5rem",
             fontWeight: 800,
             color: "var(--text-muted)",
             lineHeight: 1,
@@ -56,8 +57,8 @@ function FunctionCard({ fn, rank, delay }) {
         <div style={{ flex: 1, minWidth: 0 }}>
           <p
             style={{
-              fontFamily: "JetBrains Mono, monospace",
-              fontSize: "0.82rem",
+              fontFamily: "Fira Code, monospace",
+              fontSize: "0.9rem",
               fontWeight: 600,
               color: "var(--text-primary)",
               whiteSpace: "nowrap",
@@ -96,8 +97,8 @@ function FunctionCard({ fn, rank, delay }) {
         >
           <span
             style={{
-              fontFamily: "Syne, sans-serif",
-              fontSize: "1.4rem",
+              fontFamily: "Orbitron, sans-serif",
+              fontSize: "1.3rem",
               fontWeight: 800,
               color,
               lineHeight: 1,
@@ -159,7 +160,7 @@ function FunctionCard({ fn, rank, delay }) {
         {fn.paramCount !== undefined && (
           <span
             style={{
-              fontSize: "0.7rem",
+              fontSize: "0.8rem",
               color: "var(--text-muted)",
               background: "var(--bg-raise)",
               border: "1px solid var(--border)",
@@ -246,7 +247,7 @@ export default function Functions() {
           >
             <span
               style={{
-                fontFamily: "Syne, sans-serif",
+                fontFamily: "Orbitron, sans-serif",
                 fontSize: "1.5rem",
                 fontWeight: 700,
                 color: `var(${color})`,
