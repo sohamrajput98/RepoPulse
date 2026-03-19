@@ -5,7 +5,7 @@
 /* ─────────────────────────────────────────────
    FONT IMPORTS
 ───────────────────────────────────────────── */
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;600;700&display=swap");
 
 /* ─────────────────────────────────────────────
    CSS DESIGN TOKENS — LIGHT MODE (default)
@@ -33,7 +33,7 @@
   --score-poor: #e53935;
   --score-critical: #b71c1c;
 
-  /* chart palette — LIGHT (bright but readable on white) */
+  /* chart palette — LIGHT */
   --c1: #e53935;
   --c2: #43a047;
   --c3: #fb8c00;
@@ -47,7 +47,7 @@
   --tooltip-bg: #ffffff;
   --tooltip-border: rgba(0, 0, 0, 0.1);
 
-  /* glow (subtle in light mode) */
+  /* glow — subtle in light */
   --glow-c1: rgba(229, 57, 53, 0.18);
   --glow-c2: rgba(67, 160, 71, 0.18);
   --glow-c3: rgba(251, 140, 0, 0.18);
@@ -68,22 +68,19 @@
    CSS DESIGN TOKENS — DARK MODE
 ───────────────────────────────────────────── */
 html.dark {
-  /* backgrounds */
   --bg-base: #0d0d0d;
   --bg-card: #1e1e2f;
   --bg-raise: #252538;
   --bg-input: #13131f;
 
-  /* borders */
   --border: rgba(255, 255, 255, 0.07);
   --border-strong: rgba(255, 255, 255, 0.14);
 
-  /* text */
   --text-primary: #ffffff;
   --text-secondary: #aaaaaa;
   --text-muted: #666666;
 
-  /* score semantic — neon in dark mode */
+  /* score semantic — neon in dark */
   --score-excellent: #4caf50;
   --score-good: #8bc34a;
   --score-fair: #ffc107;
@@ -98,13 +95,11 @@ html.dark {
   --c5: #ff69b4;
   --c6: #b266ff;
 
-  /* chart internals */
   --chart-grid: rgba(255, 255, 255, 0.05);
   --chart-text: #888888;
   --tooltip-bg: #1e1e2f;
   --tooltip-border: rgba(255, 255, 255, 0.1);
 
-  /* neon glows — strong in dark mode */
   --glow-c1: rgba(255, 76, 76, 0.35);
   --glow-c2: rgba(76, 175, 80, 0.35);
   --glow-c3: rgba(255, 193, 7, 0.35);
@@ -112,19 +107,18 @@ html.dark {
   --glow-c5: rgba(255, 105, 180, 0.35);
   --glow-c6: rgba(178, 102, 255, 0.35);
 
-  /* accent */
   --accent: #00bfff;
   --accent-hover: #00a8e0;
 
-  /* shadows */
   --shadow-card: 0 2px 24px rgba(0, 0, 0, 0.55);
   --shadow-glow: 0 0 32px rgba(0, 191, 255, 0.1);
 }
 
 /* ─────────────────────────────────────────────
-   PALETTE VARIANTS (applied via data-palette attr on <html>)
+   PALETTE VARIANTS — DARK
+   Each palette overrides c1..c6 AND score vars
+   AND glow vars so EVERY themed element reacts
 ───────────────────────────────────────────── */
-/* Palette B — Synthwave */
 html.dark[data-palette="synthwave"] {
   --c1: #ff2d55;
   --c2: #0affd4;
@@ -132,8 +126,19 @@ html.dark[data-palette="synthwave"] {
   --c4: #7a5fff;
   --c5: #ff6b6b;
   --c6: #00e5ff;
+  --score-excellent: #0affd4;
+  --score-good: #00e5ff;
+  --score-fair: #ffd60a;
+  --score-poor: #ff2d55;
+  --score-critical: #ff0040;
+  --glow-c1: rgba(255, 45, 85, 0.38);
+  --glow-c2: rgba(10, 255, 212, 0.38);
+  --glow-c3: rgba(255, 214, 10, 0.38);
+  --glow-c4: rgba(122, 95, 255, 0.38);
+  --glow-c5: rgba(255, 107, 107, 0.38);
+  --glow-c6: rgba(0, 229, 255, 0.38);
+  --accent: #7a5fff;
 }
-/* Palette C — Matrix */
 html.dark[data-palette="matrix"] {
   --c1: #ff3b30;
   --c2: #39ff14;
@@ -141,15 +146,40 @@ html.dark[data-palette="matrix"] {
   --c4: #00ff41;
   --c5: #ff69b4;
   --c6: #adff2f;
+  --score-excellent: #39ff14;
+  --score-good: #adff2f;
+  --score-fair: #ffff00;
+  --score-poor: #ff3b30;
+  --score-critical: #ff0000;
+  --glow-c1: rgba(255, 59, 48, 0.38);
+  --glow-c2: rgba(57, 255, 20, 0.38);
+  --glow-c3: rgba(255, 255, 0, 0.38);
+  --glow-c4: rgba(0, 255, 65, 0.38);
+  --glow-c5: rgba(255, 105, 180, 0.38);
+  --glow-c6: rgba(173, 255, 47, 0.38);
+  --accent: #00ff41;
 }
-/* Light palette B */
-html[data-palette="warm"] {
+
+/* ─────────────────────────────────────────────
+   PALETTE VARIANTS — LIGHT
+───────────────────────────────────────────── */
+html[data-palette="warm"]:not(.dark) {
   --c1: #d32f2f;
   --c2: #2e7d32;
   --c3: #e65100;
   --c4: #1565c0;
   --c5: #ad1457;
   --c6: #4527a0;
+  --score-excellent: #2e7d32;
+  --score-good: #558b2f;
+  --score-fair: #e65100;
+  --score-poor: #d32f2f;
+  --score-critical: #b71c1c;
+  --glow-c1: rgba(211, 47, 47, 0.18);
+  --glow-c2: rgba(46, 125, 50, 0.18);
+  --glow-c3: rgba(230, 81, 0, 0.18);
+  --glow-c4: rgba(21, 101, 192, 0.18);
+  --accent: #1565c0;
 }
 
 /* ─────────────────────────────────────────────
@@ -164,20 +194,17 @@ html[data-palette="warm"] {
       border-color 0.2s ease,
       color 0.15s ease;
   }
-
   html {
     background-color: var(--bg-base);
     color: var(--text-primary);
   }
-
   body {
     background-color: var(--bg-base);
     color: var(--text-primary);
-    font-family: "Space Grotesk", sans-serif;
+    font-family: "Rajdhani", sans-serif;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
   }
-
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -192,7 +219,6 @@ html[data-palette="warm"] {
   ::-webkit-scrollbar-thumb:hover {
     background: var(--text-muted);
   }
-
   ::selection {
     background: var(--accent);
     color: #fff;
@@ -212,6 +238,7 @@ html[data-palette="warm"] {
     transition:
       box-shadow 0.2s ease,
       border-color 0.2s ease;
+    color: var(--text-primary);
   }
   .card:hover {
     border-color: var(--border-strong);
@@ -221,15 +248,15 @@ html[data-palette="warm"] {
       var(--shadow-card),
       0 0 20px rgba(0, 191, 255, 0.06);
   }
-
   .card-glow {
     box-shadow:
       var(--shadow-card),
       0 0 24px var(--glow-c4);
   }
 
+  /* ── CARD HEADER ── */
   .card-header {
-    font-family: "Space Grotesk", sans-serif;
+    font-family: "Rajdhani", sans-serif;
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.12em;
@@ -242,7 +269,8 @@ html[data-palette="warm"] {
   .btn-primary {
     background-color: var(--accent);
     color: #fff;
-    font-size: 0.875rem;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 0.9rem;
     font-weight: 600;
     padding: 0.5rem 1.1rem;
     border-radius: 10px;
@@ -268,6 +296,7 @@ html[data-palette="warm"] {
   .btn-ghost {
     background: transparent;
     color: var(--text-secondary);
+    font-family: "Rajdhani", sans-serif;
     font-size: 0.875rem;
     font-weight: 500;
     padding: 0.45rem 0.85rem;
@@ -291,6 +320,7 @@ html[data-palette="warm"] {
   .btn-danger {
     background-color: var(--c1);
     color: #fff;
+    font-family: "Rajdhani", sans-serif;
     font-size: 0.875rem;
     font-weight: 600;
     padding: 0.5rem 1.1rem;
@@ -312,8 +342,9 @@ html[data-palette="warm"] {
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 0.55rem 0.85rem;
-    font-size: 0.875rem;
-    font-family: "Space Grotesk", sans-serif;
+    font-size: 0.9rem;
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 500;
     color: var(--text-primary);
     outline: none;
     transition:
@@ -332,13 +363,14 @@ html[data-palette="warm"] {
   .badge {
     display: inline-flex;
     align-items: center;
+    font-family: "Rajdhani", sans-serif;
     font-size: 0.72rem;
     font-weight: 600;
     padding: 0.18rem 0.6rem;
     border-radius: 99px;
     letter-spacing: 0.03em;
+    white-space: nowrap;
   }
-
   .badge-excellent {
     background: color-mix(in srgb, var(--score-excellent) 15%, transparent);
     color: var(--score-excellent);
@@ -389,14 +421,20 @@ html[data-palette="warm"] {
     flex: 1;
     text-align: center;
     padding: 0.4rem 0.75rem;
-    font-size: 0.82rem;
-    font-weight: 500;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
     color: var(--text-secondary);
-    transition: all 0.18s ease;
+    background: transparent;
     border: 1px solid transparent;
+    transition: all 0.18s ease;
     white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
   }
   .tab-item:hover {
     color: var(--text-primary);
@@ -406,7 +444,7 @@ html[data-palette="warm"] {
     background: var(--bg-card);
     color: var(--accent);
     border-color: var(--border);
-    font-weight: 600;
+    font-weight: 700;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
   }
   html.dark .tab-item.active {
@@ -416,7 +454,7 @@ html[data-palette="warm"] {
 
   /* ── STAT VALUE ── */
   .stat-value {
-    font-family: "Syne", sans-serif;
+    font-family: "Orbitron", sans-serif;
     font-size: 2.25rem;
     font-weight: 700;
     color: var(--text-primary);
@@ -425,28 +463,30 @@ html[data-palette="warm"] {
 
   /* ── SECTION TITLE ── */
   .section-title {
-    font-family: "Syne", sans-serif;
-    font-size: 1.1rem;
+    font-family: "Orbitron", sans-serif;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--text-primary);
   }
 
-  /* ── TOOLTIP (chart) ── */
+  /* ── TOOLTIP ── */
   .chart-tooltip {
     background: var(--tooltip-bg);
     border: 1px solid var(--tooltip-border);
     border-radius: 10px;
     padding: 0.55rem 0.85rem;
-    font-size: 0.8rem;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 0.85rem;
     box-shadow: var(--shadow-card);
+    color: var(--text-primary);
   }
 
-  /* ── NEON GLOW FILTER for SVG/charts ── */
+  /* ── NEON GLOW ── */
   .glow-filter {
     filter: drop-shadow(0 0 6px var(--glow-c4));
   }
 
-  /* ── SHIMMER skeleton ── */
+  /* ── SKELETON ── */
   .skeleton {
     background: linear-gradient(
       90deg,
@@ -459,7 +499,7 @@ html[data-palette="warm"] {
     border-radius: 8px;
   }
 
-  /* ── UPLOAD / INPUT CARD glow ── */
+  /* ── UPLOAD CARD ── */
   .upload-card {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -477,23 +517,27 @@ html[data-palette="warm"] {
     box-shadow: 0 4px 20px rgba(3, 155, 229, 0.18);
   }
 
-  /* ── SCROLLABLE TABLE ── */
+  /* ── DATA TABLE ── */
   .data-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    font-size: 0.82rem;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-primary);
   }
   .data-table thead th {
     background: var(--bg-raise);
     color: var(--text-muted);
-    font-size: 0.7rem;
-    font-weight: 600;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     padding: 0.6rem 1rem;
     border-bottom: 1px solid var(--border);
     text-align: left;
+    white-space: nowrap;
   }
   .data-table tbody tr {
     border-bottom: 1px solid var(--border);
@@ -517,8 +561,9 @@ html[data-palette="warm"] {
     color: var(--score-fair);
     border-radius: 10px;
     padding: 0.5rem 1rem;
-    font-size: 0.82rem;
-    font-weight: 500;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -622,19 +667,83 @@ html[data-palette="warm"] {
 }
 
 /* ─────────────────────────────────────────────
-   PRINT
+   RESPONSIVE
+───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .card {
+    border-radius: 12px;
+  }
+  .stat-value {
+    font-size: 1.6rem;
+  }
+  .section-title {
+    font-size: 0.9rem;
+  }
+  .tab-bar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+  }
+  .tab-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .tab-item {
+    flex-shrink: 0;
+    font-size: 0.78rem;
+    padding: 0.35rem 0.6rem;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   PRINT — only active tab panel prints
 ───────────────────────────────────────────── */
 @media print {
   .no-print {
     display: none !important;
   }
+
   body {
     background: white !important;
     color: black !important;
+    font-family: "Rajdhani", sans-serif !important;
   }
+
+  /* hide ALL tab panels by default */
+  [data-tab-panel] {
+    display: none !important;
+  }
+
+  /* show only the active one */
+  [data-tab-panel][data-tab-active="true"] {
+    display: block !important;
+  }
+
+  /* if printing FileDetail, hide dashboard wrapper */
+  [data-dashboard-shell] {
+    display: none !important;
+  }
+  [data-file-detail]:not([data-file-detail="hidden"]) {
+    display: block !important;
+  }
+
   .card {
     break-inside: avoid;
-    box-shadow: none;
-    border: 1px solid #e5e7eb;
+    box-shadow: none !important;
+    border: 1px solid #e5e7eb !important;
+    background: white !important;
+  }
+
+  /* reset colors for print */
+  * {
+    color: black !important;
+    background-color: transparent !important;
+  }
+  .card {
+    background: white !important;
+  }
+  canvas {
+    display: block !important;
   }
 }
