@@ -169,7 +169,7 @@ export default function Navbar({ onPrint }) {
           display: "flex",
           alignItems: "center",
           gap: "0.45rem",
-          fontFamily: "Syne, sans-serif",
+          fontFamily: "Orbitron, sans-serif",
           fontWeight: 800,
           fontSize: "1.15rem",
           letterSpacing: "-0.01em",
