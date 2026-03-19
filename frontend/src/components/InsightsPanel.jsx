@@ -73,7 +73,7 @@ function HintList({ items, emptyMsg, tabColorVar }) {
           {/* mono file + function path */}
           <p
             style={{
-              fontFamily: "JetBrains Mono, monospace",
+              fontFamily: "Fira Code, monospace",
               fontSize: "0.72rem",
               fontWeight: 600,
               color: "var(--accent)",
@@ -97,9 +97,9 @@ function HintList({ items, emptyMsg, tabColorVar }) {
             {h.files && (
               <span
                 style={{
-                  fontSize: "0.65rem",
-                  color: "var(--text-muted)",
-                  marginLeft: 4,
+                  fontSize: "0.92rem",
+                  color: "var(--text-secondary)",
+                  lineHeight: 1.5,
                 }}
               >
                 also in {h.files[1]}
@@ -152,7 +152,15 @@ export default function InsightsPanel({ files }) {
   const activeColor = `var(${TABS[tab].colorVar})`;
 
   return (
-    <div className="card" style={{ overflow: "hidden" }}>
+    <div
+      className="card"
+      style={{
+        overflow: "hidden",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <p className="card-header" style={{ padding: "1.25rem 1.25rem 0" }}>
         Static Analysis Insights
       </p>
@@ -197,15 +205,16 @@ export default function InsightsPanel({ files }) {
                 whiteSpace: "nowrap",
               }}
             >
-              <span style={{ fontSize: "0.78rem" }}>{t.icon}</span>
+              <span style={{ fontSize: "0.55rem" }}>{t.icon}</span>
               {t.label}
               {counts[i] > 0 && (
                 <span
                   style={{
                     padding: "0 0.38rem",
                     borderRadius: 99,
-                    fontSize: "0.65rem",
+                    fontSize: "0.95rem",
                     fontWeight: 700,
+                    // letterSpacing: "1px",
                     background: isActive
                       ? `color-mix(in srgb, ${color} 22%, transparent)`
                       : "var(--bg-card)",
@@ -226,7 +235,13 @@ export default function InsightsPanel({ files }) {
       />
 
       {/* content */}
-      <div style={{ padding: "0.85rem 1.25rem 1.25rem" }}>
+      <div
+        style={{
+          padding: "0.85rem 1.25rem 1.25rem",
+          flex: 1,
+          overflowY: "auto",
+        }}
+      >
         <HintList
           key={tab} /* remount on tab change to re-trigger animations */
           items={content[tab]}
