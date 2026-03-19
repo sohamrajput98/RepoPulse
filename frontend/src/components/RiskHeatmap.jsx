@@ -1,21 +1,22 @@
 import { Link } from "react-router-dom";
 import { useChartColors } from "../hooks/useChartColors";
+import { useState } from "react";
 
 /* ── Score → palette-aware colour + glow ─────────────────── */
 function resolveScoreColor(score, colors) {
-  if (score >= 85) return { color: colors.scoreExcellent, glow: colors.glowC2 };
-  if (score >= 70) return { color: colors.scoreGood, glow: colors.glowC2 };
-  if (score >= 50) return { color: colors.scoreFair, glow: colors.glowC3 };
-  if (score >= 30) return { color: colors.scorePoor, glow: colors.glowC1 };
-  return { color: colors.scoreCritical, glow: colors.glowC1 };
+  if (score >= 85) return { color: colors.c2, glow: colors.glowC2 };
+  if (score >= 70) return { color: colors.c4, glow: colors.glowC2 };
+  if (score >= 50) return { color: colors.c3, glow: colors.glowC3 };
+  if (score >= 30) return { color: colors.c1, glow: colors.glowC1 };
+  return { color: colors.c1, glow: colors.glowC1 };
 }
 
 /* ── Legend badge chips ──────────────────────────────────── */
 const LEGEND = [
-  { label: "Excellent ≥85", colorKey: "scoreExcellent" },
-  { label: "Good ≥70", colorKey: "scoreGood" },
-  { label: "Fair ≥50", colorKey: "scoreFair" },
-  { label: "Poor <50", colorKey: "scorePoor" },
+  { label: "Excellent ≥85", colorKey: "c2" },
+  { label: "Good ≥70", colorKey: "c4" },
+  { label: "Fair ≥50", colorKey: "c3" },
+  { label: "Poor <50", colorKey: "c1" },
 ];
 
 function LegendChips({ colors }) {
@@ -24,20 +25,14 @@ function LegendChips({ colors }) {
       style={{
         display: "flex",
         flexWrap: "wrap",
-        gap: "0.45rem",
+        gap: "0.5rem",
         alignItems: "center",
+        justifyContent: "center",
+        paddingTop: "0.75rem",
+        borderTop: "1px solid var(--border)",
         marginTop: "1rem",
       }}
     >
-      <span
-        style={{
-          fontSize: "0.7rem",
-          color: "var(--text-muted)",
-          marginRight: 2,
-        }}
-      >
-        Score:
-      </span>
       {LEGEND.map(({ label, colorKey }) => {
         const c = colors[colorKey];
         return (
@@ -46,8 +41,8 @@ function LegendChips({ colors }) {
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: "0.32rem",
-              padding: "0.2rem 0.6rem",
+              gap: "0.35rem",
+              padding: "0.25rem 0.7rem",
               borderRadius: 99,
               fontSize: "0.7rem",
               fontWeight: 600,
@@ -70,15 +65,6 @@ function LegendChips({ colors }) {
           </span>
         );
       })}
-      <span
-        style={{
-          fontSize: "0.68rem",
-          color: "var(--text-muted)",
-          marginLeft: 4,
-        }}
-      >
-        · size = LOC
-      </span>
     </div>
   );
 }
@@ -86,87 +72,145 @@ function LegendChips({ colors }) {
 /* ── RiskHeatmap ─────────────────────────────────────────── */
 export default function RiskHeatmap({ files }) {
   const colors = useChartColors();
+  const [view, setView] = useState("grid"); // toggle between grid and list
+
   if (!files?.length) return null;
 
   return (
     <div className="card" style={{ padding: "1.25rem" }}>
-      <p className="card-header">Risk Heatmap</p>
-      <p
+      <div
         style={{
-          fontSize: "0.74rem",
-          color: "var(--text-muted)",
-          marginBottom: "0.9rem",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "0.75rem",
         }}
       >
-        Cell size = lines of code · colour = health score · click to inspect
-      </p>
-
-      {/* cells */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.45rem" }}>
-        {files.map((f, i) => {
-          const name = f.path.split(/[\\/]/).pop();
-          const s = f.healthScore ?? 0;
-          const { color, glow } = resolveScoreColor(s, colors);
-          /* larger cells: min 40, max 80 based on LOC */
-          const size = Math.max(40, Math.min(80, f.totalLines / 4.5));
-
-          return (
-            <Link
-              key={i}
-              to={`/file/${encodeURIComponent(f.path)}`}
-              title={`${name}\nScore: ${s.toFixed(1)}\nLOC: ${f.totalLines}`}
-              style={{ textDecoration: "none" }}
-            >
-              <div
-                style={{
-                  width: size,
-                  height: size,
-                  borderRadius: 10,
-                  background: color,
-                  opacity: 0.82,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  cursor: "pointer",
-                  transition:
-                    "transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease",
-                  boxShadow: `0 2px 8px color-mix(in srgb, ${color} 28%, transparent)`,
-                  border: `1px solid color-mix(in srgb, ${color} 45%, transparent)`,
-                  position: "relative",
-                  zIndex: 1,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "scale(1.14)";
-                  e.currentTarget.style.opacity = "1";
-                  e.currentTarget.style.boxShadow = `0 0 18px ${glow}, 0 4px 14px color-mix(in srgb, ${color} 40%, transparent)`;
-                  e.currentTarget.style.zIndex = "10";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "scale(1)";
-                  e.currentTarget.style.opacity = "0.82";
-                  e.currentTarget.style.boxShadow = `0 2px 8px color-mix(in srgb, ${color} 28%, transparent)`;
-                  e.currentTarget.style.zIndex = "1";
-                }}
-              >
-                <span
-                  style={{
-                    color: "#fff",
-                    fontFamily: "Syne, sans-serif",
-                    fontSize: size > 55 ? "0.8rem" : "0.62rem",
-                    fontWeight: 700,
-                    userSelect: "none",
-                    textShadow: "0 1px 4px rgba(0,0,0,0.55)",
-                  }}
-                >
-                  {s.toFixed(0)}
-                </span>
-              </div>
-            </Link>
-          );
-        })}
+        <p className="card-header">Risk Heatmap</p>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <button
+            onClick={() => setView("grid")}
+            style={{
+              fontSize: "0.7rem",
+              padding: "0.5rem 0.6rem",
+              borderRadius: 6,
+              border: "1px solid var(--border)",
+              background: view === "grid" ? "var(--bg-raise)" : "transparent",
+              cursor: "pointer",
+            }}
+          >
+            Grid
+          </button>
+          <button
+            onClick={() => setView("list")}
+            style={{
+              fontSize: "0.7rem",
+              padding: "0.25rem 0.6rem",
+              borderRadius: 6,
+              border: "1px solid var(--border)",
+              background: view === "list" ? "var(--bg-raise)" : "transparent",
+              cursor: "pointer",
+            }}
+          >
+            List
+          </button>
+        </div>
       </div>
 
-      {/* badge-chip legend */}
+      {view === "grid" ? (
+        /* Grid view */
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
+            gap: "0.75rem",
+          }}
+        >
+          {files.map((f, i) => {
+            const name = f.path.split(/[\\/]/).pop();
+            const s = f.healthScore ?? 0;
+            const { color } = resolveScoreColor(s, colors);
+
+            return (
+              <Link
+                key={i}
+                to={`/file/${encodeURIComponent(f.path)}`}
+                style={{ textDecoration: "none" }}
+              >
+                <div
+                  style={{
+                    background: color,
+                    borderRadius: 10,
+                    padding: "0.75rem",
+                    textAlign: "center",
+                    color: "#fff",
+                    fontFamily: "Orbitron, sans-serif",
+                    fontWeight: 700,
+                    transition: "transform 0.2s ease",
+                    overflow: "hidden",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.transform = "scale(1.05)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.transform = "scale(1)")
+                  }
+                >
+                  <div style={{ fontSize: "1rem" }}>{s.toFixed(0)}</div>
+                  <div
+                    style={{
+                      fontSize: "0.7rem",
+                      marginTop: "0.25rem",
+                      textShadow: "0 1px 4px rgba(0,0,0,0.55)",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {name}
+                  </div>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      ) : (
+        /* List view */
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr
+              style={{
+                textAlign: "left",
+                fontSize: "0.75rem",
+                color: "var(--text-muted)",
+              }}
+            >
+              <th style={{ padding: "0.4rem" }}>File</th>
+              <th style={{ padding: "0.4rem" }}>LOC</th>
+              <th style={{ padding: "0.4rem" }}>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {files.map((f, i) => {
+              const name = f.path.split(/[\\/]/).pop();
+              const s = f.healthScore ?? 0;
+              const { color } = resolveScoreColor(s, colors);
+
+              return (
+                <tr key={i} style={{ borderBottom: "1px solid var(--border)" }}>
+                  <td style={{ padding: "0.4rem", wordBreak: "break-word" }}>
+                    {name}
+                  </td>
+                  <td style={{ padding: "0.4rem" }}>{f.totalLines}</td>
+                  <td style={{ padding: "0.4rem", color }}>{s.toFixed(0)}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+
+      {/* legend */}
       <LegendChips colors={colors} />
     </div>
   );
