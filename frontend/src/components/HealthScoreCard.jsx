@@ -1,55 +1,6 @@
-import { useRef, useEffect } from "react";
 import { RadialBarChart, RadialBar, ResponsiveContainer } from "recharts";
 import { useCountUp } from "../hooks/useCountUp";
 import { useChartColors } from "../hooks/useChartColors";
-
-/* ── Glow ring canvas overlay ────────────────────────────── */
-function GlowRing({ score, color }) {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    const W = canvas.width;
-    const H = canvas.height;
-    const cx = W / 2,
-      cy = H / 2;
-    const r = W * 0.42;
-    const startAngle = Math.PI;
-    const endAngle = startAngle + Math.PI * (score / 100);
-
-    ctx.clearRect(0, 0, W, H);
-
-    // glow shadow
-    ctx.shadowColor = color;
-    ctx.shadowBlur = 18;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 5;
-    ctx.lineCap = "round";
-
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, startAngle, endAngle);
-    ctx.stroke();
-
-    ctx.shadowBlur = 0;
-  }, [score, color]);
-
-  return (
-    <canvas
-      ref={ref}
-      width={200}
-      height={110}
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none",
-      }}
-    />
-  );
-}
 
 /* ── Penalty chip ────────────────────────────────────────── */
 function PenaltyChip({ label, value }) {
@@ -65,6 +16,7 @@ function PenaltyChip({ label, value }) {
         borderRadius: 8,
         padding: "0.3rem 0.65rem",
         gap: "0.5rem",
+        height: "100%",
       }}
     >
       <span
@@ -205,9 +157,6 @@ export default function HealthScoreCard({ score, label, breakdown, delta }) {
           </RadialBarChart>
         </ResponsiveContainer>
 
-        {/* canvas glow ring */}
-        <GlowRing score={s} color={scoreColorResolved} />
-
         {/* score number + label */}
         <div
           style={{
@@ -223,7 +172,7 @@ export default function HealthScoreCard({ score, label, breakdown, delta }) {
         >
           <span
             style={{
-              fontFamily: "Syne, sans-serif",
+              fontFamily: "Orbitron, sans-serif",
               fontSize: "2.6rem",
               fontWeight: 800,
               lineHeight: 1,
@@ -254,7 +203,7 @@ export default function HealthScoreCard({ score, label, breakdown, delta }) {
           style={{
             marginTop: "0.85rem",
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
+            gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)",
             gap: 6,
             textAlign: "left",
           }}
