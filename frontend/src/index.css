@@ -697,37 +697,29 @@ html[data-palette="warm"]:not(.dark) {
 }
 
 /* ─────────────────────────────────────────────
-   PRINT — only active tab panel prints
+   PRINT — renders PrintReport component only
 ───────────────────────────────────────────── */
 @media print {
-  .no-print {
-    display: none !important;
-  }
+  /* hide all interactive UI — only print report shows */
+  .no-print { display: none !important; }
+  [data-dashboard-shell] > nav  { display: none !important; }
+  [data-dashboard-shell] > main { display: none !important; }
+
+  /* show ONLY the dedicated print report */
+  #print-report { display: block !important; }
+
+  /* page setup */
+  @page { margin: 1.5cm; size: A4; }
 
   body {
     background: white !important;
-    color: black !important;
     font-family: "Rajdhani", sans-serif !important;
+    font-size: 11pt;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
-  /* hide ALL tab panels by default */
-  [data-tab-panel] {
-    display: none !important;
-  }
-
-  /* show only the active one */
-  [data-tab-panel][data-tab-active="true"] {
-    display: block !important;
-  }
-
-  /* if printing FileDetail, hide dashboard wrapper */
-  [data-dashboard-shell] {
-    display: none !important;
-  }
-  [data-file-detail]:not([data-file-detail="hidden"]) {
-    display: block !important;
-  }
-
+  /* preserve colors — no global color reset */
   .card {
     break-inside: avoid;
     box-shadow: none !important;
@@ -735,15 +727,7 @@ html[data-palette="warm"]:not(.dark) {
     background: white !important;
   }
 
-  /* reset colors for print */
-  * {
-    color: black !important;
-    background-color: transparent !important;
-  }
-  .card {
-    background: white !important;
-  }
-  canvas {
-    display: block !important;
-  }
+  h1, h2, h3 { page-break-after: avoid; }
+  table { page-break-inside: auto; }
+  tr    { page-break-inside: avoid; page-break-after: auto; }
 }
