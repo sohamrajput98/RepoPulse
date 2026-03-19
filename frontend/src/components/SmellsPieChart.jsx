@@ -151,17 +151,15 @@ export default function SmellsPieChart({ files }) {
     );
 
   return (
-    <div className="card" style={{ padding: "1.25rem" }}>
-      <p className="card-header">Smell Distribution</p>
-
-      <ResponsiveContainer width="100%" height={220}>
+    <div>
+      <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
             data={data}
             cx="50%"
             cy="50%"
-            innerRadius={58}
-            outerRadius={90}
+            innerRadius={72}
+            outerRadius={120}
             dataKey="value"
             paddingAngle={3}
             isAnimationActive
