@@ -35,7 +35,7 @@ function StatChip({ label, value, icon, colorVar, delay = 0 }) {
       </div>
       <span
         style={{
-          fontFamily: "Syne, sans-serif",
+          fontFamily: "Orbitron, sans-serif",
           fontSize: "2rem",
           fontWeight: 700,
           color: `var(${colorVar})`,
@@ -76,7 +76,7 @@ export default function Overview() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(175px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
           gap: "1rem",
           marginBottom: "1.25rem",
         }}
@@ -92,34 +92,43 @@ export default function Overview() {
         <FadeCard delay={60}>
           <QualityGrade score={score} />
         </FadeCard>
-        <StatChip
-          label="Files"
-          value={sum?.totalFiles}
-          icon="📁"
-          colorVar="--c4"
-          delay={120}
-        />
-        <StatChip
-          label="Lines of Code"
-          value={sum?.totalLOC}
-          icon="📄"
-          colorVar="--c2"
-          delay={180}
-        />
-        <StatChip
-          label="Functions"
-          value={sum?.totalFunctions}
-          icon="⚙️"
-          colorVar="--c6"
-          delay={240}
-        />
-        <StatChip
-          label="Smells"
-          value={sum?.totalSmells}
-          icon="🚨"
-          colorVar="--c1"
-          delay={300}
-        />
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
+            gap: "10px",
+          }}
+        >
+          <StatChip
+            label="Files"
+            value={sum?.totalFiles}
+            icon="📁"
+            colorVar="--c4"
+            delay={120}
+          />
+          <StatChip
+            label="Lines of Code"
+            value={sum?.totalLOC}
+            icon="📄"
+            colorVar="--c2"
+            delay={180}
+          />
+          <StatChip
+            label="Functions"
+            value={sum?.totalFunctions}
+            icon="⚙️"
+            colorVar="--c6"
+            delay={240}
+          />
+          <StatChip
+            label="Smells"
+            value={sum?.totalSmells}
+            icon="🚨"
+            colorVar="--c1"
+            delay={300}
+          />
+        </div>
       </div>
 
       {/* Row 2: TrendChart + CommitActivity side-by-side */}
