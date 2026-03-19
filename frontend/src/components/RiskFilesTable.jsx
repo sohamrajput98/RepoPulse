@@ -55,7 +55,7 @@ function CCCell({ value, colors }) {
   return (
     <span
       style={{
-        fontFamily: "Syne, sans-serif",
+        fontFamily: "Orbitron, sans-serif",
         fontWeight: over ? 700 : 500,
         fontSize: "0.82rem",
         color: over ? colors.c1 : "var(--text-secondary)",
@@ -210,7 +210,7 @@ export default function RiskFilesTable({ files }) {
                     <Link
                       to={`/file/${encodeURIComponent(f.path)}`}
                       style={{
-                        fontFamily: "JetBrains Mono, monospace",
+                        fontFamily: "Fira Code, monospace",
                         fontSize: "0.75rem",
                         fontWeight: 500,
                         color: "var(--accent)",
