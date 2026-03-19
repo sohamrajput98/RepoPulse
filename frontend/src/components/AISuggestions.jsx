@@ -119,7 +119,7 @@ function SeveritySection({ level, items, defaultOpen = true }) {
         <span style={{ fontSize: "0.9rem" }}>{sev.icon}</span>
         <span
           style={{
-            fontFamily: "Syne, sans-serif",
+            fontFamily: "Orbitron, sans-serif",
             fontSize: "0.88rem",
             fontWeight: 700,
             color,
