@@ -37,7 +37,8 @@ export default function QualityGrade({ score }) {
     <div
       className="card"
       style={{
-        padding: "1.25rem",
+        height: "100%",
+        padding: "0.25rem",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -98,7 +99,7 @@ export default function QualityGrade({ score }) {
         >
           <span
             style={{
-              fontFamily: "Syne, sans-serif",
+              fontFamily: "Orbitron, sans-serif",
               fontSize: "3.4rem",
               fontWeight: 800,
               lineHeight: 1,
