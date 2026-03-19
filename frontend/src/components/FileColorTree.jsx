@@ -4,11 +4,11 @@ import { useChartColors } from "../hooks/useChartColors";
 
 /* ── Score → palette-aware colour ───────────────────────── */
 function resolveColor(score, colors) {
-  if (score >= 85) return { color: colors.scoreExcellent, glow: colors.glowC2 };
-  if (score >= 70) return { color: colors.scoreGood, glow: colors.glowC2 };
-  if (score >= 50) return { color: colors.scoreFair, glow: colors.glowC3 };
-  if (score >= 30) return { color: colors.scorePoor, glow: colors.glowC1 };
-  return { color: colors.scoreCritical, glow: colors.glowC1 };
+  if (score >= 85) return { color: colors.c2, glow: colors.glowC2 };
+  if (score >= 70) return { color: colors.c4, glow: colors.glowC2 };
+  if (score >= 50) return { color: colors.c3, glow: colors.glowC3 };
+  if (score >= 30) return { color: colors.c1, glow: colors.glowC1 };
+  return { color: colors.c1, glow: colors.glowC1 };
 }
 
 /* ── FileColorTree ───────────────────────────────────────── */
@@ -78,7 +78,7 @@ export default function FileColorTree({ files }) {
               {/* filename */}
               <span
                 style={{
-                  fontFamily: "JetBrains Mono, monospace",
+                  fontFamily: "Fira Code, monospace",
                   fontSize: "0.75rem",
                   fontWeight: 500,
                   color: "var(--text-primary)",
