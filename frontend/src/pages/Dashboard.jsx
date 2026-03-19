@@ -36,6 +36,15 @@ function TabLoader() {
   );
 }
 
+/* ── TabPanel wrapper — marks active tab for print CSS ───── */
+function TabPanel({ id, children }) {
+  return (
+    <div data-tab-panel={id} data-tab-active="true">
+      {children}
+    </div>
+  );
+}
+
 /* ── Stale banner ────────────────────────────────────────── */
 function StaleBanner({ onRefresh }) {
   return (
@@ -168,14 +177,18 @@ export default function Dashboard() {
   if (!report) return null;
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg-base)" }}>
+    <div
+      data-dashboard-shell
+      style={{ minHeight: "100vh", background: "var(--bg-base)" }}
+    >
       <Navbar onPrint={() => window.print()} />
 
       <main
         style={{
           maxWidth: 1280,
           margin: "0 auto",
-          padding: "1.5rem 1.5rem 3rem",
+          padding:
+            "clamp(0.75rem, 2vw, 1.5rem) clamp(0.75rem, 2vw, 1.5rem) 3rem",
         }}
       >
         {isStale && <StaleBanner onRefresh={refresh} />}
@@ -183,11 +196,46 @@ export default function Dashboard() {
         <Suspense fallback={<TabLoader />}>
           <Routes>
             <Route index element={<Navigate to="overview" replace />} />
-            <Route path="overview" element={<Overview />} />
-            <Route path="complexity" element={<Functions />} />
-            <Route path="smells" element={<Smells />} />
-            <Route path="files" element={<Files />} />
-            <Route path="insights" element={<AI />} />
+            <Route
+              path="overview"
+              element={
+                <TabPanel id="overview">
+                  <Overview />
+                </TabPanel>
+              }
+            />
+            <Route
+              path="complexity"
+              element={
+                <TabPanel id="complexity">
+                  <Functions />
+                </TabPanel>
+              }
+            />
+            <Route
+              path="smells"
+              element={
+                <TabPanel id="smells">
+                  <Smells />
+                </TabPanel>
+              }
+            />
+            <Route
+              path="files"
+              element={
+                <TabPanel id="files">
+                  <Files />
+                </TabPanel>
+              }
+            />
+            <Route
+              path="insights"
+              element={
+                <TabPanel id="insights">
+                  <AI />
+                </TabPanel>
+              }
+            />
             <Route path="*" element={<Navigate to="overview" replace />} />
           </Routes>
         </Suspense>
