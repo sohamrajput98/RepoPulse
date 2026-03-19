@@ -28,7 +28,7 @@ function CustomTooltip({ active, payload, colors }) {
     <div className="chart-tooltip">
       <p
         style={{
-          fontFamily: "Syne, sans-serif",
+          fontFamily: "Orbitron, sans-serif",
           fontSize: "1.1rem",
           fontWeight: 700,
           color: c,
