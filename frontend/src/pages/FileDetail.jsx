@@ -23,7 +23,7 @@ function StatCard({ label, value, colorVar, delay }) {
       </p>
       <span
         style={{
-          fontFamily: "Syne, sans-serif",
+          fontFamily: "Orbitron, sans-serif",
           fontSize: "1.9rem",
           fontWeight: 700,
           color: `var(${colorVar})`,
@@ -231,7 +231,7 @@ export default function FileDetail() {
         >
           <h1
             style={{
-              fontFamily: "JetBrains Mono, monospace",
+              fontFamily: "Fira Code, monospace",
               fontSize: "0.85rem",
               fontWeight: 600,
               color: "var(--text-primary)",
@@ -364,7 +364,7 @@ export default function FileDetail() {
                       <td style={{ padding: "0.65rem 1rem" }}>
                         <span
                           style={{
-                            fontFamily: "JetBrains Mono, monospace",
+                            fontFamily: "Fira Code, monospace",
                             fontSize: "0.75rem",
                             fontWeight: 600,
                             color: highRisk ? ccClr : "var(--text-primary)",
@@ -399,7 +399,7 @@ export default function FileDetail() {
                       >
                         <span
                           style={{
-                            fontFamily: "Syne, sans-serif",
+                            fontFamily: "Orbitron, sans-serif",
                             fontWeight: 700,
                             fontSize: "0.88rem",
                             color: ccClr,
