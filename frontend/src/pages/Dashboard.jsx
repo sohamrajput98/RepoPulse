@@ -1,103 +1,245 @@
-import { useState } from 'react';
-import { useAnalysisReport } from '../hooks/useAnalysisReport';
-import Navbar          from '../components/Navbar';
-import SummaryBanner   from '../components/SummaryBanner';
-import GitHubInput     from '../components/GitHubInput';
-import HealthScoreCard from '../components/HealthScoreCard';
-import QualityGrade    from '../components/QualityGrade';
-import RepoOverview    from '../components/RepoOverview';
-import ComplexityChart from '../components/ComplexityChart';
-import SmellsPieChart  from '../components/SmellsPieChart';
-import TopFunctions    from '../components/TopFunctions';
-import FileColorTree   from '../components/FileColorTree';
-import TrendChart      from '../components/TrendChart';
-import RiskHeatmap     from '../components/RiskHeatmap';
-import AISuggestions   from '../components/AISuggestions';
-import InsightsPanel   from '../components/InsightsPanel';
-import RiskFilesTable  from '../components/RiskFilesTable';
+import { useEffect, lazy, Suspense } from "react";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { useReport } from "../context/ReportContext";
+import Navbar from "../components/Navbar";
 
+/* ── Lazy tab pages ──────────────────────────────────────── */
+const Overview = lazy(() => import("./tabs/Overview"));
+const Functions = lazy(() => import("./tabs/Functions"));
+const Smells = lazy(() => import("./tabs/Smells"));
+const Files = lazy(() => import("./tabs/Files"));
+const AI = lazy(() => import("./tabs/AI"));
+
+/* ── Tab loader ──────────────────────────────────────────── */
+function TabLoader() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: 260,
+      }}
+    >
+      <div
+        style={{
+          width: 32,
+          height: 32,
+          border: "3px solid var(--border-strong)",
+          borderTopColor: "var(--accent)",
+          borderRadius: "50%",
+          animation: "spin 0.7s linear infinite",
+        }}
+      />
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
+}
+
+/* ── TabPanel wrapper — marks active tab for print CSS ───── */
+function TabPanel({ id, children }) {
+  return (
+    <div data-tab-panel={id} data-tab-active="true">
+      {children}
+    </div>
+  );
+}
+
+/* ── Stale banner ────────────────────────────────────────── */
+function StaleBanner({ onRefresh }) {
+  return (
+    <div className="stale-banner no-print" style={{ marginBottom: "1rem" }}>
+      <span>
+        ⚠ Report may be outdated — data was fetched over a minute ago.
+      </span>
+      <button
+        onClick={onRefresh}
+        style={{
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          color: "var(--score-fair)",
+          fontWeight: 600,
+          fontSize: "0.82rem",
+          textDecoration: "underline",
+        }}
+      >
+        Refresh now
+      </button>
+    </div>
+  );
+}
+
+/* ── Dashboard shell ─────────────────────────────────────── */
 export default function Dashboard() {
-    const { report, loading, error, refresh, isStale } = useAnalysisReport();
-    const [overrideReport, setOverrideReport] = useState(null);
-    const data = overrideReport || report;
+  const { report, loading, error, refresh, isStale } = useReport();
+  const navigate = useNavigate();
 
-    if (loading) return (
-        <div className="flex items-center justify-center h-screen bg-slate-100 dark:bg-slate-900">
-            <div className="flex flex-col items-center gap-4">
-                <div className="animate-spin w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full" />
-                <p className="text-gray-400 dark:text-slate-400 text-sm">Analyzing repository…</p>
-            </div>
-        </div>
-    );
+  /* Guard: only redirect if loading is done AND there's an error AND no cached report.
+       Do NOT redirect just because report is null mid-load. */
+  useEffect(() => {
+    if (!loading && error && !report) {
+      // Let the error state render below — don't auto-redirect on error
+    }
+    // Only redirect if completely clean (no report, no error, no load) — e.g. direct URL hit
+    if (!loading && !report && !error) {
+      navigate("/analyze", { replace: true });
+    }
+  }, [loading, report, error, navigate]);
 
-    if (error && !data) return (
-        <div className="flex items-center justify-center h-screen bg-slate-100 dark:bg-slate-900">
-            <div className="card p-8 max-w-md text-center">
-                <p className="text-3xl mb-3">⚠️</p>
-                <p className="text-red-500 font-medium mb-2">{error.message}</p>
-                <p className="text-gray-400 dark:text-slate-400 text-sm mb-4">
-                    Make sure <code className="font-mono text-xs bg-gray-100 dark:bg-slate-700 px-1 py-0.5 rounded">frontend/public/analysis_report.json</code> exists.
-                </p>
-                <button onClick={refresh} className="btn-primary">Retry</button>
-            </div>
-        </div>
-    );
-
-    const score = data?.summary?.healthScore;
-
+  /* Loading state */
+  if (loading)
     return (
-        <div className="min-h-screen bg-slate-100 dark:bg-slate-900">
-            <Navbar onRefresh={refresh} onPrint={() => window.print()} />
-            <main className="max-w-7xl mx-auto px-6 py-8">
-
-                {isStale && (
-                    <div className="no-print mb-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 text-amber-700 dark:text-amber-300 text-sm px-4 py-2 rounded-xl flex items-center justify-between">
-                        <span>⚠ Report may be outdated.</span>
-                        <button onClick={refresh} className="underline font-medium">Refresh now</button>
-                    </div>
-                )}
-
-                <GitHubInput onLoad={setOverrideReport} />
-                <SummaryBanner summary={data?.summary} generatedAt={data?.generatedAt} />
-
-                {/* Row 1: Score + Grade + Stats */}
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
-                    <HealthScoreCard score={score} label={data?.summary?.healthLabel} breakdown={data?.summary?.scoreBreakdown} />
-                    <QualityGrade score={score} />
-                    <div className="lg:col-span-2"><RepoOverview summary={data?.summary} /></div>
-                </div>
-
-                {/* Row 2: Complexity + Smells */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <ComplexityChart files={data?.files} />
-                    <SmellsPieChart  files={data?.files} />
-                </div>
-
-                {/* Row 3: Trend + Heatmap */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <TrendChart  score={score} />
-                    <RiskHeatmap files={data?.files} />
-                </div>
-
-                {/* Row 4: Top Functions + File Tree */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <TopFunctions  files={data?.files} />
-                    <FileColorTree files={data?.files} />
-                </div>
-
-                {/* Row 5: AI Suggestions */}
-                <div className="mb-6">
-                    <AISuggestions files={data?.files} score={score} />
-                </div>
-
-                {/* Row 6: Insights Panel */}
-                <div className="mb-6">
-                    <InsightsPanel files={data?.files} />
-                </div>
-
-                {/* Row 7: Risk Table */}
-                <RiskFilesTable files={data?.files} />
-            </main>
-        </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          background: "var(--bg-base)",
+          gap: "1rem",
+        }}
+      >
+        <div
+          style={{
+            width: 44,
+            height: 44,
+            border: "3px solid var(--border-strong)",
+            borderTopColor: "var(--accent)",
+            borderRadius: "50%",
+            animation: "spin 0.7s linear infinite",
+          }}
+        />
+        <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
+          Analyzing repository…
+        </p>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
     );
+
+  /* Error state — show retry, don't redirect */
+  if (error && !report)
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+          background: "var(--bg-base)",
+        }}
+      >
+        <div
+          className="card"
+          style={{ padding: "2rem", maxWidth: 420, textAlign: "center" }}
+        >
+          <p style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>⚠️</p>
+          <p
+            style={{
+              color: "var(--score-poor)",
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+            }}
+          >
+            {error.message}
+          </p>
+          <p
+            style={{
+              color: "var(--text-muted)",
+              fontSize: "0.85rem",
+              marginBottom: "1.25rem",
+            }}
+          >
+            Make sure{" "}
+            <code
+              style={{
+                fontFamily: "JetBrains Mono, monospace",
+                fontSize: "0.78rem",
+              }}
+            >
+              frontend/public/analysis_report.json
+            </code>{" "}
+            exists and run the analysis first.
+          </p>
+          <div style={{ display: "flex", gap: 8, justifyContent: "center" }}>
+            <button onClick={() => refresh()} className="btn-primary">
+              Retry
+            </button>
+            <button onClick={() => navigate("/analyze")} className="btn-ghost">
+              ← Back
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+
+  if (!report) return null;
+
+  return (
+    <div
+      data-dashboard-shell
+      style={{ minHeight: "100vh", background: "var(--bg-base)" }}
+    >
+      <Navbar onPrint={() => window.print()} />
+
+      <main
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding:
+            "clamp(0.75rem, 2vw, 1.5rem) clamp(0.75rem, 2vw, 1.5rem) 3rem",
+        }}
+      >
+        {isStale && <StaleBanner onRefresh={refresh} />}
+
+        <Suspense fallback={<TabLoader />}>
+          <Routes>
+            <Route index element={<Navigate to="overview" replace />} />
+            <Route
+              path="overview"
+              element={
+                <TabPanel id="overview">
+                  <Overview />
+                </TabPanel>
+              }
+            />
+            <Route
+              path="complexity"
+              element={
+                <TabPanel id="complexity">
+                  <Functions />
+                </TabPanel>
+              }
+            />
+            <Route
+              path="smells"
+              element={
+                <TabPanel id="smells">
+                  <Smells />
+                </TabPanel>
+              }
+            />
+            <Route
+              path="files"
+              element={
+                <TabPanel id="files">
+                  <Files />
+                </TabPanel>
+              }
+            />
+            <Route
+              path="insights"
+              element={
+                <TabPanel id="insights">
+                  <AI />
+                </TabPanel>
+              }
+            />
+            <Route path="*" element={<Navigate to="overview" replace />} />
+          </Routes>
+        </Suspense>
+      </main>
+    </div>
+  );
 }
