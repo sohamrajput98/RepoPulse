@@ -39,7 +39,7 @@ function StatPill({ icon, value, suffix, colorVar, delay }) {
       <span style={{ fontSize: "0.88rem", lineHeight: 1 }}>{icon}</span>
       <span
         style={{
-          fontFamily: "Syne, sans-serif",
+          fontFamily: "Orbitron, sans-serif",
           fontWeight: 700,
           color: `var(${colorVar})`,
           fontSize: "0.85rem",
