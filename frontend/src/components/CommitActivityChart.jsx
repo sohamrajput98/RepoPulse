@@ -96,35 +96,40 @@ export default function CommitActivityChart({ report }) {
         </defs>
       </svg>
 
-      <ResponsiveContainer width="100%" height={180}>
-        <BarChart data={data} margin={{ left: 0, right: 8, top: 6, bottom: 0 }}>
+      <ResponsiveContainer width="100%" height={190}>
+        <BarChart
+          data={data}
+          margin={{ left: 0, right: 8, top: 10, bottom: 0 }}
+          barCategoryGap="20%"
+        >
           <CartesianGrid
-            strokeDasharray="3 3"
+            strokeDasharray="2 2"
             stroke={colors.grid}
             vertical={false}
           />
           <XAxis
             dataKey="week"
-            tick={{ fontSize: 10, fill: colors.text }}
-            axisLine={{ stroke: colors.grid }}
+            tick={{ fontSize: 11, fill: colors.text }}
+            axisLine={false}
             tickLine={false}
           />
           <YAxis
-            tick={{ fontSize: 10, fill: colors.text }}
+            tick={{ fontSize: 11, fill: colors.text }}
             axisLine={false}
             tickLine={false}
           />
           <Tooltip
             content={<CustomTooltip colors={colors} />}
             cursor={{
-              fill: "color-mix(in srgb, var(--accent) 6%, transparent)",
+              fill: "color-mix(in srgb, var(--accent) 8%, transparent)",
             }}
           />
           <Bar
             dataKey="commits"
-            radius={[5, 5, 0, 0]}
+            radius={[8, 8, 0, 0]} // rounded corners
             isAnimationActive
-            animationDuration={900}
+            animationDuration={1200}
+            animationEasing="ease-out"
           >
             {data.map((d, i) => (
               <Cell
