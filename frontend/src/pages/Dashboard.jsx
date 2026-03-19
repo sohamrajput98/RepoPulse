@@ -2,6 +2,7 @@ import { useEffect, lazy, Suspense } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useReport } from "../context/ReportContext";
 import Navbar from "../components/Navbar";
+import PrintReport from "../components/PrintReport";
 
 /* ── Lazy tab pages ──────────────────────────────────────── */
 const Overview = lazy(() => import("./tabs/Overview"));
@@ -240,6 +241,9 @@ export default function Dashboard() {
           </Routes>
         </Suspense>
       </main>
+
+      {/* Hidden print report — only visible via @media print */}
+      <PrintReport />
     </div>
   );
 }
