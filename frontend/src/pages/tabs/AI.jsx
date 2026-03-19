@@ -65,7 +65,7 @@ function SuggestionCard({ suggestion, index, delay }) {
       {/* index chip */}
       <span
         style={{
-          fontFamily: "Syne, sans-serif",
+          fontFamily: "Orbitron, sans-serif",
           fontSize: "0.68rem",
           fontWeight: 700,
           color: "var(--text-muted)",
@@ -122,7 +122,7 @@ function SeveritySection({
 
         <span
           style={{
-            fontFamily: "Syne, sans-serif",
+            fontFamily: "Orbitron, sans-serif",
             fontSize: "0.95rem",
             fontWeight: 700,
             color,
@@ -220,7 +220,7 @@ export default function AI() {
         <div>
           <h2
             style={{
-              fontFamily: "Syne, sans-serif",
+              fontFamily: "Orbitron, sans-serif",
               fontSize: "1.15rem",
               fontWeight: 700,
               color: "var(--text-primary)",
