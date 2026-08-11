@@ -140,10 +140,7 @@ export default function CommitActivityChart({ report }) {
                     : "url(#commitBarGrad)"
                 }
                 style={{
-                  filter:
-                    d.commits === peak
-                      ? `drop-shadow(0 0 5px ${colors.glowC2})`
-                      : "none",
+                  filter: "none",
                 }}
               />
             ))}
