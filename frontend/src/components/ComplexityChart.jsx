@@ -139,10 +139,7 @@ export default function ComplexityChart({ files }) {
                 key={i}
                 fill={d.complexity > 10 ? "url(#ccBarRisk)" : "url(#ccBarSafe)"}
                 style={{
-                  filter:
-                    d.complexity > 10
-                      ? `drop-shadow(0 0 4px ${colors.glowC1})`
-                      : "none",
+                  filter: "none",
                 }}
               />
             ))}
