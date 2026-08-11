@@ -4,11 +4,11 @@ import { useChartColors } from "../hooks/useChartColors";
 
 /* ── Score → palette-aware colour ───────────────────────── */
 function resolveColor(score, colors) {
-  if (score >= 85) return { color: colors.c2, glow: colors.glowC2 };
-  if (score >= 70) return { color: colors.c4, glow: colors.glowC2 };
-  if (score >= 50) return { color: colors.c3, glow: colors.glowC3 };
-  if (score >= 30) return { color: colors.c1, glow: colors.glowC1 };
-  return { color: colors.c1, glow: colors.glowC1 };
+  if (score >= 85) return { color: colors.c2 };
+  if (score >= 70) return { color: colors.c4 };
+  if (score >= 50) return { color: colors.c3 };
+  if (score >= 30) return { color: colors.c1 };
+  return { color: colors.c1 };
 }
 
 /* ── FileColorTree ───────────────────────────────────────── */
@@ -35,7 +35,7 @@ export default function FileColorTree({ files }) {
         {sorted.map((f, i) => {
           const name = f.path.split(/[\\/]/).pop();
           const s = f.healthScore ?? 0;
-          const { color, glow } = resolveColor(s, colors);
+          const { color } = resolveColor(s, colors);
 
           return (
             <Link
@@ -51,16 +51,13 @@ export default function FileColorTree({ files }) {
                 /* neon left-border accent — colour matches health */
                 borderLeft: `3px solid ${color}`,
                 background: "transparent",
-                transition:
-                  "background 0.15s, box-shadow 0.15s, border-color 0.15s",
+                transition: "background 0.15s, border-color 0.15s",
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "var(--bg-raise)";
-                e.currentTarget.style.boxShadow = `inset 0 0 0 1px var(--border), 0 0 10px ${glow}`;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.background = "transparent";
-                e.currentTarget.style.boxShadow = "none";
               }}
             >
               {/* colour dot */}
@@ -70,7 +67,6 @@ export default function FileColorTree({ files }) {
                   height: 8,
                   borderRadius: "50%",
                   background: color,
-                  boxShadow: `0 0 5px ${glow}`,
                   flexShrink: 0,
                 }}
               />
@@ -107,7 +103,6 @@ export default function FileColorTree({ files }) {
                     height: "100%",
                     width: `${s}%`,
                     background: color,
-                    boxShadow: `0 0 4px ${glow}`,
                     borderRadius: 99,
                     transition: "width 0.6s ease",
                   }}
