@@ -63,7 +63,6 @@ function DepStat({ label, value, colorVar, note, delay }) {
           fontSize: "1.1rem",
           fontWeight: 700,
           color: `var(${colorVar})`,
-          textShadow: `0 0 10px var(--glow-${colorVar.slice(2)})`,
         }}
       >
         {value}

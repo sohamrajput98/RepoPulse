@@ -145,7 +145,6 @@ function TopSmellFiles({ files }) {
                   borderRadius: 99,
                   width: `${pct}%`,
                   background: "var(--c1)",
-                  boxShadow: "0 0 6px var(--glow-c1)",
                   transition: "width 0.8s ease",
                 }}
               />

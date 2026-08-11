@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 
 /* ── Severity config ─────────────────────────────────────── */
 function getSeverity(cc) {
-  if (cc > 15) return { label: "Critical", colorVar: "--c1", bg: "--glow-c1" };
-  if (cc > 10) return { label: "High", colorVar: "--c3", bg: "--glow-c3" };
-  if (cc > 6) return { label: "Medium", colorVar: "--c5", bg: "--glow-c5" };
-  return { label: "Low", colorVar: "--c2", bg: "--glow-c2" };
+  if (cc > 15) return { label: "Critical", colorVar: "--c1" };
+  if (cc > 10) return { label: "High", colorVar: "--c3" };
+  if (cc > 6) return { label: "Medium", colorVar: "--c5" };
+  return { label: "Low", colorVar: "--c2" };
 }
 
 /* ── Ranked function card ────────────────────────────────── */

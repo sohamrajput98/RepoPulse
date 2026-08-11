@@ -1,222 +1,461 @@
 {
-  "generatedAt": "2026-03-16T17:45:43Z",
+  "generatedAt": "2026-04-24T11:58:56Z",
   "summary": {
-    "totalFiles": 26,
-    "totalLOC": 4821,
-    "totalFunctions": 87,
-    "totalSmells": 14,
-    "averageComplexity": 6.4,
-    "healthScore": 72.5,
-    "healthLabel": "Good",
+    "totalFiles": 28,
+    "totalLOC": 1943,
+    "totalFunctions": 132,
+    "totalSmells": 10,
+    "averageComplexity": 3.43939,
+    "healthScore": 40.57,
+    "healthLabel": "Poor",
     "scoreBreakdown": {
-      "smellPenalty": 12,
-      "complexityPenalty": 10,
-      "nestingPenalty": 3,
-      "locPenalty": 2.5
+      "smellPenalty": 20,
+      "complexityPenalty": 30,
+      "nestingPenalty": 0,
+      "locPenalty": 9.43
     },
     "skippedFiles": []
   },
   "files": [
     {
-      "path": "/tmp/repo/backend/src/analyzers/cpp/complexity_analyzer.cpp",
-      "totalLines": 312, "codeLines": 241, "commentLines": 38, "blankLines": 33,
-      "healthScore": 42.0,
-      "smells": ["LargeFile", "HighComplexity:parseTokens", "DeepNesting:parseBlock", "LongFunction:analyze"],
-      "functions": [
-        {"name":"parseTokens","startLine":12,"endLine":89,"lineCount":78,"paramCount":3,"complexity":14,"nestingDepth":5},
-        {"name":"parseBlock","startLine":91,"endLine":160,"lineCount":70,"paramCount":2,"complexity":12,"nestingDepth":5},
-        {"name":"analyze","startLine":162,"endLine":220,"lineCount":59,"paramCount":4,"complexity":9,"nestingDepth":3},
-        {"name":"reset","startLine":222,"endLine":240,"lineCount":19,"paramCount":0,"complexity":2,"nestingDepth":1}
-      ]
-    },
-    {
-      "path": "/tmp/repo/backend/src/core/repository_scanner.cpp",
-      "totalLines": 198, "codeLines": 154, "commentLines": 22, "blankLines": 22,
-      "healthScore": 61.0,
-      "smells": ["LongFunction:scan", "ExcessiveParams:computeScore"],
-      "functions": [
-        {"name":"scan","startLine":10,"endLine":75,"lineCount":66,"paramCount":2,"complexity":8,"nestingDepth":3},
-        {"name":"computeScore","startLine":77,"endLine":120,"lineCount":44,"paramCount":6,"complexity":5,"nestingDepth":2},
-        {"name":"reset","startLine":122,"endLine":135,"lineCount":14,"paramCount":0,"complexity":1,"nestingDepth":1}
-      ]
-    },
-    {
-      "path": "/tmp/repo/backend/src/metrics/function_metrics.cpp",
-      "totalLines": 245, "codeLines": 190, "commentLines": 30, "blankLines": 25,
-      "healthScore": 55.0,
-      "smells": ["LargeFile", "HighComplexity:extract", "LongLine"],
-      "functions": [
-        {"name":"extract","startLine":15,"endLine":95,"lineCount":81,"paramCount":2,"complexity":13,"nestingDepth":4},
-        {"name":"countParams","startLine":97,"endLine":130,"lineCount":34,"paramCount":1,"complexity":6,"nestingDepth":3},
-        {"name":"findBody","startLine":132,"endLine":180,"lineCount":49,"paramCount":2,"complexity":7,"nestingDepth":3}
-      ]
-    },
-    {
-      "path": "/tmp/repo/backend/src/report/json_reporter.cpp",
-      "totalLines": 180, "codeLines": 145, "commentLines": 15, "blankLines": 20,
-      "healthScore": 68.0,
-      "smells": ["LongFunction:generate", "ExcessiveParams:generate"],
-      "functions": [
-        {"name":"generate","startLine":8,"endLine":90,"lineCount":83,"paramCount":4,"complexity":7,"nestingDepth":2},
-        {"name":"esc","startLine":92,"endLine":105,"lineCount":14,"paramCount":1,"complexity":3,"nestingDepth":2}
-      ]
-    },
-    {
-      "path": "/tmp/repo/backend/src/scoring/health_score.cpp",
-      "totalLines": 120, "codeLines": 95, "commentLines": 18, "blankLines": 7,
-      "healthScore": 82.0,
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/json_reporter.cpp",
+      "totalLines": 18,
+      "codeLines": 17,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
       "smells": [],
       "functions": [
-        {"name":"compute","startLine":10,"endLine":45,"lineCount":36,"paramCount":1,"complexity":6,"nestingDepth":2},
-        {"name":"computePerFile","startLine":47,"endLine":70,"lineCount":24,"paramCount":1,"complexity":4,"nestingDepth":2},
-        {"name":"label","startLine":72,"endLine":82,"lineCount":11,"paramCount":1,"complexity":5,"nestingDepth":1}
       ]
     },
     {
-      "path": "/tmp/repo/backend/src/core/file_utils.cpp",
-      "totalLines": 95, "codeLines": 75, "commentLines": 12, "blankLines": 8,
-      "healthScore": 88.0,
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/report_generator.cpp",
+      "totalLines": 89,
+      "codeLines": 84,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
       "smells": [],
       "functions": [
-        {"name":"listFiles","startLine":5,"endLine":30,"lineCount":26,"paramCount":3,"complexity":4,"nestingDepth":2},
-        {"name":"filterIgnored","startLine":32,"endLine":55,"lineCount":24,"paramCount":2,"complexity":3,"nestingDepth":2}
       ]
     },
     {
-      "path": "/tmp/repo/backend/src/main.cpp",
-      "totalLines": 80, "codeLines": 62, "commentLines": 10, "blankLines": 8,
-      "healthScore": 91.0,
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/report_generator.h",
+      "totalLines": 13,
+      "codeLines": 12,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
       "smells": [],
       "functions": [
-        {"name":"main","startLine":8,"endLine":45,"lineCount":38,"paramCount":2,"complexity":3,"nestingDepth":2}
       ]
     },
     {
-      "path": "/tmp/repo/backend/src/analyzers/cpp/smell_detector.cpp",
-      "totalLines": 140, "codeLines": 110, "commentLines": 14, "blankLines": 16,
-      "healthScore": 74.0,
-      "smells": ["LongFunction:detectAll"],
-      "functions": [
-        {"name":"detectAll","startLine":5,"endLine":60,"lineCount":56,"paramCount":2,"complexity":8,"nestingDepth":3},
-        {"name":"detectLargeFile","startLine":62,"endLine":80,"lineCount":19,"paramCount":1,"complexity":2,"nestingDepth":1},
-        {"name":"detectFunctionSmells","startLine":82,"endLine":115,"lineCount":34,"paramCount":2,"complexity":5,"nestingDepth":2}
-      ]
-    },
-    {
-      "path": "/tmp/repo/backend/src/analyzers/cpp/cpp_analyzer.cpp",
-      "totalLines": 110, "codeLines": 88, "commentLines": 12, "blankLines": 10,
-      "healthScore": 79.0,
+      "path": "/tmp/repopulse_RepoPulse/backend/src/report/json_reporter.h",
+      "totalLines": 14,
+      "codeLines": 13,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
       "smells": [],
       "functions": [
-        {"name":"analyze","startLine":15,"endLine":65,"lineCount":51,"paramCount":1,"complexity":7,"nestingDepth":3},
-        {"name":"canHandle","startLine":67,"endLine":80,"lineCount":14,"paramCount":1,"complexity":3,"nestingDepth":1}
       ]
     },
     {
-      "path": "/tmp/repo/backend/src/metrics/loc_counter.cpp",
-      "totalLines": 95, "codeLines": 72, "commentLines": 14, "blankLines": 9,
-      "healthScore": 85.0,
+      "path": "/tmp/repopulse_RepoPulse/backend/src/main.cpp",
+      "totalLines": 27,
+      "codeLines": 22,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
       "smells": [],
       "functions": [
-        {"name":"count","startLine":5,"endLine":55,"lineCount":51,"paramCount":1,"complexity":9,"nestingDepth":3}
+        {"name":"main","startLine":8,"endLine":27,"lineCount":20,"paramCount":2,"complexity":2,"nestingDepth":1}
       ]
     },
     {
-      "path": "/tmp/repo/backend/src/core/analyzer_registry.cpp",
-      "totalLines": 60, "codeLines": 48, "commentLines": 6, "blankLines": 6,
-      "healthScore": 93.0,
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/base/analysis_result.h",
+      "totalLines": 24,
+      "codeLines": 22,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
       "smells": [],
       "functions": [
-        {"name":"registerAnalyzer","startLine":5,"endLine":18,"lineCount":14,"paramCount":2,"complexity":2,"nestingDepth":1},
-        {"name":"getAnalyzer","startLine":20,"endLine":32,"lineCount":13,"paramCount":1,"complexity":2,"nestingDepth":1}
       ]
     },
     {
-      "path": "/tmp/repo/backend/src/report/report_generator.cpp",
-      "totalLines": 55, "codeLines": 44, "commentLines": 5, "blankLines": 6,
-      "healthScore": 90.0,
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/base/analyzer_interface.h",
+      "totalLines": 10,
+      "codeLines": 9,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
       "smells": [],
       "functions": [
-        {"name":"generate","startLine":8,"endLine":30,"lineCount":23,"paramCount":4,"complexity":2,"nestingDepth":1}
       ]
     },
     {
-      "path": "/tmp/repo/backend/src/analyzers/base/analysis_result.h",
-      "totalLines": 30, "codeLines": 26, "commentLines": 2, "blankLines": 2,
-      "healthScore": 100.0, "smells": [], "functions": []
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/analysis_engine.h",
+      "totalLines": 622,
+      "codeLines": 520,
+      "commentLines": 14,
+      "blankLines": 88,
+      "healthScore": 71.78,
+      "smells": ["LargeFile","LongLine","HighComplexity:tokenize","HighComplexity:if","HighComplexity:addSmell"],
+      "functions": [
+        {"name":"Lexer","startLine":38,"endLine":38,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"tokenize","startLine":40,"endLine":56,"lineCount":17,"paramCount":0,"complexity":17,"nestingDepth":2},
+        {"name":"if","startLine":49,"endLine":67,"lineCount":19,"paramCount":1,"complexity":14,"nestingDepth":2},
+        {"name":"if","startLine":51,"endLine":67,"lineCount":17,"paramCount":1,"complexity":10,"nestingDepth":2},
+        {"name":"isAlpha","startLine":62,"endLine":62,"lineCount":1,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"isDigit","startLine":63,"endLine":63,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"isAlNum","startLine":64,"endLine":64,"lineCount":1,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"skipWhitespace","startLine":66,"endLine":71,"lineCount":6,"paramCount":0,"complexity":5,"nestingDepth":3},
+        {"name":"readIdentifier","startLine":73,"endLine":85,"lineCount":13,"paramCount":0,"complexity":10,"nestingDepth":2},
+        {"name":"readNumber","startLine":87,"endLine":96,"lineCount":10,"paramCount":0,"complexity":6,"nestingDepth":2},
+        {"name":"readString","startLine":98,"endLine":107,"lineCount":10,"paramCount":0,"complexity":5,"nestingDepth":3},
+        {"name":"readLineComment","startLine":109,"endLine":113,"lineCount":5,"paramCount":0,"complexity":3,"nestingDepth":2},
+        {"name":"readBlockComment","startLine":115,"endLine":124,"lineCount":10,"paramCount":0,"complexity":7,"nestingDepth":3},
+        {"name":"readOperator","startLine":126,"endLine":130,"lineCount":5,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"kind","startLine":147,"endLine":147,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"addChild","startLine":149,"endLine":151,"lineCount":3,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"pushScope","startLine":166,"endLine":166,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":2},
+        {"name":"popScope","startLine":168,"endLine":170,"lineCount":3,"paramCount":0,"complexity":2,"nestingDepth":1},
+        {"name":"declare","startLine":172,"endLine":174,"lineCount":3,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"lookup","startLine":176,"endLine":182,"lineCount":7,"paramCount":1,"complexity":3,"nestingDepth":2},
+        {"name":"getUnused","startLine":184,"endLine":191,"lineCount":8,"paramCount":0,"complexity":5,"nestingDepth":1},
+        {"name":"markUsed","startLine":193,"endLine":196,"lineCount":4,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"addNode","startLine":215,"endLine":219,"lineCount":5,"paramCount":1,"complexity":1,"nestingDepth":3},
+        {"name":"addEdge","startLine":221,"endLine":226,"lineCount":6,"paramCount":2,"complexity":3,"nestingDepth":2},
+        {"name":"cyclomaticComplexity","startLine":228,"endLine":232,"lineCount":5,"paramCount":0,"complexity":2,"nestingDepth":1},
+        {"name":"unreachableNodes","startLine":234,"endLine":248,"lineCount":15,"paramCount":0,"complexity":7,"nestingDepth":2},
+        {"name":"clear","startLine":250,"endLine":250,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"compute","startLine":289,"endLine":298,"lineCount":10,"paramCount":3,"complexity":2,"nestingDepth":1},
+        {"name":"classify","startLine":300,"endLine":305,"lineCount":6,"paramCount":1,"complexity":4,"nestingDepth":1},
+        {"name":"addFile","startLine":318,"endLine":327,"lineCount":10,"paramCount":2,"complexity":4,"nestingDepth":3},
+        {"name":"getDuplicates","startLine":329,"endLine":336,"lineCount":8,"paramCount":0,"complexity":3,"nestingDepth":3},
+        {"name":"trim","startLine":341,"endLine":345,"lineCount":5,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"simpleHash","startLine":347,"endLine":351,"lineCount":5,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"classify","startLine":367,"endLine":371,"lineCount":5,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"similarity","startLine":373,"endLine":381,"lineCount":9,"paramCount":2,"complexity":7,"nestingDepth":1},
+        {"name":"addDependency","startLine":388,"endLine":391,"lineCount":4,"paramCount":2,"complexity":1,"nestingDepth":1},
+        {"name":"afferentCoupling","startLine":393,"endLine":396,"lineCount":4,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"efferentCoupling","startLine":398,"endLine":401,"lineCount":4,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"instability","startLine":403,"endLine":408,"lineCount":6,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"findCircularDeps","startLine":410,"endLine":417,"lineCount":8,"paramCount":0,"complexity":5,"nestingDepth":1},
+        {"name":"addSmell","startLine":434,"endLine":447,"lineCount":14,"paramCount":2,"complexity":12,"nestingDepth":2},
+        {"name":"if","startLine":437,"endLine":438,"lineCount":2,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"if","startLine":439,"endLine":440,"lineCount":2,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"if","startLine":441,"endLine":442,"lineCount":2,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"if","startLine":443,"endLine":444,"lineCount":2,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"if","startLine":445,"endLine":446,"lineCount":2,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"totalDebtMinutes","startLine":449,"endLine":452,"lineCount":4,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"formattedDebt","startLine":454,"endLine":460,"lineCount":7,"paramCount":0,"complexity":2,"nestingDepth":1},
+        {"name":"getItems","startLine":462,"endLine":462,"lineCount":1,"paramCount":0,"complexity":1,"nestingDepth":1},
+        {"name":"setProject","startLine":472,"endLine":472,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"setMetrics","startLine":473,"endLine":473,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"setDebt","startLine":474,"endLine":474,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"setTimestamp","startLine":475,"endLine":475,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"buildJson","startLine":477,"endLine":495,"lineCount":19,"paramCount":0,"complexity":1,"nestingDepth":3},
+        {"name":"AnalysisPipeline","startLine":519,"endLine":519,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"run","startLine":521,"endLine":529,"lineCount":9,"paramCount":0,"complexity":1,"nestingDepth":1},
+        {"name":"collectFiles","startLine":534,"endLine":551,"lineCount":18,"paramCount":0,"complexity":8,"nestingDepth":3},
+        {"name":"analyzeFiles","startLine":553,"endLine":569,"lineCount":17,"paramCount":1,"complexity":4,"nestingDepth":2},
+        {"name":"analyzeFile","startLine":571,"endLine":589,"lineCount":19,"paramCount":1,"complexity":8,"nestingDepth":2},
+        {"name":"computeScore","startLine":591,"endLine":595,"lineCount":5,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"writeReport","startLine":597,"endLine":606,"lineCount":10,"paramCount":2,"complexity":2,"nestingDepth":1},
+        {"name":"runEngine","startLine":611,"endLine":622,"lineCount":12,"paramCount":2,"complexity":3,"nestingDepth":1}
+      ]
     },
     {
-      "path": "/tmp/repo/backend/src/analyzers/base/analyzer_interface.h",
-      "totalLines": 18, "codeLines": 15, "commentLines": 2, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
-    },
-    {
-      "path": "/tmp/repo/backend/src/analyzers/cpp/complexity_analyzer.h",
-      "totalLines": 14, "codeLines": 12, "commentLines": 1, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
-    },
-    {
-      "path": "/tmp/repo/backend/src/core/repository_scanner.h",
-      "totalLines": 20, "codeLines": 17, "commentLines": 2, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
-    },
-    {
-      "path": "/tmp/repo/backend/src/core/file_utils.h",
-      "totalLines": 12, "codeLines": 10, "commentLines": 1, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
-    },
-    {
-      "path": "/tmp/repo/backend/src/metrics/loc_counter.h",
-      "totalLines": 18, "codeLines": 15, "commentLines": 2, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
-    },
-    {
-      "path": "/tmp/repo/backend/src/metrics/function_metrics.h",
-      "totalLines": 12, "codeLines": 10, "commentLines": 1, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
-    },
-    {
-      "path": "/tmp/repo/backend/src/scoring/health_score.h",
-      "totalLines": 25, "codeLines": 22, "commentLines": 2, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
-    },
-    {
-      "path": "/tmp/repo/backend/src/report/json_reporter.h",
-      "totalLines": 16, "codeLines": 14, "commentLines": 1, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
-    },
-    {
-      "path": "/tmp/repo/backend/src/report/report_generator.h",
-      "totalLines": 14, "codeLines": 12, "commentLines": 1, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
-    },
-    {
-      "path": "/tmp/repo/backend/src/core/analyzer_registry.h",
-      "totalLines": 22, "codeLines": 19, "commentLines": 2, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
-    },
-    {
-      "path": "/tmp/repo/backend/tests/analyzer_tests.cpp",
-      "totalLines": 65, "codeLines": 52, "commentLines": 5, "blankLines": 8,
-      "healthScore": 95.0,
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/complexity_analyzer.h",
+      "totalLines": 9,
+      "codeLines": 8,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
       "smells": [],
       "functions": [
-        {"name":"testLoc","startLine":9,"endLine":18,"lineCount":10,"paramCount":0,"complexity":2,"nestingDepth":2},
-        {"name":"testComplexity","startLine":20,"endLine":30,"lineCount":11,"paramCount":0,"complexity":3,"nestingDepth":2},
-        {"name":"testSmells","startLine":32,"endLine":42,"lineCount":11,"paramCount":0,"complexity":2,"nestingDepth":2},
-        {"name":"testHealth","startLine":44,"endLine":52,"lineCount":9,"paramCount":0,"complexity":1,"nestingDepth":1},
-        {"name":"main","startLine":54,"endLine":62,"lineCount":9,"paramCount":0,"complexity":1,"nestingDepth":1}
       ]
     },
     {
-      "path": "/tmp/repo/backend/src/analyzers/cpp/smell_detector.h",
-      "totalLines": 14, "codeLines": 12, "commentLines": 1, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/complexity_analyzer.cpp",
+      "totalLines": 23,
+      "codeLines": 21,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
     },
     {
-      "path": "/tmp/repo/backend/src/analyzers/cpp/cpp_analyzer.h",
-      "totalLines": 16, "codeLines": 13, "commentLines": 2, "blankLines": 1,
-      "healthScore": 100.0, "smells": [], "functions": []
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/cpp_analyzer.h",
+      "totalLines": 13,
+      "codeLines": 12,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/smell_detector.cpp",
+      "totalLines": 32,
+      "codeLines": 25,
+      "commentLines": 1,
+      "blankLines": 6,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+        {"name":"cfg","startLine":3,"endLine":6,"lineCount":4,"paramCount":2,"complexity":2,"nestingDepth":1}
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/smell_detector.h",
+      "totalLines": 10,
+      "codeLines": 9,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/cpp_analyzer.cpp",
+      "totalLines": 52,
+      "codeLines": 43,
+      "commentLines": 0,
+      "blankLines": 9,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/analyzers/cpp/analysis_engine.cpp",
+      "totalLines": 622,
+      "codeLines": 520,
+      "commentLines": 14,
+      "blankLines": 88,
+      "healthScore": 71.78,
+      "smells": ["LargeFile","LongLine","HighComplexity:tokenize","HighComplexity:if","HighComplexity:addSmell"],
+      "functions": [
+        {"name":"Lexer","startLine":38,"endLine":38,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"tokenize","startLine":40,"endLine":56,"lineCount":17,"paramCount":0,"complexity":17,"nestingDepth":2},
+        {"name":"if","startLine":49,"endLine":67,"lineCount":19,"paramCount":1,"complexity":14,"nestingDepth":2},
+        {"name":"if","startLine":51,"endLine":67,"lineCount":17,"paramCount":1,"complexity":10,"nestingDepth":2},
+        {"name":"isAlpha","startLine":62,"endLine":62,"lineCount":1,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"isDigit","startLine":63,"endLine":63,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"isAlNum","startLine":64,"endLine":64,"lineCount":1,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"skipWhitespace","startLine":66,"endLine":71,"lineCount":6,"paramCount":0,"complexity":5,"nestingDepth":3},
+        {"name":"readIdentifier","startLine":73,"endLine":85,"lineCount":13,"paramCount":0,"complexity":10,"nestingDepth":2},
+        {"name":"readNumber","startLine":87,"endLine":96,"lineCount":10,"paramCount":0,"complexity":6,"nestingDepth":2},
+        {"name":"readString","startLine":98,"endLine":107,"lineCount":10,"paramCount":0,"complexity":5,"nestingDepth":3},
+        {"name":"readLineComment","startLine":109,"endLine":113,"lineCount":5,"paramCount":0,"complexity":3,"nestingDepth":2},
+        {"name":"readBlockComment","startLine":115,"endLine":124,"lineCount":10,"paramCount":0,"complexity":7,"nestingDepth":3},
+        {"name":"readOperator","startLine":126,"endLine":130,"lineCount":5,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"kind","startLine":147,"endLine":147,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"addChild","startLine":149,"endLine":151,"lineCount":3,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"pushScope","startLine":166,"endLine":166,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":2},
+        {"name":"popScope","startLine":168,"endLine":170,"lineCount":3,"paramCount":0,"complexity":2,"nestingDepth":1},
+        {"name":"declare","startLine":172,"endLine":174,"lineCount":3,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"lookup","startLine":176,"endLine":182,"lineCount":7,"paramCount":1,"complexity":3,"nestingDepth":2},
+        {"name":"getUnused","startLine":184,"endLine":191,"lineCount":8,"paramCount":0,"complexity":5,"nestingDepth":1},
+        {"name":"markUsed","startLine":193,"endLine":196,"lineCount":4,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"addNode","startLine":215,"endLine":219,"lineCount":5,"paramCount":1,"complexity":1,"nestingDepth":3},
+        {"name":"addEdge","startLine":221,"endLine":226,"lineCount":6,"paramCount":2,"complexity":3,"nestingDepth":2},
+        {"name":"cyclomaticComplexity","startLine":228,"endLine":232,"lineCount":5,"paramCount":0,"complexity":2,"nestingDepth":1},
+        {"name":"unreachableNodes","startLine":234,"endLine":248,"lineCount":15,"paramCount":0,"complexity":7,"nestingDepth":2},
+        {"name":"clear","startLine":250,"endLine":250,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"compute","startLine":289,"endLine":298,"lineCount":10,"paramCount":3,"complexity":2,"nestingDepth":1},
+        {"name":"classify","startLine":300,"endLine":305,"lineCount":6,"paramCount":1,"complexity":4,"nestingDepth":1},
+        {"name":"addFile","startLine":318,"endLine":327,"lineCount":10,"paramCount":2,"complexity":4,"nestingDepth":3},
+        {"name":"getDuplicates","startLine":329,"endLine":336,"lineCount":8,"paramCount":0,"complexity":3,"nestingDepth":3},
+        {"name":"trim","startLine":341,"endLine":345,"lineCount":5,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"simpleHash","startLine":347,"endLine":351,"lineCount":5,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"classify","startLine":367,"endLine":371,"lineCount":5,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"similarity","startLine":373,"endLine":381,"lineCount":9,"paramCount":2,"complexity":7,"nestingDepth":1},
+        {"name":"addDependency","startLine":388,"endLine":391,"lineCount":4,"paramCount":2,"complexity":1,"nestingDepth":1},
+        {"name":"afferentCoupling","startLine":393,"endLine":396,"lineCount":4,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"efferentCoupling","startLine":398,"endLine":401,"lineCount":4,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"instability","startLine":403,"endLine":408,"lineCount":6,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"findCircularDeps","startLine":410,"endLine":417,"lineCount":8,"paramCount":0,"complexity":5,"nestingDepth":1},
+        {"name":"addSmell","startLine":434,"endLine":447,"lineCount":14,"paramCount":2,"complexity":12,"nestingDepth":2},
+        {"name":"if","startLine":437,"endLine":438,"lineCount":2,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"if","startLine":439,"endLine":440,"lineCount":2,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"if","startLine":441,"endLine":442,"lineCount":2,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"if","startLine":443,"endLine":444,"lineCount":2,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"if","startLine":445,"endLine":446,"lineCount":2,"paramCount":1,"complexity":3,"nestingDepth":1},
+        {"name":"totalDebtMinutes","startLine":449,"endLine":452,"lineCount":4,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"formattedDebt","startLine":454,"endLine":460,"lineCount":7,"paramCount":0,"complexity":2,"nestingDepth":1},
+        {"name":"getItems","startLine":462,"endLine":462,"lineCount":1,"paramCount":0,"complexity":1,"nestingDepth":1},
+        {"name":"setProject","startLine":472,"endLine":472,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"setMetrics","startLine":473,"endLine":473,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"setDebt","startLine":474,"endLine":474,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"setTimestamp","startLine":475,"endLine":475,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"buildJson","startLine":477,"endLine":495,"lineCount":19,"paramCount":0,"complexity":1,"nestingDepth":3},
+        {"name":"AnalysisPipeline","startLine":519,"endLine":519,"lineCount":1,"paramCount":1,"complexity":1,"nestingDepth":1},
+        {"name":"run","startLine":521,"endLine":529,"lineCount":9,"paramCount":0,"complexity":1,"nestingDepth":1},
+        {"name":"collectFiles","startLine":534,"endLine":551,"lineCount":18,"paramCount":0,"complexity":8,"nestingDepth":3},
+        {"name":"analyzeFiles","startLine":553,"endLine":569,"lineCount":17,"paramCount":1,"complexity":4,"nestingDepth":2},
+        {"name":"analyzeFile","startLine":571,"endLine":589,"lineCount":19,"paramCount":1,"complexity":8,"nestingDepth":2},
+        {"name":"computeScore","startLine":591,"endLine":595,"lineCount":5,"paramCount":1,"complexity":2,"nestingDepth":1},
+        {"name":"writeReport","startLine":597,"endLine":606,"lineCount":10,"paramCount":2,"complexity":2,"nestingDepth":1},
+        {"name":"runEngine","startLine":611,"endLine":622,"lineCount":12,"paramCount":2,"complexity":3,"nestingDepth":1}
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/file_utils.cpp",
+      "totalLines": 31,
+      "codeLines": 25,
+      "commentLines": 0,
+      "blankLines": 6,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/repository_scanner.h",
+      "totalLines": 16,
+      "codeLines": 14,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/analyzer_registry.h",
+      "totalLines": 20,
+      "codeLines": 17,
+      "commentLines": 0,
+      "blankLines": 3,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/file_utils.h",
+      "totalLines": 10,
+      "codeLines": 9,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/repository_scanner.cpp",
+      "totalLines": 28,
+      "codeLines": 22,
+      "commentLines": 0,
+      "blankLines": 6,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/core/analyzer_registry.cpp",
+      "totalLines": 23,
+      "codeLines": 20,
+      "commentLines": 0,
+      "blankLines": 3,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/loc_counter.cpp",
+      "totalLines": 57,
+      "codeLines": 42,
+      "commentLines": 4,
+      "blankLines": 11,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/function_metrics.h",
+      "totalLines": 9,
+      "codeLines": 8,
+      "commentLines": 0,
+      "blankLines": 1,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/loc_counter.h",
+      "totalLines": 16,
+      "codeLines": 14,
+      "commentLines": 0,
+      "blankLines": 2,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/metrics/function_metrics.cpp",
+      "totalLines": 48,
+      "codeLines": 41,
+      "commentLines": 2,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/scoring/health_score.h",
+      "totalLines": 23,
+      "codeLines": 20,
+      "commentLines": 0,
+      "blankLines": 3,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/src/scoring/health_score.cpp",
+      "totalLines": 43,
+      "codeLines": 38,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+        {"name":"label","startLine":5,"endLine":11,"lineCount":7,"paramCount":1,"complexity":5,"nestingDepth":1}
+      ]
+    },
+    {
+      "path": "/tmp/repopulse_RepoPulse/backend/tests/analyzer_tests.cpp",
+      "totalLines": 41,
+      "codeLines": 36,
+      "commentLines": 0,
+      "blankLines": 5,
+      "healthScore": 100,
+      "smells": [],
+      "functions": [
+        {"name":"testLoc","startLine":9,"endLine":14,"lineCount":6,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"testComplexity","startLine":16,"endLine":21,"lineCount":6,"paramCount":0,"complexity":3,"nestingDepth":4},
+        {"name":"testSmells","startLine":23,"endLine":29,"lineCount":7,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"testHealth","startLine":31,"endLine":35,"lineCount":5,"paramCount":0,"complexity":1,"nestingDepth":2},
+        {"name":"main","startLine":37,"endLine":41,"lineCount":5,"paramCount":0,"complexity":1,"nestingDepth":1}
+      ]
     }
   ]
 }

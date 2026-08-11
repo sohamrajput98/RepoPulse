@@ -1,27 +1,25 @@
 import { useState } from "react";
 import { getAISuggestions } from "../utils/insights";
+import { IconHigh, IconMedium, IconLow, IconBrain } from "../components/icons";
 
 /* ── Severity config ─────────────────────────────────────── */
 const SEV = {
   high: {
     colorVar: "--c1",
-    glowVar: "--glow-c1",
     label: "High",
-    icon: "🔴",
+    IconComponent: IconHigh,
     order: 0,
   },
   medium: {
     colorVar: "--c3",
-    glowVar: "--glow-c3",
     label: "Medium",
-    icon: "🟠",
+    IconComponent: IconMedium,
     order: 1,
   },
   low: {
     colorVar: "--c4",
-    glowVar: "--glow-c4",
     label: "Low",
-    icon: "🔵",
+    IconComponent: IconLow,
     order: 2,
   },
 };
@@ -30,7 +28,7 @@ const SEV = {
 function SuggestionCard({ s, index }) {
   const sev = SEV[s.level] ?? SEV.low;
   const color = `var(${sev.colorVar})`;
-  const glow = `var(${sev.glowVar})`;
+  const IconComponent = sev.IconComponent;
 
   return (
     <div
@@ -45,18 +43,9 @@ function SuggestionCard({ s, index }) {
         borderLeft: `3px solid ${color}`,
         opacity: 0,
         animation: `fadeUp 0.4s ease ${index * 40}ms forwards`,
-        transition: "box-shadow 0.18s ease",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = `0 0 12px ${glow}`;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = "none";
       }}
     >
-      <span style={{ fontSize: "1rem", flexShrink: 0, marginTop: 1 }}>
-        {s.icon}
-      </span>
+      <IconComponent size={16} style={{ flexShrink: 0, marginTop: 1, color }} />
       <p
         style={{
           fontSize: "0.84rem",
@@ -87,7 +76,7 @@ function SeveritySection({ level, items, defaultOpen = true }) {
   const [open, setOpen] = useState(defaultOpen);
   const sev = SEV[level];
   const color = `var(${sev.colorVar})`;
-  const glow = `var(${sev.glowVar})`;
+  const IconComponent = sev.IconComponent;
   if (!items.length) return null;
 
   return (
@@ -106,17 +95,9 @@ function SeveritySection({ level, items, defaultOpen = true }) {
           background: `color-mix(in srgb, ${color} 8%, var(--bg-raise))`,
           border: `1px solid color-mix(in srgb, ${color} 22%, transparent)`,
           cursor: "pointer",
-          transition: "box-shadow 0.18s ease",
-          boxShadow: open ? `0 0 14px ${glow}` : "none",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.boxShadow = `0 0 16px ${glow}`;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.boxShadow = open ? `0 0 14px ${glow}` : "none";
         }}
       >
-        <span style={{ fontSize: "0.9rem" }}>{sev.icon}</span>
+        <IconComponent size={16} style={{ color }} />
         <span
           style={{
             fontFamily: "Orbitron, sans-serif",
@@ -203,7 +184,7 @@ export default function AISuggestions({ files, score }) {
           marginBottom: "1rem",
         }}
       >
-        <span style={{ fontSize: "1.1rem" }}>🤖</span>
+        <IconBrain size={18} style={{ color: "var(--accent)" }} />
         <p className="card-header" style={{ marginBottom: 0 }}>
           AI Suggestions
         </p>

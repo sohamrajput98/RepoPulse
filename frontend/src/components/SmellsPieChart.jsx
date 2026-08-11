@@ -1,5 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { useChartColors } from "../hooks/useChartColors";
+import { IconCheck } from "../components/icons";
 
 /* ── Themed tooltip ──────────────────────────────────────── */
 function CustomTooltip({ active, payload }) {
@@ -142,7 +143,10 @@ export default function SmellsPieChart({ files }) {
         }}
       >
         <div style={{ textAlign: "center" }}>
-          <p style={{ fontSize: "1.5rem", marginBottom: 6 }}>🎉</p>
+          <IconCheck
+            size={24}
+            style={{ color: "var(--accent)", marginBottom: 6 }}
+          />
           <p style={{ color: "var(--text-muted)", fontSize: "0.9rem" }}>
             No smells detected
           </p>
@@ -173,8 +177,6 @@ export default function SmellsPieChart({ files }) {
                 fill={d.color}
                 stroke="transparent"
                 style={{
-                  /* neon glow on each slice */
-                  filter: `drop-shadow(0 0 5px ${d.color}88)`,
                   transition: "filter 0.2s ease",
                 }}
               />

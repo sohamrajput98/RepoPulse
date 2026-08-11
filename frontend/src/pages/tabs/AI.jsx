@@ -1,28 +1,32 @@
 import { useState } from "react";
 import { useReport } from "../../context/ReportContext";
 import { getAISuggestions } from "../../utils/insights";
+import {
+  IconHigh,
+  IconMedium,
+  IconLow,
+  IconBrain,
+  IconCheck,
+} from "../../components/icons";
 
 /* ── Severity config ─────────────────────────────────────── */
 const SEVERITY = {
   high: {
     label: "High",
     colorVar: "--c1",
-    glowVar: "--glow-c1",
-    icon: "🔴",
+    IconComponent: IconHigh,
     order: 0,
   },
   medium: {
     label: "Medium",
     colorVar: "--c3",
-    glowVar: "--glow-c3",
-    icon: "🟠",
+    IconComponent: IconMedium,
     order: 1,
   },
   low: {
     label: "Low",
     colorVar: "--c4",
-    glowVar: "--glow-c4",
-    icon: "🔵",
+    IconComponent: IconLow,
     order: 2,
   },
 };
@@ -31,6 +35,7 @@ const SEVERITY = {
 function SuggestionCard({ suggestion, index, delay }) {
   const sev = SEVERITY[suggestion.level] ?? SEVERITY.low;
   const color = `var(${sev.colorVar})`;
+  const IconComponent = sev.IconComponent;
 
   return (
     <div
@@ -46,9 +51,7 @@ function SuggestionCard({ suggestion, index, delay }) {
       }}
     >
       {/* icon */}
-      <span style={{ fontSize: "1.1rem", flexShrink: 0, marginTop: 1 }}>
-        {suggestion.icon}
-      </span>
+      <IconComponent size={18} style={{ flexShrink: 0, marginTop: 1, color }} />
 
       {/* text */}
       <p
@@ -89,6 +92,7 @@ function SeveritySection({
 }) {
   const sev = SEVERITY[level];
   const color = `var(${sev.colorVar})`;
+  const IconComponent = sev.IconComponent;
   const count = suggestions.length;
 
   if (!count) return null;
@@ -114,11 +118,10 @@ function SeveritySection({
           background: `color-mix(in srgb, ${color} 8%, var(--bg-raise))`,
           border: `1px solid color-mix(in srgb, ${color} 25%, transparent)`,
           cursor: "pointer",
-          transition: "background 0.2s, box-shadow 0.2s",
-          boxShadow: !collapsed ? `0 0 16px var(${sev.glowVar})` : "none",
+          transition: "background 0.2s",
         }}
       >
-        <span style={{ fontSize: "1rem" }}>{sev.icon}</span>
+        <IconComponent size={16} style={{ color }} />
 
         <span
           style={{
@@ -220,6 +223,9 @@ export default function AI() {
         <div>
           <h2
             style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
               fontFamily: "Orbitron, sans-serif",
               fontSize: "1.15rem",
               fontWeight: 700,
@@ -227,7 +233,8 @@ export default function AI() {
               marginBottom: 2,
             }}
           >
-            🤖 AI Suggestions
+            <IconBrain size={20} style={{ color: "var(--accent)" }} />
+            Insight & Suggestion
           </h2>
           <p style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
             {all.length} suggestion{all.length !== 1 ? "s" : ""} generated from
@@ -277,7 +284,10 @@ export default function AI() {
             animation: "fadeUp 0.4s ease 80ms forwards",
           }}
         >
-          <p style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>🎉</p>
+          <IconCheck
+            size={32}
+            style={{ color: "var(--accent)", marginBottom: "0.5rem" }}
+          />
           <p style={{ fontWeight: 600 }}>No issues detected</p>
           <p style={{ fontSize: "0.82rem", marginTop: 4 }}>
             Your codebase looks clean — keep it up!

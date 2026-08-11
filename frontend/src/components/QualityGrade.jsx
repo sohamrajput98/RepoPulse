@@ -4,13 +4,12 @@ import { useChartColors } from "../hooks/useChartColors";
 const GRADE_CONFIG = {
   A: {
     colorVar: "--score-excellent",
-    glowVar: "--glow-c2",
     label: "Excellent",
   },
-  B: { colorVar: "--score-good", glowVar: "--glow-c2", label: "Good" },
-  C: { colorVar: "--score-fair", glowVar: "--glow-c3", label: "Fair" },
-  D: { colorVar: "--score-poor", glowVar: "--glow-c1", label: "Poor" },
-  F: { colorVar: "--score-critical", glowVar: "--glow-c1", label: "Critical" },
+  B: { colorVar: "--score-good", label: "Good" },
+  C: { colorVar: "--score-fair", label: "Fair" },
+  D: { colorVar: "--score-poor", label: "Poor" },
+  F: { colorVar: "--score-critical", label: "Critical" },
 };
 
 function resolveGrade(score) {
@@ -29,7 +28,6 @@ export default function QualityGrade({ score }) {
   const letter = resolveGrade(s);
   const cfg = GRADE_CONFIG[letter];
   const color = `var(${cfg.colorVar})`;
-  const glow = `var(${cfg.glowVar})`;
   const SIZE = 104;
   const THICK = 5;
 
@@ -60,30 +58,13 @@ export default function QualityGrade({ score }) {
           marginTop: "0.5rem",
         }}
       >
-        {/* outer glow ring — animated */}
+        {/* outer ring */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             borderRadius: "50%",
             border: `${THICK}px solid ${color}`,
-            boxShadow: [
-              `0 0 0 1px color-mix(in srgb, ${color} 20%, transparent)`,
-              `0 0 18px 3px ${glow}`,
-              `0 0 36px 6px color-mix(in srgb, ${glow} 40%, transparent)`,
-              `inset 0 0 14px color-mix(in srgb, ${glow} 16%, transparent)`,
-            ].join(", "),
-            animation: "gradeGlow 2.5s ease-in-out infinite alternate",
-          }}
-        />
-
-        {/* inner subtle fill */}
-        <div
-          style={{
-            position: "absolute",
-            inset: THICK + 4,
-            borderRadius: "50%",
-            background: `radial-gradient(circle, color-mix(in srgb, ${glow} 12%, transparent) 0%, transparent 70%)`,
           }}
         />
 
@@ -104,12 +85,6 @@ export default function QualityGrade({ score }) {
               fontWeight: 800,
               lineHeight: 1,
               color,
-              /* neon text glow */
-              textShadow: [
-                `0 0 12px ${glow}`,
-                `0 0 28px color-mix(in srgb, ${glow} 50%, transparent)`,
-                `0 0 52px color-mix(in srgb, ${glow} 25%, transparent)`,
-              ].join(", "),
               animation:
                 "gradeIn 0.55s cubic-bezier(0.34,1.56,0.64,1) forwards",
             }}
@@ -119,7 +94,7 @@ export default function QualityGrade({ score }) {
         </div>
       </div>
 
-      {/* label with neon text shadow */}
+      {/* label */}
       <span
         style={{
           fontSize: "0.78rem",
@@ -127,7 +102,6 @@ export default function QualityGrade({ score }) {
           color,
           letterSpacing: "0.09em",
           textTransform: "uppercase",
-          textShadow: `0 0 10px color-mix(in srgb, ${glow} 55%, transparent)`,
         }}
       >
         {cfg.label}
@@ -147,19 +121,6 @@ export default function QualityGrade({ score }) {
       </p>
 
       <style>{`
-                @keyframes gradeGlow {
-                    from {
-                        box-shadow:
-                            0 0 10px 2px ${glow},
-                            inset 0 0 8px color-mix(in srgb, ${glow} 10%, transparent);
-                    }
-                    to {
-                        box-shadow:
-                            0 0 28px 8px ${glow},
-                            0 0 54px 12px color-mix(in srgb, ${glow} 30%, transparent),
-                            inset 0 0 22px color-mix(in srgb, ${glow} 20%, transparent);
-                    }
-                }
                 @keyframes gradeIn {
                     from { opacity: 0; transform: scale(0.5) rotate(-8deg); }
                     to   { opacity: 1; transform: scale(1) rotate(0deg); }

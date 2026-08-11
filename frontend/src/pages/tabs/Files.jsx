@@ -4,6 +4,7 @@ import FileColorTree from "../../components/FileColorTree";
 import RiskFilesTable from "../../components/RiskFilesTable";
 import LanguageBreakdown from "../../components/LanguageBreakdown";
 import DependencyGraph from "../../components/DependencyGraph";
+import { IconCheck } from "../../components/icons";
 
 /* ── collect unique smell type names ─────────────────────── */
 function collectSmellTypes(files) {
@@ -32,7 +33,6 @@ function SmellFilterBar({ types, active, onChange }) {
             background: active === t ? "var(--accent)" : "var(--bg-raise)",
             color: active === t ? "#fff" : "var(--text-secondary)",
             borderColor: active === t ? "var(--accent)" : "var(--border)",
-            boxShadow: active === t ? "0 0 10px var(--glow-c4)" : "none",
           }}
         >
           {t}
@@ -176,7 +176,11 @@ export default function Files() {
           >
             No files match the{" "}
             <strong style={{ color: "var(--accent)" }}>{filter}</strong> filter
-            🎉
+            <br />
+            <IconCheck
+              size={20}
+              style={{ color: "var(--accent)", marginTop: "0.5rem" }}
+            />
           </div>
         )}
       </div>

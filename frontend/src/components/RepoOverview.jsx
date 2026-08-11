@@ -1,39 +1,36 @@
 import { useCountUp } from "../hooks/useCountUp";
+import { IconFiles, IconLines, IconFunctions, IconSmells } from "./icons";
 
 /* ── Per-stat config ─────────────────────────────────────── */
 const STATS = [
   {
     key: "totalFiles",
     label: "Files",
-    icon: "📁",
+    icon: IconFiles,
     colorVar: "--c4",
-    glowVar: "--glow-c4",
   },
   {
     key: "totalLOC",
     label: "Lines",
-    icon: "📄",
+    icon: IconLines,
     colorVar: "--c2",
-    glowVar: "--glow-c2",
   },
   {
     key: "totalFunctions",
     label: "Functions",
-    icon: "⚙️",
+    icon: IconFunctions,
     colorVar: "--c6",
-    glowVar: "--glow-c6",
   },
   {
     key: "totalSmells",
     label: "Smells",
-    icon: "🚨",
+    icon: IconSmells,
     colorVar: "--c1",
-    glowVar: "--glow-c1",
   },
 ];
 
 /* ── Single stat card ────────────────────────────────────── */
-function StatCard({ label, value, icon, colorVar, glowVar, delay }) {
+function StatCard({ label, value, icon: IconComponent, colorVar, delay }) {
   const animated = useCountUp(value ?? 0, 1000);
 
   return (
@@ -55,7 +52,7 @@ function StatCard({ label, value, icon, colorVar, glowVar, delay }) {
         cursor: "default",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = `var(--shadow-card), 0 -1px 0 0 var(${colorVar}), 0 0 22px var(${glowVar})`;
+        e.currentTarget.style.boxShadow = `var(--shadow-card), 0 -1px 0 0 var(${colorVar})`;
         e.currentTarget.style.transform = "translateY(-2px)";
       }}
       onMouseLeave={(e) => {
@@ -74,7 +71,7 @@ function StatCard({ label, value, icon, colorVar, glowVar, delay }) {
         <span className="card-header" style={{ marginBottom: 0 }}>
           {label}
         </span>
-        <span style={{ fontSize: "1.2rem", lineHeight: 1 }}>{icon}</span>
+        <IconComponent size={20} style={{ color: `var(${colorVar})` }} />
       </div>
 
       {/* animated count value */}
@@ -85,8 +82,6 @@ function StatCard({ label, value, icon, colorVar, glowVar, delay }) {
           fontWeight: 700,
           lineHeight: 1,
           color: `var(${colorVar})`,
-          /* soft neon text glow */
-          textShadow: `0 0 16px var(${glowVar})`,
           animation: "countUp 0.6s ease forwards",
         }}
       >
@@ -115,7 +110,6 @@ export default function RepoOverview({ summary }) {
           icon={s.icon}
           value={summary[s.key]}
           colorVar={s.colorVar}
-          glowVar={s.glowVar}
           delay={i * 65}
         />
       ))}

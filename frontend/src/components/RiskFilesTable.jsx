@@ -59,11 +59,9 @@ function CCCell({ value, colors }) {
         fontWeight: over ? 700 : 500,
         fontSize: "0.82rem",
         color: over ? colors.c1 : "var(--text-secondary)",
-        textShadow: over ? `0 0 8px ${colors.glowC1}` : "none",
       }}
     >
       {value}
-      {over && <span style={{ fontSize: "0.6rem", marginLeft: 2 }}>⚠</span>}
     </span>
   );
 }
@@ -84,14 +82,13 @@ function PageBtn({ children, onClick, disabled }) {
         fontWeight: 500,
         cursor: disabled ? "not-allowed" : "pointer",
         opacity: disabled ? 0.4 : 1,
-        transition: "background 0.15s, box-shadow 0.15s",
+        transition: "background 0.15s",
       }}
       onMouseEnter={(e) => {
-        if (!disabled)
-          e.currentTarget.style.boxShadow = "0 0 8px var(--glow-c4)";
+        if (!disabled) e.currentTarget.style.background = "var(--bg-raise)";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = "none";
+        e.currentTarget.style.background = "var(--bg-base)";
       }}
     >
       {children}
@@ -215,13 +212,6 @@ export default function RiskFilesTable({ files }) {
                         fontWeight: 500,
                         color: "var(--accent)",
                         textDecoration: "none",
-                        transition: "text-shadow 0.15s",
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.textShadow = `0 0 8px var(--glow-c4)`;
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.textShadow = "none";
                       }}
                     >
                       {basename(f.path)}

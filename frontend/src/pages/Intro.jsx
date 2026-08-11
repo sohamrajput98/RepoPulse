@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { IconLightning } from "../components/icons";
 
 /**
  * Intro — logo blooms in center (0→2s), slides to top-left (2→2.8s),
@@ -123,35 +124,16 @@ export default function Intro() {
         />
       ))}
 
-      {/* ── glowing halo behind logo ── */}
-      <div
-        style={{
-          position: "fixed",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 320,
-          height: 320,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, var(--glow-c4) 0%, transparent 70%)",
-          opacity: phase === 1 ? 0.6 : 0,
-          transition: "opacity 0.8s ease",
-          pointerEvents: "none",
-        }}
-      />
-
       {/* ── logo ── */}
       <div style={logoStyle}>
-        <span
+        <IconLightning
+          size={phase === 1 ? 76 : 20}
           style={{
             color: "var(--accent)",
             display: "inline-block",
             animation: phase === 1 ? "boltSpin 0.7s ease" : "none",
           }}
-        >
-          ⚡
-        </span>
+        />
         <span style={{ color: "var(--text-primary)" }}>RepoPulse</span>
         {/* v-chip only visible in top-left (phase 2) */}
         {phase === 2 && (
@@ -200,7 +182,6 @@ export default function Intro() {
           width: phase >= 1 ? (phase === 2 ? "100%" : "55%") : "0%",
           background: "linear-gradient(90deg, var(--c4), var(--c5))",
           transition: phase === 1 ? "width 1.9s ease" : "width 0.7s ease",
-          boxShadow: "0 0 12px var(--glow-c4)",
         }}
       />
 

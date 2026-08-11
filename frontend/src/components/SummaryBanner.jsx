@@ -1,15 +1,41 @@
 import LastAnalyzed from "./LastAnalyzed";
+import {
+  IconFiles,
+  IconSmells,
+  IconFunctions,
+  IconComplexity,
+} from "../components/icons";
 
 /* ── Chip config ─────────────────────────────────────────── */
 const CHIPS = [
-  { icon: "🗂", key: "totalFiles", suffix: " files", colorVar: "--c4" },
-  { icon: "🔍", key: "totalSmells", suffix: " smells", colorVar: "--c1" },
-  { icon: "⚙️", key: "totalFunctions", suffix: " functions", colorVar: "--c6" },
-  { icon: "📊", key: "avg", suffix: " avg CC", colorVar: "--c3" },
+  {
+    IconComponent: IconFiles,
+    key: "totalFiles",
+    suffix: " files",
+    colorVar: "--c4",
+  },
+  {
+    IconComponent: IconSmells,
+    key: "totalSmells",
+    suffix: " smells",
+    colorVar: "--c1",
+  },
+  {
+    IconComponent: IconFunctions,
+    key: "totalFunctions",
+    suffix: " functions",
+    colorVar: "--c6",
+  },
+  {
+    IconComponent: IconComplexity,
+    key: "avg",
+    suffix: " avg CC",
+    colorVar: "--c3",
+  },
 ];
 
 /* ── Pill chip ───────────────────────────────────────────── */
-function StatPill({ icon, value, suffix, colorVar, delay }) {
+function StatPill({ IconComponent, value, suffix, colorVar, delay }) {
   return (
     <span
       style={{
@@ -24,19 +50,17 @@ function StatPill({ icon, value, suffix, colorVar, delay }) {
         whiteSpace: "nowrap",
         opacity: 0,
         animation: `fadeIn 0.4s ease ${delay}ms forwards`,
-        transition: "box-shadow 0.2s ease, transform 0.15s ease",
+        transition: "transform 0.15s ease",
         cursor: "default",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = `0 0 12px color-mix(in srgb, var(${colorVar}) 40%, transparent)`;
         e.currentTarget.style.transform = "translateY(-1px)";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = "none";
         e.currentTarget.style.transform = "translateY(0)";
       }}
     >
-      <span style={{ fontSize: "0.88rem", lineHeight: 1 }}>{icon}</span>
+      <IconComponent size={14} style={{ color: `var(${colorVar})` }} />
       <span
         style={{
           fontFamily: "Orbitron, sans-serif",
@@ -93,7 +117,7 @@ export default function SummaryBanner({ summary, generatedAt }) {
         {CHIPS.map((c, i) => (
           <StatPill
             key={c.key}
-            icon={c.icon}
+            IconComponent={c.IconComponent}
             value={values[c.key]}
             suffix={c.suffix}
             colorVar={c.colorVar}

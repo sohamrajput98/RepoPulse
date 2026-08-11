@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IconLightning, IconWarning } from "./icons";
 
 /* ── Scan overlay animation ──────────────────────────────── */
 function ScanOverlay({ status }) {
@@ -41,7 +42,6 @@ function ScanOverlay({ status }) {
                   borderRadius: 99,
                   background:
                     done || current ? "var(--accent)" : "var(--border)",
-                  boxShadow: current ? "0 0 8px var(--glow-c4)" : "none",
                   transition: "background 0.3s ease",
                   position: "relative",
                   overflow: "hidden",
@@ -86,7 +86,6 @@ function ScanOverlay({ status }) {
             height: 7,
             borderRadius: "50%",
             background: "var(--accent)",
-            boxShadow: "0 0 8px var(--glow-c4)",
             flexShrink: 0,
             animation: "neonPulse 1.1s ease-in-out infinite",
           }}
@@ -190,7 +189,10 @@ export default function GitHubInput({ onLoad }) {
               Working…
             </span>
           ) : (
-            "⚡ Analyze"
+            <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <IconLightning size={16} />
+              Analyze
+            </span>
           )}
         </button>
       </div>
@@ -210,7 +212,7 @@ export default function GitHubInput({ onLoad }) {
             gap: 5,
           }}
         >
-          <span>⚠</span> {err}
+          <IconWarning size={16} /> {err}
         </p>
       )}
 
@@ -219,8 +221,8 @@ export default function GitHubInput({ onLoad }) {
                     to { transform: rotate(360deg); }
                 }
                 @keyframes neonPulse {
-                    0%,100% { opacity: 1; transform: scale(1); box-shadow: 0 0 8px var(--glow-c4); }
-                    50%     { opacity: 0.5; transform: scale(1.4); box-shadow: 0 0 14px var(--glow-c4); }
+                    0%,100% { opacity: 1; transform: scale(1); }
+                    50%     { opacity: 0.5; transform: scale(1.4); }
                 }
                 @keyframes scanShimmer {
                     from { transform: translateX(-100%); }

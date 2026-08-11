@@ -2,6 +2,8 @@ import { useEffect, lazy, Suspense } from "react";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useReport } from "../context/ReportContext";
 import Navbar from "../components/Navbar";
+import PrintReport from "../components/PrintReport";
+import { IconWarning } from "../components/icons";
 
 /* ── Lazy tab pages ──────────────────────────────────────── */
 const Overview = lazy(() => import("./tabs/Overview"));
@@ -134,7 +136,10 @@ export default function Dashboard() {
           className="card"
           style={{ padding: "2rem", maxWidth: 420, textAlign: "center" }}
         >
-          <p style={{ fontSize: "2rem", marginBottom: "0.75rem" }}>⚠️</p>
+          <IconWarning
+            size={32}
+            style={{ color: "var(--score-poor)", marginBottom: "0.75rem" }}
+          />
           <p
             style={{
               color: "var(--score-poor)",
@@ -240,6 +245,9 @@ export default function Dashboard() {
           </Routes>
         </Suspense>
       </main>
+
+      {/* Hidden print report — only visible via @media print */}
+      <PrintReport />
     </div>
   );
 }
