@@ -5,9 +5,15 @@ import TrendChart from "../../components/TrendChart";
 import RiskHeatmap from "../../components/RiskHeatmap";
 import CommitActivityChart from "../../components/CommitActivityChart";
 import { useCountUp } from "../../hooks/useCountUp";
+import {
+  IconFiles,
+  IconLines,
+  IconFunctions,
+  IconSmells,
+} from "../../components/icons";
 
 /* ── Animated stat chip ──────────────────────────────────── */
-function StatChip({ label, value, icon, colorVar, delay = 0 }) {
+function StatChip({ label, value, icon: IconComponent, colorVar, delay = 0 }) {
   const animated = useCountUp(value ?? 0, 1000);
   return (
     <div
@@ -31,7 +37,7 @@ function StatChip({ label, value, icon, colorVar, delay = 0 }) {
         <span className="card-header" style={{ marginBottom: 0 }}>
           {label}
         </span>
-        <span style={{ fontSize: "1.1rem" }}>{icon}</span>
+        <IconComponent size={18} style={{ color: `var(${colorVar})` }} />
       </div>
       <span
         style={{
@@ -103,28 +109,28 @@ export default function Overview() {
           <StatChip
             label="Files"
             value={sum?.totalFiles}
-            icon="📁"
+            icon={IconFiles}
             colorVar="--c4"
             delay={120}
           />
           <StatChip
             label="Lines of Code"
             value={sum?.totalLOC}
-            icon="📄"
+            icon={IconLines}
             colorVar="--c2"
             delay={180}
           />
           <StatChip
             label="Functions"
             value={sum?.totalFunctions}
-            icon="⚙️"
+            icon={IconFunctions}
             colorVar="--c6"
             delay={240}
           />
           <StatChip
             label="Smells"
             value={sum?.totalSmells}
-            icon="🚨"
+            icon={IconSmells}
             colorVar="--c1"
             delay={300}
           />
