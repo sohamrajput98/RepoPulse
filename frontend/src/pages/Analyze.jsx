@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useReport } from "../context/ReportContext";
 import { useDarkMode } from "../hooks/useDarkMode";
+import { IconSun, IconMoon, IconLightning } from "../components/icons";
 
 export default function Analyze() {
   const { refresh, loading } = useReport();
@@ -68,7 +69,7 @@ export default function Analyze() {
         className="btn-ghost"
         style={{ position: "absolute", top: "1.5rem", right: "1.5rem" }}
       >
-        {dark ? "☀️" : "🌙"}
+        {dark ? <IconSun size={20} /> : <IconMoon size={20} />}
       </button>
 
       {/* Logo */}
@@ -81,9 +82,13 @@ export default function Analyze() {
           color: "var(--text-primary)",
           marginBottom: "0.5rem",
           animation: "fadeUp 0.5s ease forwards",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
         }}
       >
-        <span style={{ color: "var(--accent)" }}>⚡</span> RepoPulse
+        <IconLightning size={40} style={{ color: "var(--accent)" }} />
+        RepoPulse
       </div>
       <p
         style={{
