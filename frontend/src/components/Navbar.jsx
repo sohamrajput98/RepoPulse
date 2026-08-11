@@ -7,14 +7,28 @@ import {
   LIGHT_PALETTES,
 } from "../context/PaletteContext";
 import { useReport } from "../context/ReportContext";
+import {
+  IconOverview,
+  IconComplexity,
+  IconSmells,
+  IconFiles,
+  IconInsights,
+  IconSun,
+  IconMoon,
+  IconWarning,
+  IconRefresh,
+  IconChevronDown,
+  IconCheck,
+  IconLightning,
+} from "./icons";
 
 /* ── Tab definitions ─────────────────────────────────────── */
 const TABS = [
-  { id: "overview", label: "Overview", icon: "📊" },
-  { id: "complexity", label: "Complexity", icon: "🔬" },
-  { id: "smells", label: "Smells", icon: "🧠" },
-  { id: "files", label: "Files", icon: "📁" },
-  { id: "insights", label: "Insights", icon: "💡" },
+  { id: "overview", label: "Overview", icon: IconOverview },
+  { id: "complexity", label: "Complexity", icon: IconComplexity },
+  { id: "smells", label: "Smells", icon: IconSmells },
+  { id: "files", label: "Files", icon: IconFiles },
+  { id: "insights", label: "Insights", icon: IconInsights },
 ];
 
 /* ── Palette dot swatch ──────────────────────────────────── */
@@ -29,7 +43,6 @@ function Swatch({ colors }) {
             height: 8,
             borderRadius: "50%",
             background: c,
-            boxShadow: `0 0 4px ${c}88`,
           }}
         />
       ))}
@@ -71,9 +84,7 @@ function PalettePicker({ dark }) {
       >
         <Swatch colors={current.swatch} />
         <span style={{ fontSize: "0.75rem" }}>{current.label}</span>
-        <span style={{ fontSize: "0.65rem", color: "var(--text-muted)" }}>
-          ▾
-        </span>
+        <IconChevronDown size={10} style={{ color: "var(--text-muted)" }} />
       </button>
 
       {open && (
@@ -118,15 +129,10 @@ function PalettePicker({ dark }) {
               <Swatch colors={p.swatch} />
               {p.label}
               {palette === p.id && (
-                <span
-                  style={{
-                    marginLeft: "auto",
-                    color: "var(--accent)",
-                    fontSize: "0.7rem",
-                  }}
-                >
-                  ✓
-                </span>
+                <IconCheck
+                  size={12}
+                  style={{ marginLeft: "auto", color: "var(--accent)" }}
+                />
               )}
             </button>
           ))}
@@ -151,9 +157,7 @@ export default function Navbar({ onPrint }) {
         position: "sticky",
         top: 0,
         zIndex: 100,
-        background: "color-mix(in srgb, var(--bg-card) 85%, transparent)",
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
+        background: "var(--bg-card)",
         borderBottom: "1px solid var(--border)",
         padding: "0 1.5rem",
         height: 56,
@@ -181,26 +185,29 @@ export default function Navbar({ onPrint }) {
           padding: 0,
         }}
       >
-        <span style={{ color: "var(--accent)" }}>⚡</span>
+        <IconLightning size={20} style={{ color: "var(--accent)" }} />
         RepoPulse
       </button>
 
       {/* ── CENTER — tab nav ── */}
       <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
         <div className="tab-bar" style={{ display: "flex", gap: 2 }}>
-          {TABS.map((tab) => (
-            <NavLink
-              key={tab.id}
-              to={`/dashboard/${tab.id}`}
-              className={({ isActive }) =>
-                `tab-item${isActive ? " active" : ""}`
-              }
-              style={{ display: "flex", alignItems: "center", gap: 4 }}
-            >
-              <span style={{ fontSize: "0.8rem" }}>{tab.icon}</span>
-              <span>{tab.label}</span>
-            </NavLink>
-          ))}
+          {TABS.map((tab) => {
+            const IconComponent = tab.icon;
+            return (
+              <NavLink
+                key={tab.id}
+                to={`/dashboard/${tab.id}`}
+                className={({ isActive }) =>
+                  `tab-item${isActive ? " active" : ""}`
+                }
+                style={{ display: "flex", alignItems: "center", gap: 4 }}
+              >
+                <IconComponent size={14} />
+                <span>{tab.label}</span>
+              </NavLink>
+            );
+          })}
         </div>
       </div>
 
@@ -218,14 +225,16 @@ export default function Navbar({ onPrint }) {
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
             }}
             title={repoName}
           >
-            📁 {repoName}
+            <IconFiles size={12} />
+            {repoName}
             {isStale && (
-              <span style={{ color: "var(--score-fair)", marginLeft: 4 }}>
-                ⚠
-              </span>
+              <IconWarning size={12} style={{ color: "var(--score-fair)" }} />
             )}
           </span>
         )}
@@ -240,7 +249,7 @@ export default function Navbar({ onPrint }) {
           title={dark ? "Light mode" : "Dark mode"}
           style={{ padding: "0.35rem 0.6rem", fontSize: "0.9rem" }}
         >
-          {dark ? "☀️" : "🌙"}
+          {dark ? <IconSun size={16} /> : <IconMoon size={16} />}
         </button>
 
         {/* Refresh */}
@@ -250,7 +259,7 @@ export default function Navbar({ onPrint }) {
           style={{ fontSize: "0.8rem" }}
           title="Refresh report"
         >
-          ↻
+          <IconRefresh size={14} />
         </button>
 
         {/* Export PDF */}
