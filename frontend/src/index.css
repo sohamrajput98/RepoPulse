@@ -121,7 +121,7 @@ html.dark {
 ───────────────────────────────────────────── */
 html.dark[data-palette="synthwave"] {
   --c1: #ff2d55;
-  --c2: #0affd4;
+  --c2: #0aadff;
   --c3: #ffd60a;
   --c4: #7a5fff;
   --c5: #ff6b6b;
@@ -141,9 +141,9 @@ html.dark[data-palette="synthwave"] {
 }
 html.dark[data-palette="matrix"] {
   --c1: #ff3b30;
-  --c2: #39ff14;
+  --c2: #147affc8;
   --c3: #ffff00;
-  --c4: #00ff41;
+  --c4: #15ff00c0;
   --c5: #ff69b4;
   --c6: #adff2f;
   --score-excellent: #39ff14;
@@ -448,7 +448,7 @@ html[data-palette="warm"]:not(.dark) {
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
   }
   html.dark .tab-item.active {
-    box-shadow: 0 0 12px var(--glow-c4);
+    /* box-shadow: 0 0 12px var(--glow-c4); */
     border-color: color-mix(in srgb, var(--accent) 40%, transparent);
   }
 
@@ -483,7 +483,7 @@ html[data-palette="warm"]:not(.dark) {
 
   /* ── NEON GLOW ── */
   .glow-filter {
-    filter: drop-shadow(0 0 6px var(--glow-c4));
+    /* filter: drop-shadow(0 0 6px var(--glow-c4)); */
   }
 
   /* ── SKELETON ── */
@@ -701,15 +701,26 @@ html[data-palette="warm"]:not(.dark) {
 ───────────────────────────────────────────── */
 @media print {
   /* hide all interactive UI — only print report shows */
-  .no-print { display: none !important; }
-  [data-dashboard-shell] > nav  { display: none !important; }
-  [data-dashboard-shell] > main { display: none !important; }
+  .no-print {
+    display: none !important;
+  }
+  [data-dashboard-shell] > nav {
+    display: none !important;
+  }
+  [data-dashboard-shell] > main {
+    display: none !important;
+  }
 
   /* show ONLY the dedicated print report */
-  #print-report { display: block !important; }
+  #print-report {
+    display: block !important;
+  }
 
   /* page setup */
-  @page { margin: 1.5cm; size: A4; }
+  @page {
+    margin: 1.5cm;
+    size: A4;
+  }
 
   body {
     background: white !important;
@@ -727,7 +738,16 @@ html[data-palette="warm"]:not(.dark) {
     background: white !important;
   }
 
-  h1, h2, h3 { page-break-after: avoid; }
-  table { page-break-inside: auto; }
-  tr    { page-break-inside: avoid; page-break-after: auto; }
+  h1,
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+  table {
+    page-break-inside: auto;
+  }
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
 }
