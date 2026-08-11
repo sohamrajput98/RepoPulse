@@ -98,20 +98,6 @@ export default function HealthScoreCard({ score, label, breakdown, delta }) {
         overflow: "hidden",
       }}
     >
-      {/* subtle bg glow */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "70%",
-          height: 80,
-          background: `radial-gradient(ellipse at 50% 0%, color-mix(in srgb, ${scoreColorResolved} 18%, transparent), transparent 70%)`,
-          pointerEvents: "none",
-        }}
-      />
-
       {/* header + delta */}
       <div
         style={{
@@ -178,7 +164,6 @@ export default function HealthScoreCard({ score, label, breakdown, delta }) {
               lineHeight: 1,
               color: scoreColorResolved,
               animation: "countUp 0.6s ease forwards",
-              textShadow: `0 0 20px color-mix(in srgb, ${scoreColorResolved} 50%, transparent)`,
             }}
           >
             {animated}
