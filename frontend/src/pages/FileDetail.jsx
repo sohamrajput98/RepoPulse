@@ -3,6 +3,7 @@ import { useReport } from "../context/ReportContext";
 import { useChartColors } from "../hooks/useChartColors";
 import { useCountUp } from "../hooks/useCountUp";
 import { scoreBadgeClass } from "../utils/path";
+import { IconInsights } from "../components/icons";
 
 /* ── Stat card ───────────────────────────────────────────── */
 function StatCard({ label, value, colorVar, delay }) {
@@ -60,10 +61,10 @@ function SmellBadge({ label, colors }) {
 
 /* ── CC severity colour ──────────────────────────────────── */
 function ccColor(cc, colors) {
-  if (cc > 15) return { color: colors.c1, glow: colors.glowC1 };
-  if (cc > 10) return { color: colors.c3, glow: colors.glowC3 };
-  if (cc > 6) return { color: colors.c5, glow: colors.glowC5 };
-  return { color: colors.c2, glow: colors.glowC2 };
+  if (cc > 15) return { color: colors.c1 };
+  if (cc > 10) return { color: colors.c3 };
+  if (cc > 6) return { color: colors.c5 };
+  return { color: colors.c2 };
 }
 
 /* ── FileDetail ──────────────────────────────────────────── */
@@ -153,7 +154,10 @@ export default function FileDetail() {
           className="card"
           style={{ padding: "2rem", maxWidth: 380, textAlign: "center" }}
         >
-          <p style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>🔍</p>
+          <IconInsights
+            size={32}
+            style={{ color: "var(--text-muted)", marginBottom: "0.5rem" }}
+          />
           <p style={{ color: "var(--text-muted)", marginBottom: "1rem" }}>
             File not found in report.
           </p>
@@ -332,10 +336,7 @@ export default function FileDetail() {
               </thead>
               <tbody>
                 {file.functions?.map((fn, i) => {
-                  const { color: ccClr, glow: ccGlow } = ccColor(
-                    fn.complexity,
-                    colors,
-                  );
+                  const { color: ccClr } = ccColor(fn.complexity, colors);
                   const highRisk = fn.complexity > 10;
                   return (
                     <tr
@@ -368,7 +369,6 @@ export default function FileDetail() {
                             fontSize: "0.75rem",
                             fontWeight: 600,
                             color: highRisk ? ccClr : "var(--text-primary)",
-                            textShadow: highRisk ? `0 0 8px ${ccGlow}` : "none",
                           }}
                         >
                           {fn.name}
@@ -403,16 +403,9 @@ export default function FileDetail() {
                             fontWeight: 700,
                             fontSize: "0.88rem",
                             color: ccClr,
-                            textShadow:
-                              fn.complexity > 6 ? `0 0 8px ${ccGlow}` : "none",
                           }}
                         >
                           {fn.complexity}
-                          {highRisk && (
-                            <span style={{ fontSize: "0.6rem", marginLeft: 2 }}>
-                              ⚠
-                            </span>
-                          )}
                         </span>
                       </td>
                       {/* nesting depth */}
