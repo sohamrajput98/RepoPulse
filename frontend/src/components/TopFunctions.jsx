@@ -6,27 +6,23 @@ function getSeverity(cc, colors) {
     return {
       colorVar: "--c1",
       color: colors.c1,
-      glow: colors.glowC1,
       label: "Critical",
     };
   if (cc > 10)
     return {
       colorVar: "--c3",
       color: colors.c3,
-      glow: colors.glowC3,
       label: "High",
     };
   if (cc > 6)
     return {
       colorVar: "--c5",
       color: colors.c5,
-      glow: colors.glowC5,
       label: "Medium",
     };
   return {
     colorVar: "--c2",
     color: colors.c2,
-    glow: colors.glowC2,
     label: "Low",
   };
 }
@@ -54,11 +50,9 @@ function FnCard({ fn, rank, colors, delay }) {
         cursor: "default",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = `0 0 14px ${sev.glow}`;
         e.currentTarget.style.transform = "translateX(2px)";
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = "none";
         e.currentTarget.style.transform = "translateX(0)";
       }}
     >
@@ -130,7 +124,6 @@ function FnCard({ fn, rank, colors, delay }) {
               borderRadius: 99,
               width: `${barW}%`,
               background: sev.color,
-              boxShadow: `0 0 6px ${sev.glow}`,
               transition: "width 0.8s cubic-bezier(0.4,0,0.2,1)",
             }}
           />
@@ -154,7 +147,6 @@ function FnCard({ fn, rank, colors, delay }) {
             fontWeight: 800,
             color: sev.color,
             lineHeight: 1,
-            textShadow: `0 0 10px ${sev.glow}`,
           }}
         >
           {fn.complexity}
