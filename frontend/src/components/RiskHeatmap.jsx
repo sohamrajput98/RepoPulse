@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import { useChartColors } from "../hooks/useChartColors";
 import { useState } from "react";
 
-/* ── Score → palette-aware colour + glow ─────────────────── */
+/* ── Score → palette-aware colour ────────────────────────── */
 function resolveScoreColor(score, colors) {
-  if (score >= 85) return { color: colors.c2, glow: colors.glowC2 };
-  if (score >= 70) return { color: colors.c4, glow: colors.glowC2 };
-  if (score >= 50) return { color: colors.c3, glow: colors.glowC3 };
-  if (score >= 30) return { color: colors.c1, glow: colors.glowC1 };
-  return { color: colors.c1, glow: colors.glowC1 };
+  if (score >= 85) return { color: colors.c2 };
+  if (score >= 70) return { color: colors.c4 };
+  if (score >= 50) return { color: colors.c3 };
+  if (score >= 30) return { color: colors.c1 };
+  return { color: colors.c1 };
 }
 
 /* ── Legend badge chips ──────────────────────────────────── */
@@ -123,7 +123,7 @@ export default function RiskHeatmap({ files }) {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-            gap: "0.75rem",
+            gap: "0.85rem",
           }}
         >
           {files.map((f, i) => {
@@ -140,7 +140,7 @@ export default function RiskHeatmap({ files }) {
                 <div
                   style={{
                     background: color,
-                    borderRadius: 10,
+                    borderRadius: 30,
                     padding: "0.75rem",
                     textAlign: "center",
                     color: "#fff",
