@@ -2,17 +2,30 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useReport } from "../context/ReportContext";
 import { useDarkMode } from "../hooks/useDarkMode";
+import {
+  IconComplexity,
+  IconBrain,
+  IconMap,
+  IconTrendingUp,
+  IconSkull,
+  IconPuzzle,
+  IconFunctions,
+  IconFiles,
+  IconSun,
+  IconMoon,
+  IconLightning,
+} from "../components/icons";
 
 /* ── Feature pills ───────────────────────────────────────── */
 const FEATURES = [
-  { icon: "🔬", label: "Cyclomatic Complexity" },
-  { icon: "🧠", label: "AI Suggestions" },
-  { icon: "🗺️", label: "Risk Heatmap" },
-  { icon: "📈", label: "Health Trends" },
-  { icon: "💀", label: "Dead Code Detection" },
-  { icon: "🧩", label: "Code Smell Analysis" },
-  { icon: "⚙️", label: "Function Metrics" },
-  { icon: "📁", label: "File Tree View" },
+  { icon: IconComplexity, label: "Cyclomatic Complexity" },
+  { icon: IconBrain, label: "AI Suggestions" },
+  { icon: IconMap, label: "Risk Heatmap" },
+  { icon: IconTrendingUp, label: "Health Trends" },
+  { icon: IconSkull, label: "Dead Code Detection" },
+  { icon: IconPuzzle, label: "Code Smell Analysis" },
+  { icon: IconFunctions, label: "Function Metrics" },
+  { icon: IconFiles, label: "File Tree View" },
 ];
 
 /* ── Animated grid background ────────────────────────────── */
@@ -54,27 +67,6 @@ function GridBackground() {
             "radial-gradient(ellipse 80% 60% at 50% 40%, transparent 30%, var(--bg-base) 85%)",
         }}
       />
-      {[
-        { color: "var(--glow-c4)", x: "15%", y: "20%", size: 420, dur: 6 },
-        { color: "var(--glow-c5)", x: "80%", y: "60%", size: 360, dur: 8 },
-        { color: "var(--glow-c2)", x: "60%", y: "10%", size: 280, dur: 7 },
-      ].map((b, i) => (
-        <div
-          key={i}
-          style={{
-            position: "absolute",
-            left: b.x,
-            top: b.y,
-            width: b.size,
-            height: b.size,
-            borderRadius: "50%",
-            background: `radial-gradient(circle, ${b.color} 0%, transparent 70%)`,
-            transform: "translate(-50%, -50%)",
-            animation: `blobFloat ${b.dur}s ease-in-out infinite alternate`,
-            animationDelay: `${i * 1.3}s`,
-          }}
-        />
-      ))}
     </div>
   );
 }
@@ -208,7 +200,7 @@ export default function Landing() {
           zIndex: 10,
         }}
       >
-        {dark ? "☀️" : "🌙"}
+        {dark ? <IconSun size={20} /> : <IconMoon size={20} />}
       </button>
 
       {/* logo */}
@@ -228,7 +220,7 @@ export default function Landing() {
           ...anim(0),
         }}
       >
-        <span style={{ color: "var(--accent)" }}>⚡</span>
+        <IconLightning size={20} style={{ color: "var(--accent)" }} />
         <span>RepoPulse</span>
         <span className="badge badge-accent" style={{ fontSize: "0.62rem" }}>
           v1.0
@@ -311,7 +303,10 @@ export default function Landing() {
                   <Spinner /> {status || "Working…"}
                 </span>
               ) : (
-                "⚡ Analyze Repo"
+                <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <IconLightning size={16} />
+                  Analyze Repo
+                </span>
               )}
             </button>
           </div>
@@ -334,9 +329,15 @@ export default function Landing() {
             onClick={handleDemo}
             disabled={loading}
             className="btn-ghost"
-            style={{ fontSize: "0.85rem" }}
+            style={{
+              fontSize: "0.85rem",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
           >
-            📂 Load Demo Report
+            <IconFiles size={16} />
+            Load Demo Report
           </button>
           <span
             style={{
@@ -367,12 +368,16 @@ export default function Landing() {
               style={{
                 fontSize: "0.78rem",
                 padding: "0.35rem 0.75rem",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 6,
                 animation: visible
                   ? `fadeUp 0.5s ease ${400 + i * 50}ms both`
                   : "none",
               }}
             >
-              {f.icon} {f.label}
+              <f.icon size={14} />
+              {f.label}
             </span>
           ))}
         </div>
