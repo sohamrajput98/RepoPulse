@@ -6,14 +6,22 @@ import {
   getMagicNumbers,
   getDuplicateFunctions,
 } from "../utils/insights";
+import {
+  IconLightning,
+  IconWarning,
+  IconSkull,
+  IconHash,
+  IconRefresh,
+  IconCheck,
+} from "../components/icons";
 
 /* ── Tab config ──────────────────────────────────────────── */
 const TABS = [
-  { label: "Optimization", colorVar: "--c3", icon: "⚡" },
-  { label: "Unused Vars", colorVar: "--c5", icon: "🔇" },
-  { label: "Dead Code", colorVar: "--c1", icon: "💀" },
-  { label: "Magic #s", colorVar: "--c4", icon: "🔢" },
-  { label: "Duplicates", colorVar: "--c6", icon: "🔁" },
+  { label: "Optimization", colorVar: "--c3", IconComponent: IconLightning },
+  { label: "Unused Vars", colorVar: "--c5", IconComponent: IconWarning },
+  { label: "Dead Code", colorVar: "--c1", IconComponent: IconSkull },
+  { label: "Magic #s", colorVar: "--c4", IconComponent: IconHash },
+  { label: "Duplicates", colorVar: "--c6", IconComponent: IconRefresh },
 ];
 
 /* ── Hint type badge ─────────────────────────────────────── */
@@ -51,7 +59,12 @@ function HintList({ items, emptyMsg, tabColorVar }) {
           fontSize: "0.85rem",
         }}
       >
-        {emptyMsg} 🎉
+        <IconCheck
+          size={24}
+          style={{ color: "var(--accent)", marginBottom: "0.5rem" }}
+        />
+        <br />
+        {emptyMsg}
       </div>
     );
 
@@ -178,6 +191,7 @@ export default function InsightsPanel({ files }) {
         {TABS.map((t, i) => {
           const isActive = tab === i;
           const color = `var(${t.colorVar})`;
+          const IconComponent = t.IconComponent;
           return (
             <button
               key={i}
@@ -198,14 +212,14 @@ export default function InsightsPanel({ files }) {
                   ? `color-mix(in srgb, ${color} 14%, var(--bg-raise))`
                   : "var(--bg-raise)",
                 color: isActive ? color : "var(--text-secondary)",
-                boxShadow: isActive
-                  ? `0 0 10px color-mix(in srgb, ${color} 30%, transparent)`
-                  : "none",
                 transition: "all 0.15s ease",
                 whiteSpace: "nowrap",
               }}
             >
-              <span style={{ fontSize: "0.55rem" }}>{t.icon}</span>
+              <IconComponent
+                size={10}
+                style={{ color: isActive ? color : "var(--text-secondary)" }}
+              />
               {t.label}
               {counts[i] > 0 && (
                 <span
